@@ -123,16 +123,20 @@ std::tuple<std::string, bool, int, int> read_line() {
 
     std::getline(std::cin, line);
 
-    int mouse_event_idx = line.find(EVENT_MOUSE_CLICK);
+    for(;;){
 
-    // std::cout << "found: " << mouse_event_idx << '\n';
+        int mouse_event_idx = line.find(EVENT_MOUSE_CLICK);
 
-    if(mouse_event_idx >= 0){
+        if(mouse_event_idx < 0){
+            break;
+        }
+
         clicked = true;
         mouse_x = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN    ] + EVENT_MOUSE_CLICK_POS_OFFSET;
         mouse_y = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN + 1] + EVENT_MOUSE_CLICK_POS_OFFSET;
 
         line.erase(mouse_event_idx, EVENT_MOUSE_CLICK_LEN + 2);
+
     }
 
     return std::make_tuple(line, clicked, mouse_y, mouse_x);
