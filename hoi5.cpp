@@ -140,7 +140,7 @@ typedef struct _Country {
 ///////////
 
 #define MAP_SIZE_Y 10
-#define MAP_SIZE_X 70
+#define MAP_SIZE_X 90
 
 // typedef enum {
 //     TILE_TYPE_PLAIN,
@@ -185,6 +185,7 @@ typedef struct _Tile {
 #define EVENT_MOUSE_CLICK_LEN 4
 #define EVENT_MOUSE_CLICK_POS_OFFSET -33
 
+// TODO currently the max pos_x you can get is 93
 std::tuple<std::string, bool, int, int> input_line() {
     std::string line;
     bool clicked = false;
@@ -542,6 +543,17 @@ int main() {
                 Country *piece_target = input_country(&map);
 
                 vec_remove_if_exist(player->at_war_with, piece_target);
+
+            }else if("test" == command){
+
+                terminal_mouse_click_log_enable();
+
+                for(;;){
+                    auto [command, mouse_click, mouse_y, mouse_x] = input_line();
+                    if(mouse_click){
+                        printf("y:%d x:%d\n", mouse_y, mouse_x);
+                    }
+                }
 
             }else{
                 // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
