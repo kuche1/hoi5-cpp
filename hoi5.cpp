@@ -70,7 +70,6 @@ typedef struct {
     CivProduction civ_production; // what are the civs producing
     // equipment
     float equipment; // I plan on allowing for a defficit
-    
 } Country;
 
 ///////////
