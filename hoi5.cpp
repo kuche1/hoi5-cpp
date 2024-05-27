@@ -13,7 +13,7 @@
 
 ///////////
 //////////////
-///////////////// generic defines
+///////////////// generic
 //////////////
 ///////////
 
@@ -113,11 +113,6 @@ typedef struct _Tile {
 #define EVENT_MOUSE_CLICK {27, 91, 77, 32}
 #define EVENT_MOUSE_CLICK_LEN 4
 #define EVENT_MOUSE_CLICK_POS_OFFSET -33
-
-#define CMD_PASS ""
-#define CMD_QUIT "quit"
-
-#define CMDS_ALL {CMD_PASS, CMD_QUIT}
 
 std::tuple<std::string, bool, int, int> read_line() {
     std::string line;
@@ -389,10 +384,16 @@ int main() {
                 std::cout << "y:" << mouse_y << " x:" << mouse_x << '\n';
             }
 
-            if(command == CMD_PASS){
+            std::vector<std::string> cmds_pass = {"", "pass", "next-turn"};
+            std::vector<std::string> cmds_quit = {"q", "quit", "quit-game"};
+            std::vector<std::vector<std::string>> cmds_ALL = {cmds_pass, cmds_quit};
+
+            // if(command == CMD_PASS){
+            if(std::find(cmds_pass.begin(), cmds_pass.end(), command) != cmds_pass.end()){
                 goto break_loop_command;
             
-            }else if(command == CMD_QUIT){
+            // }else if(command == CMD_QUIT){
+            }else if(std::find(cmds_quit.begin(), cmds_quit.end(), command) != cmds_quit.end()){
                 goto break_loop_game;
 
             }else{
@@ -409,10 +410,11 @@ int main() {
 
                 std::cout << "List of commands:" << '\n';
 
-                auto cmds = CMDS_ALL;
-
-                for(auto cmd : cmds){
-                    std::cout << "`" << cmd << "` - TODO add description\n";
+                for(auto cmds : cmds_ALL){
+                    for(auto cmd : cmds){
+                        std::cout << "<" << cmd << "> ";
+                    }
+                    std::cout << '\n';
                 }
 
                 std::cout << "\nPRESS ENTER\n";
