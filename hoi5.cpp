@@ -360,29 +360,6 @@ int main() {
             country->equipment += GAME_MIL_PRODUCE(country->factories_mil);
         })
 
-        // // attack if territory is free
-
-        // FOREACH(country, countries, {
-        //     std::vector<Tile*> tiles_to_process;
-
-        //     for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
-        //         for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
-        //             Tile *tile = &map[map_y][map_x];
-        //             if(tile->owner == country){
-        //                 tiles_to_process.push_back(tile);
-        //             }
-        //         }
-        //     }
-
-        //     for(Tile* tile : tiles_to_process){
-        //         for(Tile* border : tile->borders){
-        //             if(border->owner == &nobody){
-        //                 border->owner = country;
-        //             }
-        //         }
-        //     }
-        // })
-
         // process wars
 
         FOREACH(country, countries, {
