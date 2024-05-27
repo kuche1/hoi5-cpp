@@ -100,7 +100,7 @@ typedef struct {
 
 ///////////
 //////////////
-///////////////// commands menu
+///////////////// input processing
 //////////////
 ///////////
 
@@ -111,6 +111,28 @@ typedef struct {
 #define CMD_PASS ""
 
 #define CMDS_ALL {CMD_PASS}
+
+std::string read_line(bool *click, int *y, int *x) {
+    std::string line;
+
+    std::getline(std::cin, line);
+
+    int mouse_event_idx = line.find(EVENT_MOUSE_CLICK);
+
+    // std::cout << "found: " << mouse_event_idx << '\n';
+
+    if(mouse_event_idx >= 0){
+        *click = true;
+        *x = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN    ] + EVENT_MOUSE_CLICK_POS_OFFSET;
+        *y = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN + 1] + EVENT_MOUSE_CLICK_POS_OFFSET;
+
+        line.erase(mouse_event_idx, EVENT_MOUSE_CLICK_LEN + 2);
+    }else{
+        *click = false;
+    }
+
+    return line;
+}
 
 ///////////
 //////////////
@@ -248,32 +270,27 @@ int main() {
 
             printf("\n");
 
-            std::string command;
             std::cout << "Enter command: ";
-            std::getline(std::cin, command);
 
-            int mouse_event_idx = command.find(EVENT_MOUSE_CLICK);
+            bool mouse_click = false;
+            int mouse_y = 0;
+            int mouse_x = 0;
 
-            std::cout << "found: " << mouse_event_idx << '\n';
+            std::string command = read_line(&mouse_click, &mouse_y, &mouse_x);
 
-            if(mouse_event_idx >= 0){
-                int mouse_x = command[mouse_event_idx + EVENT_MOUSE_CLICK_LEN    ] + EVENT_MOUSE_CLICK_POS_OFFSET;
-                int mouse_y = command[mouse_event_idx + EVENT_MOUSE_CLICK_LEN + 1] + EVENT_MOUSE_CLICK_POS_OFFSET;
-
+            if(mouse_click){
                 std::cout << "y:" << mouse_y << " x:" << mouse_x << '\n';
-
-                command.erase(mouse_event_idx, EVENT_MOUSE_CLICK_LEN + 2);
             }
 
             if(command == CMD_PASS){
                 goto break_loop_command;
             }else{
-                std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
-                std::cout << "byte#1: " << (int)command[1] << '\n'; // 91
-                std::cout << "byte#2: " << (int)command[2] << '\n'; // 77
-                std::cout << "byte#3: " << (int)command[3] << '\n'; // 32
-                std::cout << "byte#4: " << (int)command[4] << '\n'; // 33 + pos_x
-                std::cout << "byte#5: " << (int)command[5] << '\n'; // 33 + pos_y
+                // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
+                // std::cout << "byte#1: " << (int)command[1] << '\n'; // 91
+                // std::cout << "byte#2: " << (int)command[2] << '\n'; // 77
+                // std::cout << "byte#3: " << (int)command[3] << '\n'; // 32
+                // std::cout << "byte#4: " << (int)command[4] << '\n'; // 33 + pos_x
+                // std::cout << "byte#5: " << (int)command[5] << '\n'; // 33 + pos_y
 
                 std::cout << "Unknown command `" << command << "`\n";
 
