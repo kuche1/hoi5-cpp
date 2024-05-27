@@ -26,8 +26,16 @@
         code; \
     }
 
-bool strvec_contains(std::vector<std::string> multiple_strings, std::string to_find) {
-    return std::find(multiple_strings.begin(), multiple_strings.end(), to_find) != multiple_strings.end();
+template<typename T>
+bool vec_contains(const std::vector<T>& vec, const T& element) {
+    return std::find(vec.begin(), vec.end(), element) != vec.end();
+}
+
+template<typename T>
+void vec_push_back_nodup(std::vector<T>& vec, const T& element) {
+    if(!vec_contains(vec, element)){
+        vec.push_back(element);
+    }
 }
 
 void term(char *command) {
@@ -171,6 +179,10 @@ Country* input_country(std::vector<std::vector<Tile>> *map) {
 
     for(;;){
         auto [command, mouse_click, mouse_y, mouse_x] = input_line();
+
+        if(!mouse_click){
+            continue;
+        }
 
         if(mouse_y < 0 || mouse_x < 0 || mouse_y >= MAP_SIZE_Y || mouse_x >= MAP_SIZE_X){
             continue;
@@ -446,22 +458,18 @@ int main() {
             std::vector<std::string> cmds_attack = {"a", "attack", "attack-country"};
             std::vector<std::vector<std::string>> cmds_ALL = {cmds_pass, cmds_quit, cmds_attack};
 
-            if(strvec_contains(cmds_pass, command)){
+            if(vec_contains(cmds_pass, command)){
                 goto break_loop_command;
 
-            }else if(strvec_contains(cmds_quit, command)){
+            }else if(vec_contains(cmds_quit, command)){
                 goto break_loop_game;
 
-            }else if(strvec_contains(cmds_attack, command)){
+            }else if(vec_contains(cmds_attack, command)){
 
                 printf("Click on target and press enter\n");
                 Country *target = input_another_country(player, &map);
 
-                // std::cout << "Attacking: " << target->name << '\n';
-                // printf("PRESS ENTER\n");
-                // input_line();
-
-                player->at_war_with.push_back(target); // TODO duplicates
+                vec_push_back_nodup(player->at_war_with, target);
 
             }else{
                 // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
