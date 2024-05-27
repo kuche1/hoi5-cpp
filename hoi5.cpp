@@ -229,7 +229,7 @@ int main() {
         .at_war_with = {},
     };
 
-    // load countries (TODO from file; we would read the file straingt into the array;
+    // load countries (TOD0 from file; we would read the file straingt into the array;
     // we can infer the size of the array given the size of the file;
     // if % is not 0, the binary representation must have changed;
     // would probably be a good idea to put both the countries and the map structures into
@@ -266,7 +266,7 @@ int main() {
         },
     };
 
-    // load map (TODO from file; see comment on loading countries for more info on how we're going to
+    // load map (TOD0 from file; see comment on loading countries for more info on how we're going to
     // do that easily)
 
     std::vector<std::vector<Tile>> map;
@@ -345,7 +345,7 @@ int main() {
         }
     }
 
-    // put countries onto map (TODO from file)
+    // put countries onto map (TOD0 from file)
 
     map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.8].owner = &countries[0];
 
