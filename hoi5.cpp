@@ -30,6 +30,14 @@ bool strvec_contains(std::vector<std::string> multiple_strings, std::string to_f
     return std::find(multiple_strings.begin(), multiple_strings.end(), to_find) != multiple_strings.end();
 }
 
+void term(char *command) {
+    int ret_code = system(command);
+    if(ret_code != 0){
+        std::cerr << "ERROR: command failed: " << command << '\n';
+        exit(1);
+    }
+}
+
 ///////////
 //////////////
 ///////////////// ansi escape codes
@@ -48,6 +56,16 @@ typedef char* Color;
 
 #define MOUSE_CLICK_LOG_ON  "\033[?9h"
 #define MOUSE_CLICK_LOG_OFF "\033[?9l"
+
+// echo
+
+void terminal_echo_enable() {
+    term((char*)"stty echo");
+}
+
+void terminal_echo_disable() {
+    term((char*)"stty -echo");
+}
 
 ///////////
 //////////////
@@ -118,7 +136,7 @@ typedef struct _Tile {
 #define EVENT_MOUSE_CLICK_LEN 4
 #define EVENT_MOUSE_CLICK_POS_OFFSET -33
 
-std::tuple<std::string, bool, int, int> read_line() {
+std::tuple<std::string, bool, int, int> input_line() {
     std::string line;
     bool clicked = false;
     int mouse_y = 0;
@@ -143,6 +161,28 @@ std::tuple<std::string, bool, int, int> read_line() {
     }
 
     return std::make_tuple(line, clicked, mouse_y, mouse_x);
+}
+
+Country* input_country(std::vector<std::vector<Tile>> *map) {
+
+    terminal_echo_disable();
+
+    Country* ret;
+
+    for(;;){
+        auto [command, mouse_click, mouse_y, mouse_x] = input_line();
+
+        if(mouse_y < 0 || mouse_x < 0 || mouse_y >= MAP_SIZE_Y || mouse_x >= MAP_SIZE_X){
+            continue;
+        }
+
+        ret = (*map)[mouse_y][mouse_x].owner;
+        break;
+    }
+
+    terminal_echo_enable();
+
+    return ret;
 }
 
 ///////////
@@ -378,7 +418,7 @@ int main() {
 
             std::cout << "Enter command: ";
 
-            auto [command, mouse_click, mouse_y, mouse_x] = read_line();
+            auto [command, mouse_click, mouse_y, mouse_x] = input_line();
 
             if(mouse_click){
                 std::cout << "y:" << mouse_y << " x:" << mouse_x << '\n';
@@ -386,13 +426,21 @@ int main() {
 
             std::vector<std::string> cmds_pass = {"", "pass", "next-turn"};
             std::vector<std::string> cmds_quit = {"q", "quit", "quit-game"};
-            std::vector<std::vector<std::string>> cmds_ALL = {cmds_pass, cmds_quit};
+            std::vector<std::string> cmds_attack = {"a", "attack", "attack-country"};
+            std::vector<std::vector<std::string>> cmds_ALL = {cmds_pass, cmds_quit, cmds_attack};
 
             if(strvec_contains(cmds_pass, command)){
                 goto break_loop_command;
 
             }else if(strvec_contains(cmds_quit, command)){
                 goto break_loop_game;
+
+            }else if(strvec_contains(cmds_attack, command)){
+                printf("Click on target and press enter\n");
+                Country *target = input_country(&map);
+                std::cout << "Attacking: " << target->name << '\n';
+                printf("PRESS ENTER\n");
+                input_line();
 
             }else{
                 // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
@@ -416,7 +464,7 @@ int main() {
                 }
 
                 std::cout << "\nPRESS ENTER\n";
-                read_line();
+                input_line();
             }
 
         }
