@@ -243,31 +243,31 @@ int main() {
             country->equipment += GAME_MIL_PRODUCE(country->factories_mil);
         })
 
-        // clear display
-
-        printf("%s", DISP_CLEAR);
-
-        // draw map
-
-        FOREACH(tile, map, {
-            printf("%s%d%s", tile->owner->color, 0, COL_RESET);
-
-            if(tile_idx % 7 == 6){
-                printf("\n");
-            }
-        })
-
-        // draw "hud"
-
-        printf("\n");
-
-        FOREACH(country, countries, {
-            printf("idx:%lu country:%s%s%s civs:%f mils:%f equipment:%f\n", country_idx, country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
-        })
-
-        // process command
-
         for(;;){
+
+            // clear display
+
+            printf("%s", DISP_CLEAR);
+
+            // draw map
+
+            FOREACH(tile, map, {
+                printf("%s%d%s", tile->owner->color, 0, COL_RESET);
+
+                if(tile_idx % 7 == 6){
+                    printf("\n");
+                }
+            })
+
+            // draw "hud"
+
+            printf("\n");
+
+            FOREACH(country, countries, {
+                printf("idx:%lu country:%s%s%s civs:%f mils:%f equipment:%f\n", country_idx, country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
+            })
+
+            // process command
 
             printf("\n");
 
@@ -298,6 +298,9 @@ int main() {
                 for(auto cmd : cmds){
                     std::cout << "`" << cmd << "` - TODO add description\n";
                 }
+
+                std::cout << "PRESS ENTER\n";
+                read_line();
             }
 
         }
