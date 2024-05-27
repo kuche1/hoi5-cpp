@@ -55,7 +55,7 @@ typedef struct {
     float factories_civ;
     float factories_mil;
     // equipment
-    int32_t equipment; // signed, since I plan on allowing for a defficit
+    float equipment; // I plan on allowing for a defficit
 } Country;
 
 ///////////
@@ -82,9 +82,9 @@ typedef struct {
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (std::floor(number_of_civs) / 10)
+#define GAME_CIV_PRODUCE(number_of_civs) (std::floor(number_of_civs) * 0.1)
 
-#define GAME_MIL_PRODUCE(number_of_mils) (std::floor(number_of_mils) * 3)
+#define GAME_MIL_PRODUCE(number_of_mils) (std::floor(number_of_mils) * 3.3)
 
 ///////////
 //////////////
@@ -199,8 +199,10 @@ int main() {
         printf("\n");
 
         FOREACH(country, countries, {
-            printf("country:%s%s%s civs:%f mils:%f equipment:%d\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
+            printf("country:%s%s%s civs:%f mils:%f equipment:%f\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
         })
+
+        // sleep
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
