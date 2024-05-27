@@ -25,6 +25,8 @@
 
 typedef char* Color;
 
+#define COL_RESET ((Color)"\033[0m")
+
 #define COL_RED_DARK ((Color)"\033[31m")
 
 ///////////
@@ -54,9 +56,12 @@ typedef struct {
 
 int main() {
 
-    // load countries (TODO from file; we would read the file straingt into the array; we can infer the
-    // size of the array given the size of the file;
-    // if % is not 0, the binary representation must have changed)
+    // load countries (TODO from file; we would read the file straingt into the array;
+    // we can infer the size of the array given the size of the file;
+    // if % is not 0, the binary representation must have changed;
+    // would probably be a good idea to put both the countries and the map structures into
+    // another not-padded structure, then add a field for the game version (removing padding might
+    // not be necessary if we include a game version, alto it would be more correct))
 
     Country countries[] = {
         {
@@ -68,8 +73,13 @@ int main() {
     };
 
     FOREACH(country, countries, {
-        printf("country name: %s%s\n", country.color, country.name);
+        printf("country name: %s%s%s\n", country.color, country.name, COL_RESET);
     })
+
+    // load map (TODO from file; see comment on loading countries for more info on how we're going to
+    // do that easily)
+
+    // TODO
 
     return 0;
 }
