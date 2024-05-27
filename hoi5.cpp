@@ -1,6 +1,10 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include <cmath>
 
 ///////////
 //////////////
@@ -17,8 +21,6 @@
         code; \
     }
 
-
-
 ///////////
 //////////////
 ///////////////// generic visual effects
@@ -32,6 +34,8 @@ typedef char* Color;
 #define COL_RED_DARK ((Color)"\033[31m")
 #define COL_YELLOW_DARK ((Color)"\033[33m")
 #define COL_MAGENTA_DARK ((Color)"\033[35m")
+
+#define DISP_CLEAR "\033[H\033[J"
 
 ///////////
 //////////////
@@ -71,6 +75,14 @@ typedef struct {
 
 ///////////
 //////////////
+///////////////// gameplay
+//////////////
+///////////
+
+#define GAME_CIV_PRODUCE(number_of_civs) (std::floor(number_of_civs) / 10)
+
+///////////
+//////////////
 ///////////////// ...
 //////////////
 ///////////
@@ -95,13 +107,13 @@ int main() {
             .name = "Germany",
             .color = COL_YELLOW_DARK,
             .factories_civ = 40,
-            .factories_mil = 10,
+            .factories_mil = 12,
         },
         {
             .name = "Poland",
             .color = COL_MAGENTA_DARK,
             .factories_civ = 20,
-            .factories_mil = 13,
+            .factories_mil = 8,
         },
     };
 
@@ -137,23 +149,31 @@ int main() {
 
     // ...
 
-    FOREACH(tile, map, {
-        printf("%s0%s", tile->owner->color, COL_RESET);
+    for(;;){
 
-        if(tile_idx % 6 == 5){
-            printf("\n");
-        }
-    })
+        printf("%s", DISP_CLEAR);
 
-    printf("\n");
+        FOREACH(tile, map, {
+            printf("%s0%s", tile->owner->color, COL_RESET);
 
-    FOREACH(country, countries, {
-        country->factories_civ += country->factories_civ / 10;
-    })
+            if(tile_idx % 6 == 5){
+                printf("\n");
+            }
+        })
 
-    FOREACH(country, countries, {
-        printf("country: %s%s%s civs:%f mils:%f\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil);
-    })
+        printf("\n");
+
+        FOREACH(country, countries, {
+            country->factories_civ += GAME_CIV_PRODUCE(country->factories_civ);
+        })
+
+        FOREACH(country, countries, {
+            printf("country: %s%s%s civs:%f mils:%f\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil);
+        })
+
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+
+    }
 
     return 0;
 }
