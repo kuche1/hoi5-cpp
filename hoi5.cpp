@@ -3,6 +3,8 @@
 // https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797?permalink_comment_id=3878578
 // only get mouse clicks with: code 9 (`h` to turn on; `l` to turn off) (printf "\e[?9h"); I notices that this works in bash and not in fish
 
+// would be cool if we could use a framebuffer of some sort, to shooth out the refreshing
+
 #include <stdint.h>
 #include <stdio.h>
 #include <iostream>
