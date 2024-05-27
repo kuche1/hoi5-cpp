@@ -73,7 +73,7 @@ typedef struct {
 typedef struct {
     Country* owner;
     // TileType type;
-    uint32_t troops;
+    // uint32_t troops;
 } Tile;
 
 ///////////
@@ -133,29 +133,27 @@ int main() {
     // do that easily)
 
     Tile map[] = {
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[2], .troops = 0},
-        {.owner = &countries[2], .troops = 0},
-        {.owner = &countries[0], .troops = 0},
-        {.owner = &countries[0], .troops = 0},
-
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[2], .troops = 0},
-        {.owner = &countries[2], .troops = 0},
-        {.owner = &countries[2], .troops = 0},
-        {.owner = &countries[0], .troops = 0},
-        {.owner = &countries[0], .troops = 0},
-
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[1], .troops = 0},
-        {.owner = &countries[2], .troops = 0},
-        {.owner = &countries[2], .troops = 0},
-        {.owner = &countries[0], .troops = 0},
-        {.owner = &countries[0], .troops = 0},
+        {.owner = &countries[1],},
+        {.owner = &countries[1],},
+        {.owner = &countries[1],},
+        {.owner = &countries[2],},
+        {.owner = &countries[2],},
+        {.owner = &countries[0],},
+        {.owner = &countries[0],}, //
+        {.owner = &countries[1],},
+        {.owner = &countries[1],},
+        {.owner = &countries[2],},
+        {.owner = &countries[2],},
+        {.owner = &countries[2],},
+        {.owner = &countries[0],},
+        {.owner = &countries[0],}, //
+        {.owner = &countries[1],},
+        {.owner = &countries[1],},
+        {.owner = &countries[1],},
+        {.owner = &countries[2],},
+        {.owner = &countries[2],},
+        {.owner = &countries[0],},
+        {.owner = &countries[0],}, //
     };
 
     // ...
@@ -189,7 +187,7 @@ int main() {
         // draw map
 
         FOREACH(tile, map, {
-            printf("%s%d%s", tile->owner->color, tile->troops, COL_RESET);
+            printf("%s%d%s", tile->owner->color, 0, COL_RESET);
 
             if(tile_idx % 7 == 6){
                 printf("\n");
