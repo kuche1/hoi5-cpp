@@ -223,57 +223,55 @@ int main() {
             
             Tile *tile = &map[y][x];
 
-            // tova se nadqvam da raboti za6toto ne sum go testval
-
             {
                 int new_y = y - 1;
                 int new_x = x;
-                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                if(new_y >= 0 && new_y < MAP_SIZE_Y){
                     if(new_x < 0){
                         new_x += MAP_SIZE_X;
                     }else if(new_x >= MAP_SIZE_X){
                         new_x -= MAP_SIZE_X;
                     }
-                    tile->borders.push_back(&map[y][x]);
+                    tile->borders.push_back(&map[new_y][new_x]);
                 }
             }
 
             {
                 int new_y = y;
                 int new_x = x + 1;
-                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                if(new_y >= 0 && new_y < MAP_SIZE_Y){
                     if(new_x < 0){
                         new_x += MAP_SIZE_X;
                     }else if(new_x >= MAP_SIZE_X){
                         new_x -= MAP_SIZE_X;
                     }
-                    tile->borders.push_back(&map[y][x]);
+                    tile->borders.push_back(&map[new_y][new_x]);
                 }
             }
 
             {
                 int new_y = y + 1;
                 int new_x = x;
-                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                if(new_y >= 0 && new_y < MAP_SIZE_Y){
                     if(new_x < 0){
                         new_x += MAP_SIZE_X;
                     }else if(new_x >= MAP_SIZE_X){
                         new_x -= MAP_SIZE_X;
                     }
-                    tile->borders.push_back(&map[y][x]);
+                    tile->borders.push_back(&map[new_y][new_x]);
                 }
             }
 
             {
                 int new_y = y;
                 int new_x = x - 1;
-                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                if(new_y >= 0 && new_y < MAP_SIZE_Y){
                     if(new_x < 0){
                         new_x += MAP_SIZE_X;
                     }else if(new_x >= MAP_SIZE_X){
                         new_x -= MAP_SIZE_X;
                     }
-                    tile->borders.push_back(&map[y][x]);
+                    tile->borders.push_back(&map[new_y][new_x]);
                 }
             }
 
@@ -326,6 +324,35 @@ int main() {
         FOREACH(country, countries, {
             country->equipment += GAME_MIL_PRODUCE(country->factories_mil);
         })
+
+        // attack if territory is free
+
+        FOREACH(country, countries, {
+            std::vector<Tile*> tiles_to_process;
+
+            for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
+                for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
+                    Tile *tile = &map[map_y][map_x];
+                    if(tile->owner == country){
+                        tiles_to_process.push_back(tile);
+                    }
+                }
+            }
+
+            for(Tile* tile : tiles_to_process){
+                for(Tile* border : tile->borders){
+                    // printf("owner==%p nobody==%p\n", (void*)border->owner, (void*)&nobody);
+                    // read_line();
+                    if(border->owner == &nobody){
+                        border->owner = country;
+                        // printf("nobody\n");
+                        // read_line();
+                    }
+                }
+            }
+        })
+
+        // graphics
 
         for(;;){
 
