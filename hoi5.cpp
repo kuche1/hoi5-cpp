@@ -45,6 +45,11 @@ typedef char* Color;
 
 typedef char CountryName[60];
 
+typedef enum {
+    CIV_PRODUCTION_CIV,
+    CIV_PRODUCTION_MIL,
+} CivProduction;
+
 // this struct must not use any wishy washy data types (like pointers)
 // since it's going to be loaded/saved to disk
 typedef struct {
@@ -54,8 +59,10 @@ typedef struct {
     // factories
     float factories_civ;
     float factories_mil;
+    CivProduction civ_production; // what are the civs producing
     // equipment
     float equipment; // I plan on allowing for a defficit
+    
 } Country;
 
 ///////////
@@ -107,6 +114,7 @@ int main() {
             .color = COL_RED_DARK,
             .factories_civ = 30,
             .factories_mil = 20,
+            .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 10'000,
         },
         {
@@ -114,6 +122,7 @@ int main() {
             .color = COL_YELLOW_DARK,
             .factories_civ = 40,
             .factories_mil = 12,
+            .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 5'000,
         },
         {
@@ -121,6 +130,7 @@ int main() {
             .color = COL_MAGENTA_DARK,
             .factories_civ = 20,
             .factories_mil = 8,
+            .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 4'000,
         },
     };
@@ -163,7 +173,18 @@ int main() {
         // process civs
 
         FOREACH(country, countries, {
-            country->factories_civ += GAME_CIV_PRODUCE(country->factories_civ);
+
+            float production = GAME_CIV_PRODUCE(country->factories_civ);
+
+            switch(country->civ_production){
+                case CIV_PRODUCTION_CIV: {
+                    country->factories_civ += production;
+                } break;
+
+                case CIV_PRODUCTION_MIL: {
+                    country->factories_mil += production;
+                } break;
+            }
         })
 
         // process mils
