@@ -79,7 +79,11 @@ float random_0_to_1() {
 //////////////
 ///////////
 
+// https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+
 typedef char* Color;
+
+#define DISP_CLEAR "\033[H\033[J"
 
 #define COL_RESET ((Color)"\033[0m")
 
@@ -87,7 +91,9 @@ typedef char* Color;
 #define COL_YELLOW_DARK ((Color)"\033[33m")
 #define COL_MAGENTA_DARK ((Color)"\033[35m")
 
-#define DISP_CLEAR "\033[H\033[J"
+#define COL_39  ((Color)"\033[38;5;39m")
+#define COL_118 ((Color)"\033[38;5;118m")
+#define COL_144 ((Color)"\033[38;5;144m")
 
 // mouse click
 
@@ -392,7 +398,7 @@ int main() {
         .factories_civ = 0,
         .factories_mil = 0,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 0,
+        .equipment = -1,
         .at_war_with = {},
     };
 
@@ -407,28 +413,55 @@ int main() {
         {
             .name = "Russia",
             .color = COL_RED_DARK,
-            .factories_civ = 30,
-            .factories_mil = 20,
+            .factories_civ = 45,
+            .factories_mil = 32,
             .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 10'000,
+            .equipment = 1'000,
             .at_war_with = {&nobody},
         },
         {
             .name = "Germany",
             .color = COL_YELLOW_DARK,
-            .factories_civ = 40,
-            .factories_mil = 12,
+            .factories_civ = 34,
+            .factories_mil = 28,
             .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 5'000,
+            .equipment = 1'000,
             .at_war_with = {&nobody},
         },
         {
             .name = "Poland",
             .color = COL_MAGENTA_DARK,
-            .factories_civ = 20,
-            .factories_mil = 8,
+            .factories_civ = 17,
+            .factories_mil = 9,
             .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 4'000,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Turkey",
+            .color = COL_144,
+            .factories_civ = 11,
+            .factories_mil = 4,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Grece",
+            .color = COL_39,
+            .factories_civ = 7,
+            .factories_mil = 2,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Bulgaria",
+            .color = COL_118,
+            .factories_civ = 11,
+            .factories_mil = 3,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
             .at_war_with = {&nobody},
         },
     };
@@ -514,13 +547,28 @@ int main() {
 
     // put countries onto map (TOD0 from file)
 
-    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.8].owner = &countries[0];
+    // russia
+    map[MAP_SIZE_Y * 0.2][MAP_SIZE_X * 0.9].owner = &countries[0];
+    map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.8].owner = &countries[0];
+    map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.85].owner = &countries[0];
 
+    // germany
     map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.2].owner = &countries[1];
 
+    // poland
     map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.5].owner = &countries[2];
 
-    // ...
+    // turkey
+    map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.8].owner = &countries[3];
+    map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.9].owner = &countries[3];
+
+    // grece
+    map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.7].owner = &countries[4];
+
+    // bulgaria
+    map[MAP_SIZE_Y * 0.7][MAP_SIZE_X * 0.75].owner = &countries[5];
+
+    // create player
 
     Country* player = &countries[0];
 
