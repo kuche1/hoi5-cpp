@@ -261,6 +261,8 @@ int main() {
                 int mouse_y = command[mouse_event_idx + EVENT_MOUSE_CLICK_LEN + 1] + EVENT_MOUSE_CLICK_POS_OFFSET;
 
                 std::cout << "y:" << mouse_y << " x:" << mouse_x << '\n';
+
+                command.erase(mouse_event_idx, EVENT_MOUSE_CLICK_LEN + 2);
             }
 
             if(command == CMD_PASS){
