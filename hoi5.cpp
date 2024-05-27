@@ -78,6 +78,9 @@ typedef struct {
 //////////////
 ///////////
 
+#define MAP_SIZE_Y 10
+#define MAP_SIZE_X 40
+
 // typedef enum {
 //     TILE_TYPE_PLAIN,
 //     TILE_TYPE_URBAN,
@@ -150,6 +153,17 @@ std::tuple<std::string, bool, int, int> read_line() {
 
 int main() {
 
+    // ...
+
+    Country nobody = {
+        .name = "Nobody",
+        .color = COL_RESET,
+        .factories_civ = 0,
+        .factories_mil = 0,
+        .civ_production = CIV_PRODUCTION_CIV,
+        .equipment = 0,
+    };
+
     // load countries (TODO from file; we would read the file straingt into the array;
     // we can infer the size of the array given the size of the file;
     // if % is not 0, the binary representation must have changed;
@@ -184,36 +198,29 @@ int main() {
         },
     };
 
-    // FOREACH(country, countries, {
-    //     printf("country name: %s%s%s\n", country.color, country.name, COL_RESET);
-    // })
-
     // load map (TODO from file; see comment on loading countries for more info on how we're going to
     // do that easily)
 
-    Tile map[] = {
-        {.owner = &countries[1],},
-        {.owner = &countries[1],},
-        {.owner = &countries[1],},
-        {.owner = &countries[2],},
-        {.owner = &countries[2],},
-        {.owner = &countries[0],},
-        {.owner = &countries[0],}, //
-        {.owner = &countries[1],},
-        {.owner = &countries[1],},
-        {.owner = &countries[2],},
-        {.owner = &countries[2],},
-        {.owner = &countries[2],},
-        {.owner = &countries[0],},
-        {.owner = &countries[0],}, //
-        {.owner = &countries[1],},
-        {.owner = &countries[1],},
-        {.owner = &countries[1],},
-        {.owner = &countries[2],},
-        {.owner = &countries[2],},
-        {.owner = &countries[0],},
-        {.owner = &countries[0],}, //
-    };
+    std::vector<std::vector<Tile>> map;
+
+    for(int y=0; y<MAP_SIZE_Y; ++y){
+        std::vector<Tile> row;
+        for(int x=0; x<MAP_SIZE_X; ++x){
+            Tile tile = {
+                .owner = &nobody,
+            };
+            row.push_back(tile);
+        }
+        map.push_back(row);
+    }
+
+    // put countries onto map (TODO from file)
+
+    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.8].owner = &countries[0];
+
+    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.2].owner = &countries[1];
+
+    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.5].owner = &countries[2];
 
     // ...
 
@@ -262,13 +269,12 @@ int main() {
 
             // draw map
 
-            FOREACH(tile, map, {
-                printf("%s%d%s", tile->owner->color, 0, COL_RESET);
-
-                if(tile_idx % 7 == 6){
-                    printf("\n");
+            for(auto map_row : map){
+                for(auto tile : map_row){
+                    printf("%s%d%s", tile.owner->color, 0, COL_RESET);
                 }
-            })
+                printf("\n");
+            }
 
             // draw "hud"
 
