@@ -1,4 +1,8 @@
 
+// mouse event tracking: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Any-event-tracking
+// https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797?permalink_comment_id=3878578
+// only get mouse clicks with: code 9 (`h` to turn on; `l` to turn off) (printf "\e[?9h"); I notices that this works in bash and not in fish
+
 #include <stdint.h>
 #include <stdio.h>
 #include <iostream>
@@ -99,6 +103,10 @@ typedef struct {
 ///////////////// commands menu
 //////////////
 ///////////
+
+#define EVENT_MOUSE_CLICK {27, 91, 77, 32}
+#define EVENT_MOUSE_CLICK_LEN 4
+#define EVENT_MOUSE_CLICK_POS_OFFSET -33
 
 #define CMD_PASS ""
 
@@ -244,9 +252,27 @@ int main() {
             std::cout << "Enter command: ";
             std::getline(std::cin, command);
 
+            int mouse_event_idx = command.find(EVENT_MOUSE_CLICK);
+
+            std::cout << "found: " << mouse_event_idx << '\n';
+
+            if(mouse_event_idx >= 0){
+                int mouse_x = command[mouse_event_idx + EVENT_MOUSE_CLICK_LEN    ] + EVENT_MOUSE_CLICK_POS_OFFSET;
+                int mouse_y = command[mouse_event_idx + EVENT_MOUSE_CLICK_LEN + 1] + EVENT_MOUSE_CLICK_POS_OFFSET;
+
+                std::cout << "y:" << mouse_y << " x:" << mouse_x << '\n';
+            }
+
             if(command == CMD_PASS){
                 goto break_loop_command;
             }else{
+                std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
+                std::cout << "byte#1: " << (int)command[1] << '\n'; // 91
+                std::cout << "byte#2: " << (int)command[2] << '\n'; // 77
+                std::cout << "byte#3: " << (int)command[3] << '\n'; // 32
+                std::cout << "byte#4: " << (int)command[4] << '\n'; // 33 + pos_x
+                std::cout << "byte#5: " << (int)command[5] << '\n'; // 33 + pos_y
+
                 std::cout << "Unknown command `" << command << "`\n";
 
                 std::cout << "List of commands:" << '\n';
