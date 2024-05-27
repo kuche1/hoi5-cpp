@@ -340,12 +340,8 @@ int main() {
 
             for(Tile* tile : tiles_to_process){
                 for(Tile* border : tile->borders){
-                    // printf("owner==%p nobody==%p\n", (void*)border->owner, (void*)&nobody);
-                    // read_line();
                     if(border->owner == &nobody){
                         border->owner = country;
-                        // printf("nobody\n");
-                        // read_line();
                     }
                 }
             }
