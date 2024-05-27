@@ -28,7 +28,7 @@
 
 ///////////
 //////////////
-///////////////// generic visual effects
+///////////////// ansi escape codes
 //////////////
 ///////////
 
@@ -41,6 +41,9 @@ typedef char* Color;
 #define COL_MAGENTA_DARK ((Color)"\033[35m")
 
 #define DISP_CLEAR "\033[H\033[J"
+
+#define MOUSE_CLICK_LOG_ON  "\033[?9h"
+#define MOUSE_CLICK_LOG_OFF "\033[?9l"
 
 ///////////
 //////////////
@@ -109,8 +112,9 @@ typedef struct {
 #define EVENT_MOUSE_CLICK_POS_OFFSET -33
 
 #define CMD_PASS ""
+#define CMD_QUIT "quit"
 
-#define CMDS_ALL {CMD_PASS}
+#define CMDS_ALL {CMD_PASS, CMD_QUIT}
 
 std::tuple<std::string, bool, int, int> read_line() {
     std::string line;
@@ -210,6 +214,10 @@ int main() {
 
     // ...
 
+    printf(MOUSE_CLICK_LOG_ON);
+
+    // ...
+
     for(;;){
 
         // process civs
@@ -281,6 +289,10 @@ int main() {
 
             if(command == CMD_PASS){
                 goto break_loop_command;
+            
+            }else if(command == CMD_QUIT){
+                goto break_loop_game;
+
             }else{
                 // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
                 // std::cout << "byte#1: " << (int)command[1] << '\n'; // 91
@@ -288,6 +300,8 @@ int main() {
                 // std::cout << "byte#3: " << (int)command[3] << '\n'; // 32
                 // std::cout << "byte#4: " << (int)command[4] << '\n'; // 33 + pos_x
                 // std::cout << "byte#5: " << (int)command[5] << '\n'; // 33 + pos_y
+
+                std::cout << '\n';
 
                 std::cout << "Unknown command `" << command << "`\n";
 
@@ -299,7 +313,7 @@ int main() {
                     std::cout << "`" << cmd << "` - TODO add description\n";
                 }
 
-                std::cout << "PRESS ENTER\n";
+                std::cout << "\nPRESS ENTER\n";
                 read_line();
             }
 
@@ -311,6 +325,13 @@ int main() {
         // std::this_thread::sleep_for(std::chrono::seconds(2));
 
     }
+    break_loop_game:
+
+    // ...
+
+    printf(MOUSE_CLICK_LOG_OFF);
+
+    // ...
 
     return 0;
 }
