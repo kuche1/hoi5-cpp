@@ -103,7 +103,7 @@ int main() {
 
     Country countries[] = {
         {
-            .name = "Soviet Union",
+            .name = "Russia",
             .color = COL_RED_DARK,
             .factories_civ = 30,
             .factories_mil = 20,
@@ -199,7 +199,7 @@ int main() {
         printf("\n");
 
         FOREACH(country, countries, {
-            printf("country: %s%s%s civs:%f mils:%f equipment:%d\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
+            printf("country:%s%s%s civs:%f mils:%f equipment:%d\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
         })
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
