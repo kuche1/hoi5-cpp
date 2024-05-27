@@ -262,7 +262,7 @@ int main() {
         printf("\n");
 
         FOREACH(country, countries, {
-            printf("country:%s%s%s civs:%f mils:%f equipment:%f\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
+            printf("idx:%lu country:%s%s%s civs:%f mils:%f equipment:%f\n", country_idx, country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
         })
 
         // process command
