@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-FLAGS_STANDARD='-std=c++20'
+FLAGS_STANDARD='-std=c++23'
 
 FLAGS_CRASH_ON_FIRST_ERROR='-Wfatal-errors'
 

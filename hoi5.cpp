@@ -96,6 +96,16 @@ typedef struct {
 
 ///////////
 //////////////
+///////////////// commands menu
+//////////////
+///////////
+
+#define CMD_PASS ""
+
+#define CMDS_ALL {CMD_PASS}
+
+///////////
+//////////////
 ///////////////// ...
 //////////////
 ///////////
@@ -226,14 +236,32 @@ int main() {
 
         // process command
 
-        printf("\n");
+        for(;;){
 
-        std::string command;
-        std::cout << "Enter command: ";
-        std::getline(std::cin, command);
-        std::cout << "command entered";
+            printf("\n");
 
-        // sleep
+            std::string command;
+            std::cout << "Enter command: ";
+            std::getline(std::cin, command);
+
+            if(command == CMD_PASS){
+                goto break_loop_command;
+            }else{
+                std::cout << "Unknown command `" << command << "`\n";
+
+                std::cout << "List of commands:" << '\n';
+
+                auto cmds = CMDS_ALL;
+
+                for(auto cmd : cmds){
+                    std::cout << "`" << cmd << "` - TODO add description\n";
+                }
+            }
+
+        }
+        break_loop_command:
+
+        // sleep (only make sense if we're using a GUI)
 
         // std::this_thread::sleep_for(std::chrono::seconds(2));
 
