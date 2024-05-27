@@ -26,6 +26,10 @@
         code; \
     }
 
+bool strvec_contains(std::vector<std::string> multiple_strings, std::string to_find) {
+    return std::find(multiple_strings.begin(), multiple_strings.end(), to_find) != multiple_strings.end();
+}
+
 ///////////
 //////////////
 ///////////////// ansi escape codes
@@ -388,12 +392,10 @@ int main() {
             std::vector<std::string> cmds_quit = {"q", "quit", "quit-game"};
             std::vector<std::vector<std::string>> cmds_ALL = {cmds_pass, cmds_quit};
 
-            // if(command == CMD_PASS){
-            if(std::find(cmds_pass.begin(), cmds_pass.end(), command) != cmds_pass.end()){
+            if(strvec_contains(cmds_pass, command)){
                 goto break_loop_command;
-            
-            // }else if(command == CMD_QUIT){
-            }else if(std::find(cmds_quit.begin(), cmds_quit.end(), command) != cmds_quit.end()){
+
+            }else if(strvec_contains(cmds_quit, command)){
                 goto break_loop_game;
 
             }else{
