@@ -125,26 +125,29 @@ int main() {
     // do that easily)
 
     Tile map[] = {
+        {.owner = &countries[1]},
+        {.owner = &countries[1]},
+        {.owner = &countries[1]},
+        {.owner = &countries[2]},
+        {.owner = &countries[2]},
         {.owner = &countries[0]},
         {.owner = &countries[0]},
-        {.owner = &countries[0]},
-        {.owner = &countries[0]},
+
+        {.owner = &countries[1]},
+        {.owner = &countries[1]},
+        {.owner = &countries[2]},
+        {.owner = &countries[2]},
+        {.owner = &countries[2]},
         {.owner = &countries[0]},
         {.owner = &countries[0]},
 
         {.owner = &countries[1]},
         {.owner = &countries[1]},
         {.owner = &countries[1]},
-        {.owner = &countries[1]},
-        {.owner = &countries[1]},
-        {.owner = &countries[1]},
-
         {.owner = &countries[2]},
         {.owner = &countries[2]},
-        {.owner = &countries[2]},
-        {.owner = &countries[2]},
-        {.owner = &countries[2]},
-        {.owner = &countries[2]},
+        {.owner = &countries[0]},
+        {.owner = &countries[0]},
     };
 
     // ...
@@ -156,7 +159,7 @@ int main() {
         FOREACH(tile, map, {
             printf("%s0%s", tile->owner->color, COL_RESET);
 
-            if(tile_idx % 6 == 5){
+            if(tile_idx % 7 == 6){
                 printf("\n");
             }
         })
