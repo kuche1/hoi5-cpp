@@ -87,10 +87,11 @@ typedef struct {
 //     TILE_TYPE_FOREST,
 // } TileType;
 
-typedef struct {
+typedef struct _Tile {
     Country* owner;
     // TileType type;
     // uint32_t troops;
+    std::vector<struct _Tile*> borders;
 } Tile;
 
 ///////////
@@ -208,10 +209,75 @@ int main() {
         for(int x=0; x<MAP_SIZE_X; ++x){
             Tile tile = {
                 .owner = &nobody,
+                .borders = {},
             };
             row.push_back(tile);
         }
         map.push_back(row);
+    }
+
+    // conect tiles
+
+    for(int y=0; y<MAP_SIZE_Y; ++y){
+        for(int x=0; x<MAP_SIZE_X; ++x){
+            
+            Tile *tile = &map[y][x];
+
+            // tova se nadqvam da raboti za6toto ne sum go testval
+
+            {
+                int new_y = y - 1;
+                int new_x = x;
+                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                    if(new_x < 0){
+                        new_x += MAP_SIZE_X;
+                    }else if(new_x >= MAP_SIZE_X){
+                        new_x -= MAP_SIZE_X;
+                    }
+                    tile->borders.push_back(&map[y][x]);
+                }
+            }
+
+            {
+                int new_y = y;
+                int new_x = x + 1;
+                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                    if(new_x < 0){
+                        new_x += MAP_SIZE_X;
+                    }else if(new_x >= MAP_SIZE_X){
+                        new_x -= MAP_SIZE_X;
+                    }
+                    tile->borders.push_back(&map[y][x]);
+                }
+            }
+
+            {
+                int new_y = y + 1;
+                int new_x = x;
+                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                    if(new_x < 0){
+                        new_x += MAP_SIZE_X;
+                    }else if(new_x >= MAP_SIZE_X){
+                        new_x -= MAP_SIZE_X;
+                    }
+                    tile->borders.push_back(&map[y][x]);
+                }
+            }
+
+            {
+                int new_y = y;
+                int new_x = x - 1;
+                if(new_y > 0 && new_y < MAP_SIZE_Y){
+                    if(new_x < 0){
+                        new_x += MAP_SIZE_X;
+                    }else if(new_x >= MAP_SIZE_X){
+                        new_x -= MAP_SIZE_X;
+                    }
+                    tile->borders.push_back(&map[y][x]);
+                }
+            }
+
+        }
     }
 
     // put countries onto map (TODO from file)
