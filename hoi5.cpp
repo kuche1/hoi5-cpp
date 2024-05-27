@@ -80,9 +80,7 @@ typedef enum {
     CIV_PRODUCTION_MIL,
 } CivProduction;
 
-// this struct must not use any wishy washy data types (like pointers)
-// since it's going to be loaded/saved to disk
-typedef struct {
+typedef struct _Country {
     // misc
     CountryName name;
     Color color;
@@ -92,6 +90,8 @@ typedef struct {
     CivProduction civ_production; // what are the civs producing
     // equipment
     float equipment; // I plan on allowing for a defficit
+    // war
+    std::vector<struct _Country*> at_war_with;
 } Country;
 
 ///////////
@@ -202,6 +202,7 @@ int main() {
         .factories_mil = 0,
         .civ_production = CIV_PRODUCTION_CIV,
         .equipment = 0,
+        .at_war_with = {},
     };
 
     // load countries (TODO from file; we would read the file straingt into the array;
@@ -219,6 +220,7 @@ int main() {
             .factories_mil = 20,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 10'000,
+            .at_war_with = {&nobody},
         },
         {
             .name = "Germany",
@@ -227,6 +229,7 @@ int main() {
             .factories_mil = 12,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 5'000,
+            .at_war_with = {&nobody},
         },
         {
             .name = "Poland",
@@ -235,6 +238,7 @@ int main() {
             .factories_mil = 8,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 4'000,
+            .at_war_with = {&nobody},
         },
     };
 
@@ -329,7 +333,7 @@ int main() {
 
     printf(MOUSE_CLICK_LOG_ON);
 
-    // ...
+    // main loop
 
     for(;;){
 
@@ -352,38 +356,58 @@ int main() {
 
         // process mils
 
-        // FOREACH(country, countries, {
-        //     FOREACH(tile, map, {
-        //         if(tile->owner == country){
-        //             printf("yee\n");
-        //         }
-        //     })
-        // })
-
         FOREACH(country, countries, {
             country->equipment += GAME_MIL_PRODUCE(country->factories_mil);
         })
 
-        // attack if territory is free
+        // // attack if territory is free
+
+        // FOREACH(country, countries, {
+        //     std::vector<Tile*> tiles_to_process;
+
+        //     for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
+        //         for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
+        //             Tile *tile = &map[map_y][map_x];
+        //             if(tile->owner == country){
+        //                 tiles_to_process.push_back(tile);
+        //             }
+        //         }
+        //     }
+
+        //     for(Tile* tile : tiles_to_process){
+        //         for(Tile* border : tile->borders){
+        //             if(border->owner == &nobody){
+        //                 border->owner = country;
+        //             }
+        //         }
+        //     }
+        // })
+
+        // process wars
 
         FOREACH(country, countries, {
-            std::vector<Tile*> tiles_to_process;
 
-            for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
-                for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
-                    Tile *tile = &map[map_y][map_x];
-                    if(tile->owner == country){
-                        tiles_to_process.push_back(tile);
+            for(Country* country_at_war : country->at_war_with){
+
+                std::vector<Tile*> tiles_to_process;
+
+                for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
+                    for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
+                        Tile *tile = &map[map_y][map_x];
+                        if(tile->owner == country){
+                            tiles_to_process.push_back(tile);
+                        }
                     }
                 }
-            }
 
-            for(Tile* tile : tiles_to_process){
-                for(Tile* border : tile->borders){
-                    if(border->owner == &nobody){
-                        border->owner = country;
+                for(Tile* tile : tiles_to_process){
+                    for(Tile* border : tile->borders){
+                        if(border->owner == country_at_war){
+                            border->owner = country;
+                        }
                     }
                 }
+
             }
         })
 
