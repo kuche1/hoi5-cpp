@@ -150,11 +150,15 @@ typedef struct _Tile {
 
 #define GAME_MIL_PRODUCE(number_of_mils) (std::floor(number_of_mils) * 20.0)
 
-#define GAME_ATK_WIN_CHANCE 0.3 // what is the change (0 to 1) that a terriroty would be gained upon attack
+#define GAME_ATK_WIN_CHANCE 0.2 // what is the change (0 to 1) that a terriroty would be gained upon attack
 
 #define GAME_ATK_EQUIPMENT_COST 18.0 // how much equipment a single attack costs
 
 #define GAME_DEF_EQUIPMENT_COST (GAME_ATK_EQUIPMENT_COST * 0.2) // how much equipment does it cost to deffend an attack
+
+#define GAME_ATK_NO_EQUIPMENT_PENALTY 0.4
+
+#define GAME_DEF_NO_EQUIPMENT_PENALTY 0.7
 
 ///////////
 //////////////
@@ -437,19 +441,17 @@ int main() {
 
                             // determine battle result
 
-                            float attacker_equ = country->equipment;
-                            if(attacker_equ <= 0) {
-                                attacker_equ = 0.01;
-                            }
-                            
-                            float defender_equ = country_at_war->equipment;
-                            if(defender_equ <= 0) {
-                                defender_equ = 0.01;
+                            float attacker_mult = 1;
+                            if(country->equipment < 0){
+                                attacker_mult *= GAME_ATK_NO_EQUIPMENT_PENALTY;
                             }
 
-                            float ratio = attacker_equ / defender_equ;
+                            float deffender_mult = 1;
+                            if(country_at_war->equipment < 0){
+                                deffender_mult *= GAME_DEF_NO_EQUIPMENT_PENALTY;
+                            }
 
-                            if(random_0_to_1() < GAME_ATK_WIN_CHANCE * ratio){
+                            if(random_0_to_1() * deffender_mult < GAME_ATK_WIN_CHANCE * attacker_mult){
                                 border->owner = country;
                             }
 
