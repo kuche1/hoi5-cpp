@@ -185,6 +185,18 @@ Country* input_country(std::vector<std::vector<Tile>> *map) {
     return ret;
 }
 
+Country* input_another_country(Country *player, std::vector<std::vector<Tile>> *map) {
+    for(;;){
+        Country *country = input_country(map);
+
+        if(country == player){
+            continue;
+        }
+
+        return country;
+    }
+}
+
 ///////////
 //////////////
 ///////////////// ...
@@ -331,6 +343,10 @@ int main() {
 
     // ...
 
+    Country* player = &countries[0];
+
+    // ...
+
     printf(MOUSE_CLICK_LOG_ON);
 
     // main loop
@@ -437,11 +453,15 @@ int main() {
                 goto break_loop_game;
 
             }else if(strvec_contains(cmds_attack, command)){
+
                 printf("Click on target and press enter\n");
-                Country *target = input_country(&map);
-                std::cout << "Attacking: " << target->name << '\n';
-                printf("PRESS ENTER\n");
-                input_line();
+                Country *target = input_another_country(player, &map);
+
+                // std::cout << "Attacking: " << target->name << '\n';
+                // printf("PRESS ENTER\n");
+                // input_line();
+
+                player->at_war_with.push_back(target); // TODO duplicates
 
             }else{
                 // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
