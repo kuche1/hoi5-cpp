@@ -40,6 +40,14 @@ void vec_push_back_nodup(std::vector<T>& vec, const T& element) {
     }
 }
 
+template<typename T>
+void vec_remove_if_exist(std::vector<T>& vec, const T& element) {
+    if(vec_contains(vec, element)){
+        auto it = std::find(vec.begin(), vec.end(), element);
+        vec.erase(it);
+    }
+}
+
 void term(char *command) {
     int ret_code = system(command);
     if(ret_code != 0){
@@ -458,7 +466,11 @@ int main() {
 
                             if(random_0_to_1() * deffender_mult < GAME_ATK_WIN_CHANCE * attacker_mult){
                                 // battle has been won
+
                                 border->owner = country;
+
+                                // TODO destroy some of the factories
+
                             }
 
                         }
@@ -508,6 +520,7 @@ int main() {
             std::vector<std::string> cmds_pass = {"", "pass", "next-turn"};
             std::vector<std::string> cmds_quit = {"q", "quit", "quit-game"};
             std::vector<std::string> cmds_attack = {"a", "attack", "attack-country"};
+            std::vector<std::string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
             std::vector<std::vector<std::string>> cmds_ALL = {cmds_pass, cmds_quit, cmds_attack};
 
             if(vec_contains(cmds_pass, command)){
@@ -518,14 +531,17 @@ int main() {
 
             }else if(vec_contains(cmds_attack, command)){
 
-                printf("Click on target and press enter\n");
+                printf("Click on the country that you want to attack and press enter\n");
                 Country *target = input_another_country(player, &map);
 
                 vec_push_back_nodup(player->at_war_with, target);
             
-            // }else if(command == "test"){
+            }else if(vec_contains(cmds_stop_attacking, command)){
 
-            //     random_0_to_1();
+                printf("Click on the country that you want to stop attacking and press enter\n");
+                Country *piece_target = input_country(&map);
+
+                vec_remove_if_exist(player->at_war_with, piece_target);
 
             }else{
                 // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
