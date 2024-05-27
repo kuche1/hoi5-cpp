@@ -5,6 +5,7 @@
 #include <thread>
 #include <chrono>
 #include <cmath>
+// #include <string>
 
 ///////////
 //////////////
@@ -223,9 +224,18 @@ int main() {
             printf("country:%s%s%s civs:%f mils:%f equipment:%f\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
         })
 
+        // process command
+
+        printf("\n");
+
+        std::string command;
+        std::cout << "Enter command: ";
+        std::getline(std::cin, command);
+        std::cout << "command entered";
+
         // sleep
 
-        std::this_thread::sleep_for(std::chrono::seconds(3));
+        // std::this_thread::sleep_for(std::chrono::seconds(2));
 
     }
 
