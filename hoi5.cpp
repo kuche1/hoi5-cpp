@@ -78,8 +78,15 @@ typedef char* Color;
 
 #define DISP_CLEAR "\033[H\033[J"
 
-#define MOUSE_CLICK_LOG_ON  "\033[?9h"
-#define MOUSE_CLICK_LOG_OFF "\033[?9l"
+// mouse click
+
+void terminal_mouse_click_log_enable() {
+    printf("\033[?9h");
+}
+
+void terminal_mouse_click_log_disable() {
+    printf("\033[?9l");
+}
 
 // echo
 
@@ -200,6 +207,7 @@ std::tuple<std::string, bool, int, int> input_line() {
 Country* input_country(std::vector<std::vector<Tile>> *map) {
 
     terminal_echo_disable();
+    terminal_mouse_click_log_enable();
 
     Country* ret;
 
@@ -218,6 +226,7 @@ Country* input_country(std::vector<std::vector<Tile>> *map) {
         break;
     }
 
+    terminal_mouse_click_log_disable();
     terminal_echo_enable();
 
     return ret;
@@ -383,10 +392,6 @@ int main() {
 
     Country* player = &countries[0];
 
-    // ...
-
-    printf(MOUSE_CLICK_LOG_ON);
-
     // main loop
 
     for(;;){
@@ -452,6 +457,7 @@ int main() {
                             }
 
                             if(random_0_to_1() * deffender_mult < GAME_ATK_WIN_CHANCE * attacker_mult){
+                                // battle has been won
                                 border->owner = country;
                             }
 
@@ -555,10 +561,6 @@ int main() {
 
     }
     break_loop_game:
-
-    // ...
-
-    printf(MOUSE_CLICK_LOG_OFF);
 
     // ...
 
