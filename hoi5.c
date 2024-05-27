@@ -23,8 +23,9 @@
 //////////////
 ///////////
 
-
 typedef char* Color;
+
+#define COL_RED_DARK ((Color)"\033[31m")
 
 ///////////
 //////////////
@@ -34,6 +35,8 @@ typedef char* Color;
 
 typedef char CountryName[60];
 
+// this struct must not use any wishy washy data types (like pointers)
+// since it's going to be loaded/saved to disk
 typedef struct {
     // misc
     CountryName name;
@@ -42,13 +45,6 @@ typedef struct {
     int32_t factories_civ;
     int32_t factories_mil;
 } Country;
-
-#define COUNTRY(arg_name, arg_color, arg_factories_civ, arg_factories_mil) {\
-    .name = arg_name, \
-    .color = arg_color, \
-    .factories_civ = arg_factories_civ, \
-    .factories_mil = arg_factories_mil, \
-}
 
 ///////////
 //////////////
@@ -62,21 +58,17 @@ int main() {
     // size of the array given the size of the file;
     // if % is not 0, the binary representation must have changed)
 
-    Country countries[1] = {
-        COUNTRY(
-            "Soviet Union",
-            "red",
-            30,
-            20
-        ),
+    Country countries[] = {
+        {
+            .name = "Soviet Union",
+            .color = COL_RED_DARK,
+            .factories_civ = 30,
+            .factories_mil = 20,
+        },
     };
 
-    // for(int32_t country_idx=0; country_idx<LENOF(countries); ++country_idx){
-
-    // }
-
     FOREACH(country, countries, {
-        printf("country name: %s\n", country.name);
+        printf("country name: %s%s\n", country.color, country.name);
     })
 
     return 0;
