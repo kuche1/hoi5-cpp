@@ -109,7 +109,7 @@ typedef struct _Country {
 ///////////
 
 #define MAP_SIZE_Y 10
-#define MAP_SIZE_X 40
+#define MAP_SIZE_X 70
 
 // typedef enum {
 //     TILE_TYPE_PLAIN,
