@@ -51,9 +51,11 @@ typedef struct {
     // misc
     CountryName name;
     Color color;
-    // ...
+    // factories
     float factories_civ;
     float factories_mil;
+    // equipment
+    int32_t equipment; // signed, since I plan on allowing for a defficit
 } Country;
 
 ///////////
@@ -71,6 +73,7 @@ typedef struct {
 typedef struct {
     Country* owner;
     // TileType type;
+    uint32_t troops;
 } Tile;
 
 ///////////
@@ -80,6 +83,8 @@ typedef struct {
 ///////////
 
 #define GAME_CIV_PRODUCE(number_of_civs) (std::floor(number_of_civs) / 10)
+
+#define GAME_MIL_PRODUCE(number_of_mils) (std::floor(number_of_mils) * 3)
 
 ///////////
 //////////////
@@ -102,18 +107,21 @@ int main() {
             .color = COL_RED_DARK,
             .factories_civ = 30,
             .factories_mil = 20,
+            .equipment = 10'000,
         },
         {
             .name = "Germany",
             .color = COL_YELLOW_DARK,
             .factories_civ = 40,
             .factories_mil = 12,
+            .equipment = 5'000,
         },
         {
             .name = "Poland",
             .color = COL_MAGENTA_DARK,
             .factories_civ = 20,
             .factories_mil = 8,
+            .equipment = 4'000,
         },
     };
 
@@ -125,53 +133,75 @@ int main() {
     // do that easily)
 
     Tile map[] = {
-        {.owner = &countries[1]},
-        {.owner = &countries[1]},
-        {.owner = &countries[1]},
-        {.owner = &countries[2]},
-        {.owner = &countries[2]},
-        {.owner = &countries[0]},
-        {.owner = &countries[0]},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[2], .troops = 0},
+        {.owner = &countries[2], .troops = 0},
+        {.owner = &countries[0], .troops = 0},
+        {.owner = &countries[0], .troops = 0},
 
-        {.owner = &countries[1]},
-        {.owner = &countries[1]},
-        {.owner = &countries[2]},
-        {.owner = &countries[2]},
-        {.owner = &countries[2]},
-        {.owner = &countries[0]},
-        {.owner = &countries[0]},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[2], .troops = 0},
+        {.owner = &countries[2], .troops = 0},
+        {.owner = &countries[2], .troops = 0},
+        {.owner = &countries[0], .troops = 0},
+        {.owner = &countries[0], .troops = 0},
 
-        {.owner = &countries[1]},
-        {.owner = &countries[1]},
-        {.owner = &countries[1]},
-        {.owner = &countries[2]},
-        {.owner = &countries[2]},
-        {.owner = &countries[0]},
-        {.owner = &countries[0]},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[1], .troops = 0},
+        {.owner = &countries[2], .troops = 0},
+        {.owner = &countries[2], .troops = 0},
+        {.owner = &countries[0], .troops = 0},
+        {.owner = &countries[0], .troops = 0},
     };
 
     // ...
 
     for(;;){
 
+        // process civs
+
+        FOREACH(country, countries, {
+            country->factories_civ += GAME_CIV_PRODUCE(country->factories_civ);
+        })
+
+        // process mils
+
+        // FOREACH(country, countries, {
+        //     FOREACH(tile, map, {
+        //         if(tile->owner == country){
+        //             printf("yee\n");
+        //         }
+        //     })
+        // })
+
+        FOREACH(country, countries, {
+            country->equipment += GAME_MIL_PRODUCE(country->factories_mil);
+        })
+
+        // clear display
+
         printf("%s", DISP_CLEAR);
 
+        // draw map
+
         FOREACH(tile, map, {
-            printf("%s0%s", tile->owner->color, COL_RESET);
+            printf("%s%d%s", tile->owner->color, tile->troops, COL_RESET);
 
             if(tile_idx % 7 == 6){
                 printf("\n");
             }
         })
 
+        // draw "hud"
+
         printf("\n");
 
         FOREACH(country, countries, {
-            country->factories_civ += GAME_CIV_PRODUCE(country->factories_civ);
-        })
-
-        FOREACH(country, countries, {
-            printf("country: %s%s%s civs:%f mils:%f\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil);
+            printf("country: %s%s%s civs:%f mils:%f equipment:%d\n", country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
         })
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
