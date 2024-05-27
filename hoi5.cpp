@@ -9,7 +9,9 @@
 #include <thread>
 #include <chrono>
 #include <cmath>
-// #include <string>
+#include <random>
+
+std::tuple<std::string, bool, int, int> input_line();
 
 ///////////
 //////////////
@@ -44,6 +46,20 @@ void term(char *command) {
         std::cerr << "ERROR: command failed: " << command << '\n';
         exit(1);
     }
+}
+
+float random_0_to_1() {
+    // Seed the random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    
+    // Define a uniform distribution over the range [0, 1]
+    std::uniform_real_distribution<float> dist(0.0, 1.0);
+    
+    // Generate a random number
+    float randomNum = dist(gen);
+
+    return randomNum;
 }
 
 ///////////
@@ -132,7 +148,13 @@ typedef struct _Tile {
 
 #define GAME_CIV_PRODUCE(number_of_civs) (std::floor(number_of_civs) * 0.1)
 
-#define GAME_MIL_PRODUCE(number_of_mils) (std::floor(number_of_mils) * 3.3)
+#define GAME_MIL_PRODUCE(number_of_mils) (std::floor(number_of_mils) * 20.0)
+
+#define GAME_ATK_WIN_CHANCE 0.3 // what is the change (0 to 1) that a terriroty would be gained upon attack
+
+#define GAME_ATK_EQUIPMENT_COST 18.0 // how much equipment a single attack costs
+
+#define GAME_DEF_EQUIPMENT_COST (GAME_ATK_EQUIPMENT_COST * 0.2) // how much equipment does it cost to deffend an attack
 
 ///////////
 //////////////
@@ -408,7 +430,29 @@ int main() {
                 for(Tile* tile : tiles_to_process){
                     for(Tile* border : tile->borders){
                         if(border->owner == country_at_war){
-                            border->owner = country;
+
+                            // loose equipment
+                            country->equipment        -= GAME_ATK_EQUIPMENT_COST;
+                            country_at_war->equipment -= GAME_DEF_EQUIPMENT_COST;
+
+                            // determine battle result
+
+                            float attacker_equ = country->equipment;
+                            if(attacker_equ <= 0) {
+                                attacker_equ = 0.01;
+                            }
+                            
+                            float defender_equ = country_at_war->equipment;
+                            if(defender_equ <= 0) {
+                                defender_equ = 0.01;
+                            }
+
+                            float ratio = attacker_equ / defender_equ;
+
+                            if(random_0_to_1() < GAME_ATK_WIN_CHANCE * ratio){
+                                border->owner = country;
+                            }
+
                         }
                     }
                 }
@@ -470,6 +514,10 @@ int main() {
                 Country *target = input_another_country(player, &map);
 
                 vec_push_back_nodup(player->at_war_with, target);
+            
+            // }else if(command == "test"){
+
+            //     random_0_to_1();
 
             }else{
                 // std::cout << "byte#0: " << (int)command[0] << '\n'; // 27
