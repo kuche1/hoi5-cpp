@@ -112,8 +112,11 @@ typedef struct {
 
 #define CMDS_ALL {CMD_PASS}
 
-std::string read_line(bool *click, int *y, int *x) {
+std::tuple<std::string, bool, int, int> read_line() {
     std::string line;
+    bool clicked = false;
+    int mouse_y = 0;
+    int mouse_x = 0;
 
     std::getline(std::cin, line);
 
@@ -122,16 +125,14 @@ std::string read_line(bool *click, int *y, int *x) {
     // std::cout << "found: " << mouse_event_idx << '\n';
 
     if(mouse_event_idx >= 0){
-        *click = true;
-        *x = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN    ] + EVENT_MOUSE_CLICK_POS_OFFSET;
-        *y = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN + 1] + EVENT_MOUSE_CLICK_POS_OFFSET;
+        clicked = true;
+        mouse_x = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN    ] + EVENT_MOUSE_CLICK_POS_OFFSET;
+        mouse_y = line[mouse_event_idx + EVENT_MOUSE_CLICK_LEN + 1] + EVENT_MOUSE_CLICK_POS_OFFSET;
 
         line.erase(mouse_event_idx, EVENT_MOUSE_CLICK_LEN + 2);
-    }else{
-        *click = false;
     }
 
-    return line;
+    return std::make_tuple(line, clicked, mouse_y, mouse_x);
 }
 
 ///////////
@@ -272,11 +273,7 @@ int main() {
 
             std::cout << "Enter command: ";
 
-            bool mouse_click = false;
-            int mouse_y = 0;
-            int mouse_x = 0;
-
-            std::string command = read_line(&mouse_click, &mouse_y, &mouse_x);
+            auto [command, mouse_click, mouse_y, mouse_x] = read_line();
 
             if(mouse_click){
                 std::cout << "y:" << mouse_y << " x:" << mouse_x << '\n';
