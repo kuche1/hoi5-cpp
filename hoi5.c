@@ -43,6 +43,13 @@ typedef struct {
     int32_t factories_mil;
 } Country;
 
+#define COUNTRY(arg_name, arg_color, arg_factories_civ, arg_factories_mil) {\
+    .name = arg_name, \
+    .color = arg_color, \
+    .factories_civ = arg_factories_civ, \
+    .factories_mil = arg_factories_mil, \
+}
+
 ///////////
 //////////////
 ///////////////// ...
@@ -51,14 +58,17 @@ typedef struct {
 
 int main() {
 
-    // load countries (TODO from file; we dould read the file straingt into the array; we can infer the
+    // load countries (TODO from file; we would read the file straingt into the array; we can infer the
     // size of the array given the size of the file;
     // if % is not 0, the binary representation must have changed)
 
     Country countries[1] = {
-        {
-            .name = "Soviet Union",
-        }
+        COUNTRY(
+            "Soviet Union",
+            "red",
+            30,
+            20
+        ),
     };
 
     // for(int32_t country_idx=0; country_idx<LENOF(countries); ++country_idx){
