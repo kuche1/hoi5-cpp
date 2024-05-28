@@ -1,4 +1,8 @@
 
+// TODO
+//
+// the fucking vectors can realloc, so I need to check what happens if I use push_back in a function that got passed a pointer/reference to the vector (nothing bad should happen, but I need to make sure)
+
 // mouse event tracking: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Any-event-tracking
 // https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797?permalink_comment_id=3878578
 // only get mouse clicks with: code 9 (`h` to turn on; `l` to turn off) (printf "\e[?9h"); I notices that this works in bash and not in fish
@@ -483,6 +487,7 @@ int main() {
     // create country: cobody
 
     vector<Country*> countries;
+    // TOD0 one memory leak for each country, too bad I dont give a shit haha
 
     Country* nobody = new Country{
         .name = "Nobody",
