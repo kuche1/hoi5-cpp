@@ -16,6 +16,9 @@
 
 using namespace std;
 
+struct _Country;
+typedef struct _Country Country;
+
 ///////////
 //////////////
 ///////////////// generic
@@ -117,33 +120,6 @@ void terminal_echo_disable() {
 
 ///////////
 //////////////
-///////////////// country
-//////////////
-///////////
-
-typedef char CountryName[60];
-
-typedef enum {
-    CIV_PRODUCTION_CIV,
-    CIV_PRODUCTION_MIL,
-} CivProduction;
-
-typedef struct _Country {
-    // misc
-    CountryName name;
-    Color color;
-    // factories
-    float factories_civ;
-    float factories_mil;
-    CivProduction civ_production; // what are the civs producing
-    // equipment
-    float equipment; // I plan on allowing for a defficit
-    // war
-    vector<struct _Country*> at_war_with;
-} Country;
-
-///////////
-//////////////
 ///////////////// map
 //////////////
 ///////////
@@ -166,6 +142,48 @@ typedef struct _Tile {
     // uint32_t troops;
     vector<struct _Tile*> borders;
 } Tile;
+
+///////////
+//////////////
+///////////////// country
+//////////////
+///////////
+
+typedef char CountryName[60];
+
+typedef enum {
+    CIV_PRODUCTION_CIV,
+    CIV_PRODUCTION_MIL,
+} CivProduction;
+
+struct _Country {
+    // misc
+    CountryName name;
+    Color color;
+    // factories
+    float factories_civ;
+    float factories_mil;
+    CivProduction civ_production; // what are the civs producing
+    // equipment
+    float equipment; // I plan on allowing for a defficit
+    // war
+    vector<struct _Country*> at_war_with;
+};
+
+int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
+    int count = 0;
+
+    for(int y=0; y<MAP_SIZE_Y; ++y){
+        for(int x=0; x<MAP_SIZE_X; ++x){
+            Tile *tile = &((*map)[y][x]);
+            if(tile->owner == country){
+                count += 1;
+            }
+        }
+    }
+
+    return count;
+}
 
 ///////////
 //////////////
@@ -631,11 +649,19 @@ int main() {
                             }
 
                             if(random_0_to_1() * deffender_mult < GAME_ATK_WIN_CHANCE * attacker_mult){
-                                // battle has been won
+                                // battle has been won, transfer land
+
+                                int looser_tiles = country_count_tiles(country_at_war, &map);
 
                                 border->owner = country;
 
-                                // TODO destroy some of the factories
+                                float percent_of_land_lost = 1 / looser_tiles;
+
+                                country_at_war->factories_civ *= (1.0 - percent_of_land_lost);
+
+                                country_at_war->factories_mil *= (1.0 - percent_of_land_lost);
+
+                                // TODO untested
 
                             }
 
