@@ -960,8 +960,8 @@ int main() {
                 // end war if we no longer border the guy
                 for(Country* country_at_war : ranges::reverse_view(country.at_war_with)){
                     if(!vec_contains(country.bordering_countries, country_at_war)){
-                        cout << country.name << " is making piece with " << country_at_war->name << '\n';
-                        input_enter();
+                        // cout << country.name << " is making piece with " << country_at_war->name << '\n';
+                        // input_enter();
                         vec_remove_if_exist(country.at_war_with, country_at_war);
                     }
                 }
