@@ -963,6 +963,8 @@ int main() {
                         vec_remove_if_exist(country->at_war_with, country_at_war);
                     }
                 }
+
+                // TODO take into account daily production and current equipment
             }
         }
 
