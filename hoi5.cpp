@@ -161,8 +161,6 @@ typedef struct _Tile {
 //////////////
 ///////////
 
-typedef char CountryName[60];
-
 typedef enum {
     CIV_PRODUCTION_CIV,
     CIV_PRODUCTION_MIL,
@@ -170,7 +168,7 @@ typedef enum {
 
 struct _Country {
     // misc
-    CountryName name;
+    string name;
     Color color;
     // factories
     float civs_base;
@@ -729,7 +727,7 @@ int main() {
             printf("\n");
 
             FOREACH(country, countries, {
-                printf("idx:%lu country:%s%s%s civs:%f mils:%f equipment:%f\n", country_idx, country->color, country->name, COL_RESET, country->civs_base, country->mils_base, country->equipment);
+                cout << country->color << country->name << COL_RESET << " civs:" << country->civs_base << " mils:" << country->mils_base << " equipment:" << country->equipment << "\n";
             })
 
             // process command
