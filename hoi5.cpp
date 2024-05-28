@@ -191,7 +191,7 @@ int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.1)
+#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0001)
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 20.0)
 
@@ -636,12 +636,12 @@ int main() {
 
                             // determine battle result
 
-                            float attacker_mult = 1;
+                            float attacker_mult = 1.0;
                             if(country->equipment < 0){
                                 attacker_mult *= GAME_ATK_NO_EQUIPMENT_PENALTY;
                             }
 
-                            float deffender_mult = 1;
+                            float deffender_mult = 1.0;
                             if(country_at_war->equipment < 0){
                                 deffender_mult *= GAME_DEF_NO_EQUIPMENT_PENALTY;
                             }
@@ -653,13 +653,18 @@ int main() {
 
                                 border->owner = country;
 
-                                float percent_of_land_lost = 1 / looser_tiles;
+                                float percent_of_land_lost = 1.0 / looser_tiles; // only 1 piece of land was lost
 
-                                country_at_war->factories_civ *= (1.0 - percent_of_land_lost);
+                                float civs_lost = country_at_war->factories_civ * percent_of_land_lost;
+                                float mils_lost = country_at_war->factories_mil * percent_of_land_lost;
 
-                                country_at_war->factories_mil *= (1.0 - percent_of_land_lost);
+                                country_at_war->factories_civ -= civs_lost;
+                                country_at_war->factories_mil -= mils_lost;
 
-                                // TODO untested
+                                country->factories_civ += civs_lost;
+                                country->factories_mil += mils_lost;
+
+                                // TODO remove part of the factories
 
                             }
 
