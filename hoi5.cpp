@@ -803,6 +803,8 @@ int main() {
 
         for(Country* country : countries){
 
+            // TODO instead of constructing all on a single tile the construction should be done across (say) 10% of your land
+
             float production = GAME_CIV_PRODUCE(country->civs);
 
             auto [failure, tile] = country_get_random_tile_based_on_density(country, &map);
