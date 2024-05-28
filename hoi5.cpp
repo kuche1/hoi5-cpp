@@ -111,13 +111,9 @@ typedef char* Color;
 
 #define COL_RESET ((Color)"\033[0m")
 
-#define COL_RED_DARK ((Color)"\033[31m")
 #define COL_YELLOW_DARK ((Color)"\033[33m")
-#define COL_MAGENTA_DARK ((Color)"\033[35m")
 
-#define COL_39  ((Color)"\033[38;5;39m")
-#define COL_118 ((Color)"\033[38;5;118m")
-#define COL_144 ((Color)"\033[38;5;144m")
+#define COL_INT(color_number) ((Color)"\033[38;5;" #color_number "m")
 
 // mouse click
 
@@ -498,72 +494,7 @@ int main() {
         .at_war_with = {},
     };
 
-    // load countries (TOD0 from file; we would read the file straingt into the array;
-    // we can infer the size of the array given the size of the file;
-    // if % is not 0, the binary representation must have changed;
-    // would probably be a good idea to put both the countries and the map structures into
-    // another not-padded structure, then add a field for the game version (removing padding might
-    // not be necessary if we include a game version, alto it would be more correct))
-
-    Country countries[] = {
-        {
-            .name = "Russia",
-            .color = COL_RED_DARK,
-            .civs_base = 45,
-            .mils_base = 32,
-            .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 1'000,
-            .at_war_with = {&nobody},
-        },
-        {
-            .name = "Germany",
-            .color = COL_YELLOW_DARK,
-            .civs_base = 34,
-            .mils_base = 28,
-            .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 1'000,
-            .at_war_with = {&nobody},
-        },
-        {
-            .name = "Poland",
-            .color = COL_MAGENTA_DARK,
-            .civs_base = 17,
-            .mils_base = 9,
-            .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 1'000,
-            .at_war_with = {&nobody},
-        },
-        {
-            .name = "Turkey",
-            .color = COL_144,
-            .civs_base = 11,
-            .mils_base = 4,
-            .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 1'000,
-            .at_war_with = {&nobody},
-        },
-        {
-            .name = "Grece",
-            .color = COL_39,
-            .civs_base = 7,
-            .mils_base = 2,
-            .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 1'000,
-            .at_war_with = {&nobody},
-        },
-        {
-            .name = "Bulgaria",
-            .color = COL_118,
-            .civs_base = 11,
-            .mils_base = 3,
-            .civ_production = CIV_PRODUCTION_CIV,
-            .equipment = 1'000,
-            .at_war_with = {&nobody},
-        },
-    };
-
-    // load map (TOD0 from file; see comment on loading countries for more info on how we're going to
-    // do that easily)
+    // load map
 
     vector<vector<Tile>> map;
 
@@ -634,28 +565,155 @@ int main() {
         }
     }
 
-    // put countries onto map (TOD0 from file)
+    // load countries
 
-    // russia
-    map[MAP_SIZE_Y * 0.2][MAP_SIZE_X * 0.9].owner = &countries[0];
-    map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.8].owner = &countries[0];
-    map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.85].owner = &countries[0];
+    Country countries[] = {
+        {
+            .name = "Russia",
+            .color = COL_INT(124),
+            .civs_base = 45,
+            .mils_base = 32,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Germany",
+            .color = COL_YELLOW_DARK,
+            .civs_base = 34,
+            .mils_base = 28,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Poland",
+            .color = COL_INT(13),
+            .civs_base = 17,
+            .mils_base = 9,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Turkey",
+            .color = COL_INT(144),
+            .civs_base = 11,
+            .mils_base = 4,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Grece",
+            .color = COL_INT(39),
+            .civs_base = 7,
+            .mils_base = 2,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Bulgaria",
+            .color = COL_INT(118),
+            .civs_base = 11,
+            .mils_base = 3,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Romania",
+            .color = COL_INT(184),
+            .civs_base = 11,
+            .mils_base = 7,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Yugoslavia",
+            .color = COL_INT(27),
+            .civs_base = 14,
+            .mils_base = 3,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Hungary",
+            .color = COL_INT(9),
+            .civs_base = 10,
+            .mils_base = 6,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Czechoslovakia",
+            .color = COL_INT(38),
+            .civs_base = 16,
+            .mils_base = 9,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+        {
+            .name = "Austria",
+            .color = COL_INT(145),
+            .civs_base = 10,
+            .mils_base = 3,
+            .civ_production = CIV_PRODUCTION_CIV,
+            .equipment = 1'000,
+            .at_war_with = {&nobody},
+        },
+    };
 
-    // germany
-    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.2].owner = &countries[1];
+    // put countries onto map
 
-    // poland
-    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.5].owner = &countries[2];
+    {
+        // russia
+        map[MAP_SIZE_Y * 0.2][MAP_SIZE_X * 0.9].owner = &countries[0];
+        map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.8].owner = &countries[0];
+        map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.85].owner = &countries[0];
+        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.9].owner = &countries[0];
 
-    // turkey
-    map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.8].owner = &countries[3];
-    map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.9].owner = &countries[3];
+        // germany
+        map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.55].owner = &countries[1];
 
-    // grece
-    map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.7].owner = &countries[4];
+        // poland
+        map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.7].owner = &countries[2];
+        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.75].owner = &countries[2];
 
-    // bulgaria
-    map[MAP_SIZE_Y * 0.7][MAP_SIZE_X * 0.75].owner = &countries[5];
+        // turkey
+        map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.84].owner = &countries[3];
+        map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.85].owner = &countries[3];
+        map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.86].owner = &countries[3];
+
+        // grece
+        map[MAP_SIZE_Y * 0.85][MAP_SIZE_X * 0.7].owner = &countries[4];
+
+        // bulgaria
+        map[MAP_SIZE_Y * 0.75][MAP_SIZE_X * 0.78].owner = &countries[5];
+        map[MAP_SIZE_Y * 0.75][MAP_SIZE_X * 0.79].owner = &countries[5];
+        map[MAP_SIZE_Y * 0.75][MAP_SIZE_X * 0.80].owner = &countries[5];
+
+        // romania
+        map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.82].owner = &countries[6];
+
+        // yugoslavia
+        map[MAP_SIZE_Y * 0.7][MAP_SIZE_X * 0.65].owner = &countries[7];
+        map[MAP_SIZE_Y * 0.65][MAP_SIZE_X * 0.6].owner = &countries[7];
+
+        // hungary
+        map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.7].owner = &countries[8];
+
+        // cze
+        map[MAP_SIZE_Y * 0.55][MAP_SIZE_X * 0.65].owner = &countries[9];
+
+        // austria
+        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.55].owner = &countries[10];
+    }
 
     // create player
 
@@ -808,8 +866,19 @@ int main() {
             printf("\n");
 
             FOREACH(country, countries, {
-                cout << country->color << country->name << COL_RESET << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << "\n";
+                
+                if(country_idx != 0){
+                    if(country_idx % 4 == 3){
+                        printf("\n");
+                    }else{
+                        printf(" ");
+                    }
+                }
+
+                cout << country->color << country->name << COL_RESET << "<" << "civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
             })
+
+            printf("\n");
 
             // process command
 
