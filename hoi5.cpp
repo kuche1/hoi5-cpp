@@ -492,7 +492,7 @@ int main() {
     Country* nobody = new Country{
         .name = "Nobody",
         .color = COL_RESET,
-        .civs_base = 0,
+        .civs_base = 100, // insentivise other players to attack `nobody` (this CAN be exploited if someone keeps a piece of `nobody` alive in their territory/in the corner, so it might be best to reduce those civs by a percentage every turn)
         .mils_base = 0,
         .civ_production = CIV_PRODUCTION_CIV,
         .equipment = -1,
@@ -890,7 +890,9 @@ int main() {
         // AI
 
         for(Country* country : countries){
-            if(country == player){
+
+            // skip AI calc for human player and for `nobody`
+            if((country == player) || (country == nobody)){
                 continue;
             }
 
