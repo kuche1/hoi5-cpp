@@ -243,19 +243,15 @@ Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
 
 #define GAME_ATK_WIN_CHANCE 0.2 // what is the change (0.0 to 1.0) that a terriroty would be gained upon attack
 
-#define GAME_ATK_EQUIPMENT_COST 18.0 // how much equipment a single attack costs
+#define GAME_ATK_EQUIPMENT_COST 16.0 // how much equipment a single attack costs
 #define GAME_DEF_EQUIPMENT_COST (GAME_ATK_EQUIPMENT_COST * 0.2) // how much equipment does it cost to deffend an attack
 
 #define GAME_ATK_NO_EQUIPMENT_PENALTY 0.4
 #define GAME_DEF_NO_EQUIPMENT_PENALTY 0.7
 
-#define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.2 // during the land transfer (but perhaps it should be the fighting) some of the factories are destroyed
+#define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.15 // during the land transfer some of the factories are destroyed
 
-// TODO
-// #define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATK ...
-// #define GAME_PERCENT_FACTORIES_DESTROYED_ON_DEF ...
-
-// TODO in fact, the factories should be tied to the tiles
+#define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK 0.08 // when a tile is being attacked, some of the factories also get damaged
 
 ///////////
 //////////////
@@ -706,8 +702,14 @@ int main() {
                         if(border->owner == country_at_war){
 
                             // loose equipment
+
                             country->equipment        -= GAME_ATK_EQUIPMENT_COST;
                             country_at_war->equipment -= GAME_DEF_EQUIPMENT_COST;
+
+                            // damage land
+
+                            border->civs *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
+                            border->mils *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
 
                             // determine battle result
 
