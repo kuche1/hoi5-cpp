@@ -76,6 +76,19 @@ float random_0_to_1() {
     return randomNum;
 }
 
+// range is inclusive
+int random_int(int from, int to) {
+    // Random number generation setup
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 gen(rd()); // Seed the generator
+    std::uniform_int_distribution<> distr(from, to); // Define the range
+
+    // Generate a random index
+    int random_number = distr(gen);
+
+    return random_number;
+}
+
 ///////////
 //////////////
 ///////////////// ansi escape codes / terminal settings
@@ -198,6 +211,10 @@ vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {
 int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
     return country_get_tiles(country, map).size();
 }
+
+// int country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
+//     TODO
+// }
 
 ///////////
 //////////////
@@ -772,8 +789,11 @@ int main() {
             }else if("test" == command){
 
                 for(;;){
-                    auto [mouse_y, mouse_x] = input_mouse_click();
-                    printf("y:%d x:%d\n", mouse_y, mouse_x);
+                    // auto [mouse_y, mouse_x] = input_mouse_click();
+                    // printf("y:%d x:%d\n", mouse_y, mouse_x);
+
+                    int num = random_int(0, 10);
+                    printf("num:%d\n", num);
                 }
 
             }else{
