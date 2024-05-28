@@ -14,7 +14,7 @@
 #include <random>
 #include <cassert>
 
-std::tuple<std::string, bool, int, int> input_line();
+using namespace std;
 
 ///////////
 //////////////
@@ -32,21 +32,21 @@ std::tuple<std::string, bool, int, int> input_line();
     }
 
 template<typename T>
-bool vec_contains(const std::vector<T>& vec, const T& element) {
-    return std::find(vec.begin(), vec.end(), element) != vec.end();
+bool vec_contains(const vector<T>& vec, const T& element) {
+    return find(vec.begin(), vec.end(), element) != vec.end();
 }
 
 template<typename T>
-void vec_push_back_nodup(std::vector<T>& vec, const T& element) {
+void vec_push_back_nodup(vector<T>& vec, const T& element) {
     if(!vec_contains(vec, element)){
         vec.push_back(element);
     }
 }
 
 template<typename T>
-void vec_remove_if_exist(std::vector<T>& vec, const T& element) {
+void vec_remove_if_exist(vector<T>& vec, const T& element) {
     if(vec_contains(vec, element)){
-        auto it = std::find(vec.begin(), vec.end(), element);
+        auto it = find(vec.begin(), vec.end(), element);
         vec.erase(it);
     }
 }
@@ -54,18 +54,18 @@ void vec_remove_if_exist(std::vector<T>& vec, const T& element) {
 void term(char *command) {
     int ret_code = system(command);
     if(ret_code != 0){
-        std::cerr << "ERROR: command failed: " << command << '\n';
+        cerr << "ERROR: command failed: " << command << '\n';
         exit(1);
     }
 }
 
 float random_0_to_1() {
     // Seed the random number generator
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    random_device rd;
+    mt19937 gen(rd());
     
     // Define a uniform distribution over the range [0, 1]
-    std::uniform_real_distribution<float> dist(0.0, 1.0);
+    uniform_real_distribution<float> dist(0.0, 1.0);
     
     // Generate a random number
     float randomNum = dist(gen);
@@ -139,7 +139,7 @@ typedef struct _Country {
     // equipment
     float equipment; // I plan on allowing for a defficit
     // war
-    std::vector<struct _Country*> at_war_with;
+    vector<struct _Country*> at_war_with;
 } Country;
 
 ///////////
@@ -161,7 +161,7 @@ typedef struct _Tile {
     Country* owner;
     // TileType type;
     // uint32_t troops;
-    std::vector<struct _Tile*> borders;
+    vector<struct _Tile*> borders;
 } Tile;
 
 ///////////
@@ -170,9 +170,9 @@ typedef struct _Tile {
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (std::floor(number_of_civs) * 0.1)
+#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.1)
 
-#define GAME_MIL_PRODUCE(number_of_mils) (std::floor(number_of_mils) * 20.0)
+#define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 20.0)
 
 #define GAME_ATK_WIN_CHANCE 0.2 // what is the change (0 to 1) that a terriroty would be gained upon attack
 
@@ -191,8 +191,8 @@ typedef struct _Tile {
 ///////////
 
 void input_enter() {
-    std::string trash;
-    std::getline(std::cin, trash);
+    string trash;
+    getline(cin, trash);
 }
 
 // {
@@ -248,7 +248,7 @@ void input_enter() {
 #define CSI_BEGIN_LEN 2
 
 // mode info on the input modes: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Extended-coordinates
-std::tuple<int, int> input_mouse_click() {
+tuple<int, int> input_mouse_click() {
 
     terminal_echo_disable();
     terminal_mouse_click_log_enable();
@@ -258,18 +258,18 @@ std::tuple<int, int> input_mouse_click() {
 
     for(;;){
 
-        std::string line;
-        std::getline(std::cin, line);
+        string line;
+        getline(cin, line);
 
         // printf("\n");
-        // std::cout << "byte#0: " << (int)line[0] << '\n';
-        // std::cout << "byte#1: " << (int)line[1] << '\n';
-        // std::cout << "byte#2: " << (int)line[2] << '\n';
-        // std::cout << "byte#3: " << (int)line[3] << '\n';
-        // std::cout << "byte#4: " << (int)line[4] << '\n';
-        // std::cout << "byte#5: " << (int)line[5] << '\n';
-        // std::cout << "byte#6: " << (int)line[6] << '\n';
-        // std::cout << "byte#7: " << (int)line[7] << '\n';
+        // cout << "byte#0: " << (int)line[0] << '\n';
+        // cout << "byte#1: " << (int)line[1] << '\n';
+        // cout << "byte#2: " << (int)line[2] << '\n';
+        // cout << "byte#3: " << (int)line[3] << '\n';
+        // cout << "byte#4: " << (int)line[4] << '\n';
+        // cout << "byte#5: " << (int)line[5] << '\n';
+        // cout << "byte#6: " << (int)line[6] << '\n';
+        // cout << "byte#7: " << (int)line[7] << '\n';
 
         int csi_idx = line.rfind(CSI_BEGIN);
 
@@ -325,16 +325,16 @@ std::tuple<int, int> input_mouse_click() {
 
         // fuck anything left in the string
 
-        // std::cout << "left over: " << line << '\n';
+        // cout << "left over: " << line << '\n';
 
-        // std::cout << "byte#0: " << (int)line[0] << '\n';
-        // std::cout << "byte#1: " << (int)line[1] << '\n';
-        // std::cout << "byte#2: " << (int)line[2] << '\n';
-        // std::cout << "byte#3: " << (int)line[3] << '\n';
-        // std::cout << "byte#4: " << (int)line[4] << '\n';
-        // std::cout << "byte#5: " << (int)line[5] << '\n';
-        // std::cout << "byte#6: " << (int)line[6] << '\n';
-        // std::cout << "byte#7: " << (int)line[7] << '\n';
+        // cout << "byte#0: " << (int)line[0] << '\n';
+        // cout << "byte#1: " << (int)line[1] << '\n';
+        // cout << "byte#2: " << (int)line[2] << '\n';
+        // cout << "byte#3: " << (int)line[3] << '\n';
+        // cout << "byte#4: " << (int)line[4] << '\n';
+        // cout << "byte#5: " << (int)line[5] << '\n';
+        // cout << "byte#6: " << (int)line[6] << '\n';
+        // cout << "byte#7: " << (int)line[7] << '\n';
 
         // printf("\n");
 
@@ -349,10 +349,10 @@ std::tuple<int, int> input_mouse_click() {
     mouse_y -= 1;
     mouse_x -= 1;
 
-    return std::make_tuple(mouse_y, mouse_x);
+    return make_tuple(mouse_y, mouse_x);
 }
 
-Country* input_country(std::vector<std::vector<Tile>> *map) {
+Country* input_country(vector<vector<Tile>> *map) {
 
     Country* ret;
 
@@ -370,7 +370,7 @@ Country* input_country(std::vector<std::vector<Tile>> *map) {
     return ret;
 }
 
-Country* input_another_country(Country *player, std::vector<std::vector<Tile>> *map) {
+Country* input_another_country(Country *player, vector<vector<Tile>> *map) {
     for(;;){
         Country *country = input_country(map);
 
@@ -469,10 +469,10 @@ int main() {
     // load map (TOD0 from file; see comment on loading countries for more info on how we're going to
     // do that easily)
 
-    std::vector<std::vector<Tile>> map;
+    vector<vector<Tile>> map;
 
     for(int y=0; y<MAP_SIZE_Y; ++y){
-        std::vector<Tile> row;
+        vector<Tile> row;
         for(int x=0; x<MAP_SIZE_X; ++x){
             Tile tile = {
                 .owner = &nobody,
@@ -605,7 +605,7 @@ int main() {
 
             for(Country* country_at_war : country->at_war_with){
 
-                std::vector<Tile*> tiles_to_process;
+                vector<Tile*> tiles_to_process;
 
                 for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
                     for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
@@ -681,16 +681,16 @@ int main() {
 
             printf("\n");
 
-            std::cout << "Enter command: ";
+            cout << "Enter command: ";
 
-            std::string command;
-            std::getline(std::cin, command);
+            string command;
+            getline(cin, command);
 
-            std::vector<std::string> cmds_pass = {"", "pass", "next-turn"};
-            std::vector<std::string> cmds_quit = {"q", "quit", "quit-game"};
-            std::vector<std::string> cmds_attack = {"a", "attack", "attack-country"};
-            std::vector<std::string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
-            std::vector<std::vector<std::string>> cmds_ALL = {cmds_pass, cmds_quit, cmds_attack};
+            vector<string> cmds_pass = {"", "pass", "next-turn"};
+            vector<string> cmds_quit = {"q", "quit", "quit-game"};
+            vector<string> cmds_attack = {"a", "attack", "attack-country"};
+            vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
+            vector<vector<string>> cmds_ALL = {cmds_pass, cmds_quit, cmds_attack};
 
             if(vec_contains(cmds_pass, command)){
                 goto break_loop_command;
@@ -721,20 +721,20 @@ int main() {
 
             }else{
 
-                std::cout << '\n';
+                cout << '\n';
 
-                std::cout << "Unknown command `" << command << "`\n";
+                cout << "Unknown command `" << command << "`\n";
 
-                std::cout << "List of commands:" << '\n';
+                cout << "List of commands:" << '\n';
 
                 for(auto cmds : cmds_ALL){
                     for(auto cmd : cmds){
-                        std::cout << "<" << cmd << "> ";
+                        cout << "<" << cmd << "> ";
                     }
-                    std::cout << '\n';
+                    cout << '\n';
                 }
 
-                std::cout << "\nPRESS ENTER\n";
+                cout << "\nPRESS ENTER\n";
                 input_enter();
             }
 
@@ -743,7 +743,7 @@ int main() {
 
         // sleep (only make sense if we're using a GUI)
 
-        // std::this_thread::sleep_for(std::chrono::seconds(2));
+        // this_thread::sleep_for(chrono::seconds(2));
 
     }
     break_loop_game:
