@@ -161,6 +161,8 @@ void terminal_line_buffering_disable() {
 #define MAP_LOOPS_Y false
 #define MAP_LOOPS_X false
 
+#define MAP_TILE_VALUE_MODIFIER 25.0
+
 // typedef enum {
 //     TILE_TYPE_PLAIN,
 //     TILE_TYPE_URBAN,
@@ -748,7 +750,7 @@ int main() {
             // TOD0 we coupd perhaps optimise the rendering by not changing the color twice for every tile
             for(auto map_row : map){
                 for(auto tile : map_row){
-                    float total_factories = tile.civs + tile.mils;
+                    float total_factories = (tile.civs + tile.mils) * MAP_TILE_VALUE_MODIFIER;
                     int facts = static_cast<int>( floor(total_factories) );
                     printf("%s%d%s", tile.owner->color, facts, COL_RESET);
                 }
