@@ -267,8 +267,8 @@ void input_enter() {
 //     }
 // }
 
-#define CSI_BEGIN {'\033', '['}
-#define CSI_BEGIN_LEN 2
+#define CSI {'\033', '['}
+#define CSI_LEN 2
 
 // TODO make it so that when you click a country you get it's name (we could use \r)
 // mode info on the input modes: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Extended-coordinates
@@ -295,13 +295,13 @@ tuple<int, int> input_mouse_click() {
         // cout << "byte#6: " << (int)line[6] << '\n';
         // cout << "byte#7: " << (int)line[7] << '\n';
 
-        int csi_idx = line.rfind(CSI_BEGIN);
+        int csi_idx = line.rfind(CSI);
 
         if(csi_idx < 0){
             continue;
         }
 
-        line.erase(csi_idx, CSI_BEGIN_LEN);
+        line.erase(csi_idx, CSI_LEN);
 
         assert(line[0] == '<');
         line.erase(0, 1);
