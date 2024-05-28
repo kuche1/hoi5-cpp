@@ -744,9 +744,11 @@ int main() {
         map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.55].owner = &countries[10];
     }
 
-    // create player
+    // player-related
 
     Country* player = &countries[0];
+
+    int gui_additional_turns_to_pass = 0;
 
     // main loop
 
@@ -885,6 +887,15 @@ int main() {
 
         // graphics
 
+        {
+            // pass turns if told so
+
+            if(gui_additional_turns_to_pass > 0){
+                gui_additional_turns_to_pass -= 1;
+                continue;
+            }
+        }
+
         for(;;){
 
             // clear display
@@ -959,12 +970,22 @@ int main() {
             getline(cin, command);
 
             vector<string> cmds_pass = {"", "pass", "next-turn"};
+            vector<string> cmds_pass_10 = {"pass10", "pass-10-turns"};
+            vector<string> cmds_pass_50 = {"pass50", "pass-50-turns"};
             vector<string> cmds_quit = {"q", "quit", "quit-game"};
             vector<string> cmds_attack = {"a", "attack", "attack-country"};
             vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
             vector<vector<string>> cmds_ALL = {cmds_pass, cmds_quit, cmds_attack};
 
             if(vec_contains(cmds_pass, command)){
+                goto break_loop_command;
+            
+            }else if(vec_contains(cmds_pass_10, command)){
+                gui_additional_turns_to_pass = 10 - 1;
+                goto break_loop_command;
+
+            }else if(vec_contains(cmds_pass_50, command)){
+                gui_additional_turns_to_pass = 50 - 1;
                 goto break_loop_command;
 
             }else if(vec_contains(cmds_quit, command)){
@@ -1015,10 +1036,6 @@ int main() {
 
         }
         break_loop_command:
-
-        // sleep (only make sense if we're using a GUI)
-
-        // this_thread::sleep_for(chrono::seconds(2));
 
     }
     break_loop_game:
