@@ -874,16 +874,40 @@ int main() {
         }
 
         // AI
-        // TODO
 
-        // for(Country& country : countries){
-        //     if(&country == player){
-        //         continue;
-        //     }
+        for(Country& country : countries){
+            if(&country == player){
+                continue;
+            }
 
-        //     float total_enemy_factories = 0.0;
-        //     float total_enemy_equipment = 0.0;
-        // }
+            // determine civ production
+
+            float total_enemy_factories = 0.0;
+            float total_enemy_equipment = 0.0;
+            int total_enemy_tiles = 0;
+
+            // calc countries that we're attacking
+            for(Country* country_at_war : country.at_war_with){
+                total_enemy_factories += country_at_war->civs + country_at_war->mils;
+                total_enemy_equipment += country_at_war->equipment;
+                total_enemy_tiles += country_at_war->tiles;
+            }
+
+            // calc countries that are attacking us
+            // TODO
+
+            // decide what to build
+            if(
+                total_enemy_factories >= country.civs + country.mils ||
+                total_enemy_equipment >= country.equipment ||
+                total_enemy_tiles >= country.tiles
+            ){
+                country.civ_production = CIV_PRODUCTION_MIL;
+            }else{
+                country.civ_production = CIV_PRODUCTION_CIV;
+            }
+
+        }
 
         // graphics
 
