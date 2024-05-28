@@ -28,12 +28,6 @@ typedef struct _Country Country;
 #define LENOF(comptime_arr) \
     (sizeof(comptime_arr) / sizeof(*comptime_arr))
 
-#define FOREACH(item_var, comptime_arr, code) \
-    for(size_t item_var ## _idx = 0; item_var ## _idx < LENOF(comptime_arr); ++ item_var ## _idx) {\
-        __typeof__(*comptime_arr) *item_var = &comptime_arr[item_var ## _idx]; \
-        code; \
-    }
-
 float random_0_to_1() {
     // Seed the random number generator
     random_device rd;
@@ -567,7 +561,9 @@ int main() {
 
     // load countries
 
-    Country countries[] = {
+    vector<Country> countries;
+
+    countries.push_back(
         {
             .name = "Russia",
             .color = COL_INT(124),
@@ -576,7 +572,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Germany",
             .color = COL_YELLOW_DARK,
@@ -585,7 +584,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Poland",
             .color = COL_INT(13),
@@ -594,7 +596,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Turkey",
             .color = COL_INT(144),
@@ -603,7 +608,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Grece",
             .color = COL_INT(39),
@@ -612,7 +620,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Bulgaria",
             .color = COL_INT(118),
@@ -621,7 +632,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Romania",
             .color = COL_INT(184),
@@ -630,7 +644,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Yugoslavia",
             .color = COL_INT(27),
@@ -639,7 +656,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Hungary",
             .color = COL_INT(9),
@@ -648,7 +668,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Czechoslovakia",
             .color = COL_INT(38),
@@ -657,7 +680,10 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
+        }
+    );
+
+    countries.push_back(
         {
             .name = "Austria",
             .color = COL_INT(145),
@@ -666,8 +692,8 @@ int main() {
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
-        },
-    };
+        }
+    );
 
     // put countries onto map
 
@@ -723,14 +749,22 @@ int main() {
 
     for(;;){
 
-        // TOD0 remove any dead countries
+        // TODO remove any dead countries
+
+        // FOREACH(country, countries, {
+        //     int tiles = country_count_tiles();
+
+        //     if(tiles <= 0){
+        //         // delete
+        //     }
+        // })
 
         // update number of factories based on land
 
-        FOREACH(country, countries, {
-            country->civs = country->civs_base;
-            country->mils = country->mils_base;
-        })
+        for(Country& country : countries){
+            country.civs = country.civs_base;
+            country.mils = country.mils_base;
+        }
 
         for(int y=0; y<MAP_SIZE_Y; ++y){
             for(int x=0; x<MAP_SIZE_X; ++x){
@@ -742,13 +776,13 @@ int main() {
 
         // process civs
 
-        FOREACH(country, countries, {
+        for(Country& country : countries){
 
-            float production = GAME_CIV_PRODUCE(country->civs);
+            float production = GAME_CIV_PRODUCE(country.civs);
 
-            Tile* tile = country_get_random_tile_based_on_density(country, &map);
+            Tile* tile = country_get_random_tile_based_on_density(&country, &map);
 
-            switch(country->civ_production){
+            switch(country.civ_production){
                 case CIV_PRODUCTION_CIV: {
                     tile->civs += production;
                 } break;
@@ -757,31 +791,31 @@ int main() {
                     tile->mils += production;
                 } break;
             }
-        })
+        }
 
         // process mils
 
-        FOREACH(country, countries, {
-            country->equipment += GAME_MIL_PRODUCE(country->mils);
-        })
+        for(Country& country : countries){
+            country.equipment += GAME_MIL_PRODUCE(country.mils);
+        }
 
         // process wars
 
-        FOREACH(country, countries, {
+        for(Country& country : countries){
 
-            if(country->equipment <= 0){
+            if(country.equipment <= 0){
                 // you can't fight if you don't have any equipment
                 continue;
             }
 
-            for(Country* country_at_war : country->at_war_with){
+            for(Country* country_at_war : country.at_war_with){
 
                 vector<Tile*> tiles_to_process;
 
                 for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
                     for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
                         Tile *tile = &map[map_y][map_x];
-                        if(tile->owner == country){
+                        if(tile->owner == &country){
                             tiles_to_process.push_back(tile);
                         }
                     }
@@ -793,7 +827,7 @@ int main() {
 
                             // loose equipment
 
-                            country->equipment        -= GAME_ATK_EQUIPMENT_COST;
+                            country.equipment        -= GAME_ATK_EQUIPMENT_COST;
                             country_at_war->equipment -= GAME_DEF_EQUIPMENT_COST;
 
                             // damage land
@@ -812,7 +846,7 @@ int main() {
                             if(random_0_to_1() * deffender_multiplier < GAME_ATK_WIN_CHANCE){
                                 // battle has been won, transfer land
 
-                                border->owner = country;
+                                border->owner = &country;
 
                                 border->civs *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
                                 border->mils *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
@@ -823,7 +857,17 @@ int main() {
                 }
 
             }
-        })
+        }
+
+        // AI
+
+        // FOREACH(country, countries, {
+        //     if(country == player){
+        //         continue;
+        //     }
+
+        //     // TODO
+        // })
 
         // graphics
 
@@ -865,18 +909,20 @@ int main() {
 
             printf("\n");
 
-            FOREACH(country, countries, {
-                
-                if(country_idx != 0){
-                    if(country_idx % 4 == 3){
-                        printf("\n");
-                    }else{
-                        printf(" ");
-                    }
-                }
+            for(Country& country : countries){
 
-                cout << country->color << country->name << COL_RESET << "<" << "civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
-            })
+                // TODO tova ne e ok                
+                // if(country_idx != 0){
+                //     if(country_idx % 4 == 3){
+                //         printf("\n");
+                //     }else{
+                //         printf(" ");
+                //     }
+                // }
+
+                cout << country.color << country.name << COL_RESET << "<" << "civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
+                cout << '\n';
+            }
 
             printf("\n");
 
