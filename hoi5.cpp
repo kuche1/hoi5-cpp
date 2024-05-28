@@ -180,7 +180,7 @@ struct _Country {
     vector<struct _Country*> at_war_with;
 };
 
-vector<Tile*> country_get_owned_tiles(Country *country, vector<vector<Tile>> *map) {
+vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {
     vector<Tile*> owned_tiles;
 
     for(int y=0; y<MAP_SIZE_Y; ++y){
@@ -196,7 +196,7 @@ vector<Tile*> country_get_owned_tiles(Country *country, vector<vector<Tile>> *ma
 }
 
 int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
-    return country_get_owned_tiles(country, map).size();
+    return country_get_tiles(country, map).size();
 }
 
 ///////////
