@@ -180,19 +180,23 @@ struct _Country {
     vector<struct _Country*> at_war_with;
 };
 
-int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
-    int count = 0;
+vector<Tile*> country_get_owned_tiles(Country *country, vector<vector<Tile>> *map) {
+    vector<Tile*> owned_tiles;
 
     for(int y=0; y<MAP_SIZE_Y; ++y){
         for(int x=0; x<MAP_SIZE_X; ++x){
             Tile *tile = &((*map)[y][x]);
             if(tile->owner == country){
-                count += 1;
+                owned_tiles.push_back(tile);
             }
         }
     }
 
-    return count;
+    return owned_tiles;
+}
+
+int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
+    return country_get_owned_tiles(country, map).size();
 }
 
 ///////////
