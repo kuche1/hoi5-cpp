@@ -241,13 +241,12 @@ Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 20.0)
 
-#define GAME_ATK_WIN_CHANCE 0.2 // what is the change (0.0 to 1.0) that a terriroty would be gained upon attack
+#define GAME_ATK_WIN_CHANCE 0.15 // what is the change (0.0 to 1.0) that a terriroty would be gained upon attack
 
 #define GAME_ATK_EQUIPMENT_COST 16.0 // how much equipment a single attack costs
-#define GAME_DEF_EQUIPMENT_COST (GAME_ATK_EQUIPMENT_COST * 0.2) // how much equipment does it cost to deffend an attack
+#define GAME_DEF_EQUIPMENT_COST (GAME_ATK_EQUIPMENT_COST * 0.15) // how much equipment does it cost to deffend an attack
 
-#define GAME_ATK_NO_EQUIPMENT_PENALTY 0.4
-#define GAME_DEF_NO_EQUIPMENT_PENALTY 0.7
+#define GAME_DEF_NO_EQUIPMENT_MULTIPLIER 0.6
 
 #define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.15 // during the land transfer some of the factories are destroyed
 
@@ -684,6 +683,11 @@ int main() {
 
         FOREACH(country, countries, {
 
+            if(country->equipment <= 0){
+                // you can't fight if you don't have any equipment
+                continue;
+            }
+
             for(Country* country_at_war : country->at_war_with){
 
                 vector<Tile*> tiles_to_process;
@@ -713,17 +717,13 @@ int main() {
 
                             // determine battle result
 
-                            float attacker_mult = 1.0;
-                            if(country->equipment < 0){
-                                attacker_mult *= GAME_ATK_NO_EQUIPMENT_PENALTY;
+                            float deffender_multiplier = 1.0;
+
+                            if(country_at_war->equipment <= 0){
+                                deffender_multiplier *= GAME_DEF_NO_EQUIPMENT_MULTIPLIER;
                             }
 
-                            float deffender_mult = 1.0;
-                            if(country_at_war->equipment < 0){
-                                deffender_mult *= GAME_DEF_NO_EQUIPMENT_PENALTY;
-                            }
-
-                            if(random_0_to_1() * deffender_mult < GAME_ATK_WIN_CHANCE * attacker_mult){
+                            if(random_0_to_1() * deffender_multiplier < GAME_ATK_WIN_CHANCE){
                                 // battle has been won, transfer land
 
                                 border->owner = country;
