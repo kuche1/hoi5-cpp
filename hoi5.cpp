@@ -373,9 +373,9 @@ tuple<int, int> input_mouse_click() {
     return make_tuple(mouse_y, mouse_x);
 }
 
-Country* input_country(vector<vector<Tile>> *map) {
+Country* input_country(vector<vector<Tile>> *map, Country* exclude = NULL) {
 
-    Country* ret;
+    Country* selected_country;
 
     for(;;){
         auto [mouse_y, mouse_x] = input_mouse_click();
@@ -384,11 +384,16 @@ Country* input_country(vector<vector<Tile>> *map) {
             continue;
         }
 
-        ret = (*map)[mouse_y][mouse_x].owner;
+        selected_country = (*map)[mouse_y][mouse_x].owner;
+
+        if(selected_country == exclude){
+            continue;
+        }
+
         break;
     }
 
-    return ret;
+    return selected_country;
 }
 
 Country* input_another_country(vector<vector<Tile>> *map, Country *player) {
