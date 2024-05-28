@@ -134,7 +134,7 @@ void terminal_line_buffering_disable() {
 //////////////
 ///////////
 
-#define MAP_SIZE_Y 35
+#define MAP_SIZE_Y 30
 #define MAP_SIZE_X 205
 
 #define MAP_LOOPS_Y false
@@ -286,10 +286,9 @@ void input_enter() {
 #define SGR_SEP ';'
 #define SGR_END 'M'
 
-// TODO make it so that when you click a country you get it's name (we could use \r)
 tuple<int, int> input_mouse_click() {
 
-    terminal_line_buffering_disable(); // TODO untested
+    terminal_line_buffering_disable();
     terminal_echo_disable();
     terminal_mouse_click_log_enable();
 
@@ -299,8 +298,6 @@ tuple<int, int> input_mouse_click() {
     for(;;){
 
         string line;
-        getline(cin, line);
-
         // printf("\n");
         // cout << "byte#0: " << (int)line[0] << '\n';
         // cout << "byte#1: " << (int)line[1] << '\n';
@@ -311,13 +308,24 @@ tuple<int, int> input_mouse_click() {
         // cout << "byte#6: " << (int)line[6] << '\n';
         // cout << "byte#7: " << (int)line[7] << '\n';
 
-        int csi_idx = line.rfind(CSI);
+        for(;;){
+            char ch = getchar();
+            
+            line += ch;
 
-        if(csi_idx < 0){
-            continue;
+            if(ch == SGR_END){
+
+                int csi_idx = line.rfind(CSI);
+
+                if(csi_idx < 0){
+                    continue;
+                }
+
+                line.erase(0, csi_idx + CSI_LEN);
+
+                break;
+            }
         }
-
-        line.erase(0, csi_idx + CSI_LEN);
 
         assert(line[0] == SGR_BEGIN);
         line.erase(0, 1);
@@ -363,20 +371,9 @@ tuple<int, int> input_mouse_click() {
             mouse_y += ch - '0';
         }
 
-        // fuck anything left in the string
+        // ...
 
-        // cout << "left over: " << line << '\n';
-
-        // cout << "byte#0: " << (int)line[0] << '\n';
-        // cout << "byte#1: " << (int)line[1] << '\n';
-        // cout << "byte#2: " << (int)line[2] << '\n';
-        // cout << "byte#3: " << (int)line[3] << '\n';
-        // cout << "byte#4: " << (int)line[4] << '\n';
-        // cout << "byte#5: " << (int)line[5] << '\n';
-        // cout << "byte#6: " << (int)line[6] << '\n';
-        // cout << "byte#7: " << (int)line[7] << '\n';
-
-        // printf("\n");
+        assert(line.length() == 0);
 
         break;
 
@@ -743,14 +740,14 @@ int main() {
 
             }else if(vec_contains(cmds_attack, command)){
 
-                printf("Click on the country that you want to attack and press enter\n");
+                printf("Click on the country that you want to attack\n");
                 Country *target = input_another_country(&map, player);
 
                 vec_push_back_nodup(player->at_war_with, target);
 
             }else if(vec_contains(cmds_stop_attacking, command)){
 
-                printf("Click on the country that you want to stop attacking and press enter\n");
+                printf("Click on the country that you want to stop attacking\n");
                 Country *piece_target = input_country(&map);
 
                 vec_remove_if_exist(player->at_war_with, piece_target);
