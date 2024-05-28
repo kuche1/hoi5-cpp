@@ -78,7 +78,7 @@ float random_0_to_1() {
 
 ///////////
 //////////////
-///////////////// ansi escape codes
+///////////////// ansi escape codes / terminal settings
 //////////////
 ///////////
 
@@ -116,6 +116,16 @@ void terminal_echo_enable() {
 
 void terminal_echo_disable() {
     term((char*)"stty -echo");
+}
+
+// line buffering
+
+void terminal_line_buffering_enable() {
+    term((char*)"stty icanon");
+}
+
+void terminal_line_buffering_disable() {
+    term((char*)"stty -icanon");
 }
 
 ///////////
@@ -279,6 +289,7 @@ void input_enter() {
 // TODO make it so that when you click a country you get it's name (we could use \r)
 tuple<int, int> input_mouse_click() {
 
+    terminal_line_buffering_disable(); // TODO untested
     terminal_echo_disable();
     terminal_mouse_click_log_enable();
 
@@ -306,7 +317,7 @@ tuple<int, int> input_mouse_click() {
             continue;
         }
 
-        line.erase(csi_idx, CSI_LEN);
+        line.erase(0, csi_idx + CSI_LEN);
 
         assert(line[0] == SGR_BEGIN);
         line.erase(0, 1);
@@ -373,6 +384,7 @@ tuple<int, int> input_mouse_click() {
 
     terminal_mouse_click_log_disable();
     terminal_echo_enable();
+    terminal_line_buffering_enable();
 
     // correct the positions, from 1-indexed, to 0-indexed
     mouse_y -= 1;
