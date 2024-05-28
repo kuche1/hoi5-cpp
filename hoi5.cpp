@@ -754,11 +754,19 @@ int main() {
                     float float_factories = (tile.civs + tile.mils) * MAP_TILE_VALUE_MODIFIER;
 
                     int int_factories = static_cast<int>( floor(float_factories) );
-                    if(int_factories > 9){
-                        int_factories = 9;
-                    }
 
-                    char char_factories = int_factories + '0';
+                    char char_factories = '?';
+
+                    if(int_factories <= 9){
+                        char_factories = '0' + int_factories;
+                    }else{
+                        int_factories -= 10;
+                        if(int_factories <= 25){
+                            char_factories = 'A' + int_factories;
+                        }else{
+                            char_factories = '+';
+                        }
+                    }
 
                     printf("%s%c%s", tile.owner->color, char_factories, COL_RESET);
                 }
