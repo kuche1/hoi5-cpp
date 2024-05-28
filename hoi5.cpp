@@ -161,7 +161,7 @@ void terminal_line_buffering_disable() {
 #define MAP_LOOPS_Y false
 #define MAP_LOOPS_X false
 
-#define MAP_TILE_VALUE_MODIFIER 150.0
+#define MAP_TILE_VALUE_MODIFIER 250.0
 
 // typedef enum {
 //     TILE_TYPE_PLAIN,
