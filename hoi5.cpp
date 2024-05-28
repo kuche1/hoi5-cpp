@@ -205,17 +205,21 @@ int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 20.0)
 
-#define GAME_ATK_WIN_CHANCE 0.2 // what is the change (0 to 1) that a terriroty would be gained upon attack
+#define GAME_ATK_WIN_CHANCE 0.2 // what is the change (0.0 to 1.0) that a terriroty would be gained upon attack
 
 #define GAME_ATK_EQUIPMENT_COST 18.0 // how much equipment a single attack costs
-
 #define GAME_DEF_EQUIPMENT_COST (GAME_ATK_EQUIPMENT_COST * 0.2) // how much equipment does it cost to deffend an attack
 
 #define GAME_ATK_NO_EQUIPMENT_PENALTY 0.4
-
 #define GAME_DEF_NO_EQUIPMENT_PENALTY 0.7
 
-#define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.2 // during the fighting some of the factories are destroyed
+#define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.2 // during the land transfer (but perhaps it should be the fighting) some of the factories are destroyed
+
+// TODO
+// #define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATK ...
+// #define GAME_PERCENT_FACTORIES_DESTROYED_ON_DEF ...
+
+// TODO in fact, the factories should be tied to the tiles
 
 ///////////
 //////////////
