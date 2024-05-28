@@ -223,11 +223,11 @@ Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
 }
 
 // for example if your country is a circle: the chance of getting something in the center is higher
-Tile* country_get_random_tile_based_on_density(Country* country, vector<vector<Tile>>* map) {
+pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country, vector<vector<Tile>>* map) {
     vector<Tile*> tiles = country_get_tiles(country, map);
 
     if(tiles.size() <= 0){
-        return NULL;
+        return make_pair(true, nullptr);
     }
 
     vector<Tile*> candidates;
@@ -249,7 +249,7 @@ Tile* country_get_random_tile_based_on_density(Country* country, vector<vector<T
         }
     }
 
-    return vec_get_random_element(candidates);
+    return make_pair(false, vec_get_random_element(candidates));
 }
 
 ///////////
@@ -717,17 +717,17 @@ int main() {
         map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.75].owner = &countries[2];
 
         // turkey
-        map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.84].owner = &countries[3];
-        map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.85].owner = &countries[3];
-        map[MAP_SIZE_Y * 0.8][MAP_SIZE_X * 0.86].owner = &countries[3];
+        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.82].owner = &countries[3];
+        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.83].owner = &countries[3];
+        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.84].owner = &countries[3];
 
         // grece
         map[MAP_SIZE_Y * 0.85][MAP_SIZE_X * 0.7].owner = &countries[4];
 
         // bulgaria
-        map[MAP_SIZE_Y * 0.75][MAP_SIZE_X * 0.78].owner = &countries[5];
-        map[MAP_SIZE_Y * 0.75][MAP_SIZE_X * 0.79].owner = &countries[5];
-        map[MAP_SIZE_Y * 0.75][MAP_SIZE_X * 0.80].owner = &countries[5];
+        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.80].owner = &countries[5];
+        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.81].owner = &countries[5];
+        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.82].owner = &countries[5];
 
         // romania
         map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.82].owner = &countries[6];
@@ -802,8 +802,8 @@ int main() {
 
             float production = GAME_CIV_PRODUCE(country.civs);
 
-            Tile* tile = country_get_random_tile_based_on_density(&country, &map);
-            if(!tile){
+            auto [failure, tile] = country_get_random_tile_based_on_density(&country, &map);
+            if(failure){
                 continue;
             }
 
