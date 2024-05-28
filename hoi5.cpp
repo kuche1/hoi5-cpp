@@ -149,8 +149,10 @@ void terminal_line_buffering_disable() {
 typedef struct _Tile {
     Country* owner;
     // TileType type;
-    // uint32_t troops;
     vector<struct _Tile*> borders;
+    // number of factories
+    float civs;
+    float mils;
 } Tile;
 
 ///////////
@@ -516,6 +518,8 @@ int main() {
             Tile tile = {
                 .owner = &nobody,
                 .borders = {},
+                .civs = 0,
+                .mils = 0,
             };
             row.push_back(tile);
         }
@@ -706,9 +710,12 @@ int main() {
 
             // draw map
 
+            // TOD0 we coupd perhaps optimise the rendering by not changing the color twice for every tile
             for(auto map_row : map){
                 for(auto tile : map_row){
-                    printf("%s%d%s", tile.owner->color, 0, COL_RESET);
+                    float total_factories = tile.civs + tile.mils;
+                    int facts = static_cast<int>( floor(total_factories) );
+                    printf("%s%d%s", tile.owner->color, facts, COL_RESET);
                 }
                 printf("\n");
             }
