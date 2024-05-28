@@ -909,19 +909,24 @@ int main() {
 
             printf("\n");
 
-            for(Country& country : countries){
+            {
+                int iter = 0;
 
-                // TODO tova ne e ok                
-                // if(country_idx != 0){
-                //     if(country_idx % 4 == 3){
-                //         printf("\n");
-                //     }else{
-                //         printf(" ");
-                //     }
-                // }
+                for(Country& country : countries){
 
-                cout << country.color << country.name << COL_RESET << "<" << "civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
-                cout << '\n';
+                    if(iter != 0){
+                        if(iter % 4 == 3){
+                            printf("\n");
+                        }else{
+                            printf(" ");
+                        }
+                    }
+
+                    cout << country.color << country.name << COL_RESET << "<" << "civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
+
+                    iter += 1;
+                }
+
             }
 
             printf("\n");
