@@ -882,42 +882,43 @@ int main() {
 
             // determine civ production
 
-            // if both we're attacking a given country
-            // AND they're attacking us, the numbers will double
-            float total_enemy_factories = 0.0;
-            float total_enemy_equipment = 0.0;
-            int total_enemy_tiles = 0;
+            {
+                // if both we're attacking a given country
+                // AND they're attacking us, the numbers will double
+                float total_enemy_factories = 0.0;
+                float total_enemy_equipment = 0.0;
+                int total_enemy_tiles = 0;
 
-            // calc countries that we're attacking
-            for(Country* country_at_war : country.at_war_with){
-                total_enemy_factories += country_at_war->civs + country_at_war->mils;
-                total_enemy_equipment += country_at_war->equipment;
-                total_enemy_tiles += country_at_war->tiles;
-            }
+                // calc countries that we're attacking
+                for(Country* country_at_war : country.at_war_with){
+                    total_enemy_factories += country_at_war->civs + country_at_war->mils;
+                    total_enemy_equipment += country_at_war->equipment;
+                    total_enemy_tiles += country_at_war->tiles;
+                }
 
-            // calc countries that are attacking us
-            for(Country& attacker : countries){
-                if(vec_contains(attacker.at_war_with, &country)){
-                    total_enemy_factories += attacker.civs + attacker.mils;
-                    total_enemy_equipment += attacker.equipment;
-                    total_enemy_tiles += attacker.tiles;
+                // calc countries that are attacking us
+                for(Country& attacker : countries){
+                    if(vec_contains(attacker.at_war_with, &country)){
+                        total_enemy_factories += attacker.civs + attacker.mils;
+                        total_enemy_equipment += attacker.equipment;
+                        total_enemy_tiles += attacker.tiles;
+                    }
+                }
+                
+                // TODO
+                // also take bordering nations into consideration
+
+                // decide what to build
+                if(
+                    total_enemy_factories >= country.civs + country.mils ||
+                    total_enemy_equipment >= country.equipment ||
+                    total_enemy_tiles >= country.tiles
+                ){
+                    country.civ_production = CIV_PRODUCTION_MIL;
+                }else{
+                    country.civ_production = CIV_PRODUCTION_CIV;
                 }
             }
-            
-            // TODO
-            // also take bordering nations into consideration
-
-            // decide what to build
-            if(
-                total_enemy_factories >= country.civs + country.mils ||
-                total_enemy_equipment >= country.equipment ||
-                total_enemy_tiles >= country.tiles
-            ){
-                country.civ_production = CIV_PRODUCTION_MIL;
-            }else{
-                country.civ_production = CIV_PRODUCTION_CIV;
-            }
-
         }
 
         // graphics
