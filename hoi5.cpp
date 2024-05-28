@@ -196,6 +196,8 @@ struct _Country {
     float equipment; // I plan on allowing for a defficit
     // war
     vector<struct _Country*> at_war_with;
+    // tiles
+    int tiles = 0; // needs to be updated in the game loop
 };
 
 vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {
@@ -211,10 +213,6 @@ vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {
     }
 
     return owned_tiles;
-}
-
-int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
-    return country_get_tiles(country, map).size();
 }
 
 Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
@@ -754,33 +752,6 @@ int main() {
 
     for(;;){
 
-        // TODO remove any dead countries
-
-        // for(Country& country : ranges::reverse_view(countries)){ // reverse foreach // WTF this doesn't work
-
-        // for(int country_idx=countries.size()-1; country_idx>0; --country_idx){
-        //     Country* country = &countries[country_idx];
-
-        //     int tiles = country_count_tiles(country, &map);
-
-        //     if(tiles <= 0){
-        //         cout << "deleting:" << country->name << '\n';
-
-        //         // clear any possible references to the country
-        //         for(Country& country_to_clear : countries){
-        //             vec_remove_if_exist(country_to_clear.at_war_with, country);
-        //         }
-
-        //         cout << countries.size() << '\n';
-
-        //         countries.erase(countries.begin() + country_idx);
-
-        //         cout << countries.size() << '\n';
-
-        //         input_enter();
-        //     }
-        // }
-
         // update number of factories based on land
 
         for(Country& country : countries){
@@ -793,6 +764,22 @@ int main() {
                 Tile* tile = &map[y][x];
                 tile->owner->civs += tile->civs;
                 tile->owner->mils += tile->mils;
+            }
+        }
+
+        // update number of tiles
+
+        for(Country& country : countries){
+
+            country.tiles = 0;
+
+            for(int y=0; y<MAP_SIZE_Y; ++y){
+                for(int x=0; x<MAP_SIZE_X; ++x){
+                    Tile *tile = &map[y][x];
+                    if(tile->owner == &country){
+                        country.tiles += 1;
+                    }
+                }
             }
         }
 
@@ -939,15 +926,19 @@ int main() {
 
                 for(Country& country : countries){
 
-                    if(iter != 0){
-                        if(iter % 4 == 3){
+                    if(country.tiles <= 0){
+                        continue;
+                    }
+
+                    if(iter > 0){
+                        if(iter % 3 == 2){
                             printf("\n");
                         }else{
                             printf(" ");
                         }
                     }
 
-                    cout << country.color << country.name << COL_RESET << "<" << "civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
+                    cout << country.color << country.name << COL_RESET << "<" << "tiles:" << country.tiles << " civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
 
                     iter += 1;
                 }
