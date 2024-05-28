@@ -872,14 +872,16 @@ int main() {
         }
 
         // AI
+        // TODO
 
-        // FOREACH(country, countries, {
-        //     if(country == player){
+        // for(Country& country : countries){
+        //     if(&country == player){
         //         continue;
         //     }
 
-        //     // TODO
-        // })
+        //     float total_enemy_factories = 0.0;
+        //     float total_enemy_equipment = 0.0;
+        // }
 
         // graphics
 
@@ -891,7 +893,7 @@ int main() {
 
             // draw map
 
-            // TOD0 we coupd perhaps optimise the rendering by not changing the color twice for every tile
+            // TOD0 we could perhaps optimise the rendering by not changing the color twice for every tile
             for(auto map_row : map){
                 for(auto tile : map_row){
 
@@ -938,7 +940,7 @@ int main() {
                         }
                     }
 
-                    cout << country.color << country.name << COL_RESET << "<" << "tiles:" << country.tiles << " civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
+                    cout << country.color << country.name << COL_RESET << "<" << "tiles~" << country.tiles << " civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
 
                     iter += 1;
                 }
