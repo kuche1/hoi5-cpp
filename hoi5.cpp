@@ -83,7 +83,9 @@ void vec_remove_if_exist(vector<T>& vec, const T& element) {
 
 template<typename T>
 T vec_get_random_element(vector<T>& vec) {
-    int index = random_int(0, vec.size() - 1);
+    int length = vec.size();
+    assert(length > 0);
+    int index = random_int(0, length - 1);
     return vec[index];
 }
 
@@ -189,9 +191,13 @@ struct _Country {
     // misc
     string name;
     Color color;
-    // factories
+    // factories: base
     float civs_base;
     float mils_base;
+    // factories: total
+    float civs = 0.0; // those need to be updated in the game loop
+    float mils = 0.0;
+    // civs: action
     CivProduction civ_production; // what are the civs producing
     // equipment
     float equipment; // I plan on allowing for a defficit
@@ -229,7 +235,7 @@ Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0001)
+#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0002)
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 20.0)
 
@@ -636,15 +642,26 @@ int main() {
 
     for(;;){
 
+        // update number of factories based on land
+
+        FOREACH(country, countries, {
+            country->civs = country->civs_base;
+            country->mils = country->mils_base;
+        })
+
+        for(int y=0; y<MAP_SIZE_Y; ++y){
+            for(int x=0; x<MAP_SIZE_X; ++x){
+                Tile* tile = &map[y][x];
+                tile->owner->civs += tile->civs;
+                tile->owner->mils += tile->mils;
+            }
+        }
+
         // process civs
 
         FOREACH(country, countries, {
 
-            // TODO
-            // float factories = country_count_civs(country);
-            // country->civs_base = factories;
-
-            float production = GAME_CIV_PRODUCE(country->civs_base);
+            float production = GAME_CIV_PRODUCE(country->civs);
 
             Tile* tile = country_get_random_tile(country, &map); // TODO make it so that the chence is higher if it's near the center of mass
 
@@ -662,7 +679,7 @@ int main() {
         // process mils
 
         FOREACH(country, countries, {
-            country->equipment += GAME_MIL_PRODUCE(country->mils_base);
+            country->equipment += GAME_MIL_PRODUCE(country->mils);
         })
 
         // process wars
@@ -705,24 +722,10 @@ int main() {
                             if(random_0_to_1() * deffender_mult < GAME_ATK_WIN_CHANCE * attacker_mult){
                                 // battle has been won, transfer land
 
-                                int looser_tiles = country_count_tiles(country_at_war, &map);
-
                                 border->owner = country;
 
-                                float percent_of_land_lost = 1.0 / looser_tiles; // only 1 piece of land was lost
-
-                                float civ_diff = country_at_war->civs_base * percent_of_land_lost;
-                                float mil_diff = country_at_war->mils_base * percent_of_land_lost;
-
-                                country_at_war->civs_base -= civ_diff;
-                                country_at_war->mils_base -= mil_diff;
-
-                                civ_diff *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
-                                mil_diff *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
-
-                                country->civs_base += civ_diff;
-                                country->mils_base += mil_diff;
-
+                                border->civs *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
+                                border->mils *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
                             }
 
                         }
@@ -757,7 +760,7 @@ int main() {
             printf("\n");
 
             FOREACH(country, countries, {
-                cout << country->color << country->name << COL_RESET << " civs:" << country->civs_base << " mils:" << country->mils_base << " equipment:" << country->equipment << "\n";
+                cout << country->color << country->name << COL_RESET << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << "\n";
             })
 
             // process command
