@@ -34,34 +34,6 @@ typedef struct _Country Country;
         code; \
     }
 
-template<typename T>
-bool vec_contains(const vector<T>& vec, const T& element) {
-    return find(vec.begin(), vec.end(), element) != vec.end();
-}
-
-template<typename T>
-void vec_push_back_nodup(vector<T>& vec, const T& element) {
-    if(!vec_contains(vec, element)){
-        vec.push_back(element);
-    }
-}
-
-template<typename T>
-void vec_remove_if_exist(vector<T>& vec, const T& element) {
-    if(vec_contains(vec, element)){
-        auto it = find(vec.begin(), vec.end(), element);
-        vec.erase(it);
-    }
-}
-
-void term(char *command) {
-    int ret_code = system(command);
-    if(ret_code != 0){
-        cerr << "ERROR: command failed: " << command << '\n';
-        exit(1);
-    }
-}
-
 float random_0_to_1() {
     // Seed the random number generator
     random_device rd;
@@ -87,6 +59,40 @@ int random_int(int from, int to) {
     int random_number = distr(gen);
 
     return random_number;
+}
+
+template<typename T>
+bool vec_contains(const vector<T>& vec, const T& element) {
+    return find(vec.begin(), vec.end(), element) != vec.end();
+}
+
+template<typename T>
+void vec_push_back_nodup(vector<T>& vec, const T& element) {
+    if(!vec_contains(vec, element)){
+        vec.push_back(element);
+    }
+}
+
+template<typename T>
+void vec_remove_if_exist(vector<T>& vec, const T& element) {
+    if(vec_contains(vec, element)){
+        auto it = find(vec.begin(), vec.end(), element);
+        vec.erase(it);
+    }
+}
+
+template<typename T>
+T vec_get_random_element(vector<T>& vec) {
+    int index = random_int(0, vec.size() - 1);
+    return vec[index];
+}
+
+void term(char *command) {
+    int ret_code = system(command);
+    if(ret_code != 0){
+        cerr << "ERROR: command failed: " << command << '\n';
+        exit(1);
+    }
 }
 
 ///////////
@@ -212,9 +218,10 @@ int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
     return country_get_tiles(country, map).size();
 }
 
-// int country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
-//     TODO
-// }
+Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
+    vector<Tile*> tiles = country_get_tiles(country, map);
+    return vec_get_random_element(tiles);
+}
 
 ///////////
 //////////////
@@ -639,13 +646,15 @@ int main() {
 
             float production = GAME_CIV_PRODUCE(country->civs_base);
 
+            Tile* tile = country_get_random_tile(country, &map); // TODO make it so that the chence is higher if it's near the center of mass
+
             switch(country->civ_production){
                 case CIV_PRODUCTION_CIV: {
-                    country->civs_base += production;
+                    tile->civs += production;
                 } break;
 
                 case CIV_PRODUCTION_MIL: {
-                    country->mils_base += production;
+                    tile->mils += production;
                 } break;
             }
         })
