@@ -13,6 +13,7 @@
 #include <cmath>
 #include <random>
 #include <cassert>
+#include <ranges>
 
 using namespace std;
 
@@ -224,6 +225,10 @@ Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
 // for example if your country is a circle: the chance of getting something in the center is higher
 Tile* country_get_random_tile_based_on_density(Country* country, vector<vector<Tile>>* map) {
     vector<Tile*> tiles = country_get_tiles(country, map);
+
+    if(tiles.size() <= 0){
+        return NULL;
+    }
 
     vector<Tile*> candidates;
 
@@ -751,13 +756,30 @@ int main() {
 
         // TODO remove any dead countries
 
-        // FOREACH(country, countries, {
-        //     int tiles = country_count_tiles();
+        // for(Country& country : ranges::reverse_view(countries)){ // reverse foreach // WTF this doesn't work
+
+        // for(int country_idx=countries.size()-1; country_idx>0; --country_idx){
+        //     Country* country = &countries[country_idx];
+
+        //     int tiles = country_count_tiles(country, &map);
 
         //     if(tiles <= 0){
-        //         // delete
+        //         cout << "deleting:" << country->name << '\n';
+
+        //         // clear any possible references to the country
+        //         for(Country& country_to_clear : countries){
+        //             vec_remove_if_exist(country_to_clear.at_war_with, country);
+        //         }
+
+        //         cout << countries.size() << '\n';
+
+        //         countries.erase(countries.begin() + country_idx);
+
+        //         cout << countries.size() << '\n';
+
+        //         input_enter();
         //     }
-        // })
+        // }
 
         // update number of factories based on land
 
@@ -781,6 +803,9 @@ int main() {
             float production = GAME_CIV_PRODUCE(country.civs);
 
             Tile* tile = country_get_random_tile_based_on_density(&country, &map);
+            if(!tile){
+                continue;
+            }
 
             switch(country.civ_production){
                 case CIV_PRODUCTION_CIV: {
