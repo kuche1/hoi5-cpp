@@ -267,11 +267,16 @@ void input_enter() {
 //     }
 // }
 
+// some info on the input modes: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Extended-coordinates
+
 #define CSI {'\033', '['}
 #define CSI_LEN 2
 
+#define SGR_BEGIN '<'
+#define SGR_SEP ';'
+#define SGR_END 'M'
+
 // TODO make it so that when you click a country you get it's name (we could use \r)
-// mode info on the input modes: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Extended-coordinates
 tuple<int, int> input_mouse_click() {
 
     terminal_echo_disable();
@@ -303,13 +308,13 @@ tuple<int, int> input_mouse_click() {
 
         line.erase(csi_idx, CSI_LEN);
 
-        assert(line[0] == '<');
+        assert(line[0] == SGR_BEGIN);
         line.erase(0, 1);
 
         // this really should not be an assert since this can be 0=click 64=mwheelup 65=mwheeldown
         assert(line[0] == '0');
         line.erase(0, 1);
-        assert(line[0] == ';');
+        assert(line[0] == SGR_SEP);
         line.erase(0, 1);
 
         mouse_y = 0;
@@ -320,7 +325,7 @@ tuple<int, int> input_mouse_click() {
             char ch = line[0];
             line.erase(0, 1);
 
-            if(ch == ';'){
+            if(ch == SGR_SEP){
                 break;
             }
 
@@ -336,7 +341,7 @@ tuple<int, int> input_mouse_click() {
             char ch = line[0];
             line.erase(0, 1);
 
-            if(ch == 'M'){
+            if(ch == SGR_END){
                 break;
             }
 
