@@ -195,7 +195,7 @@ struct _Country {
     // equipment
     float equipment; // I plan on allowing for a defficit
     // war
-    vector<struct _Country *> at_war_with;
+    vector<struct _Country *> at_war_with = {};
     // map-related
     int tiles = 0; // needs to be updated in the game loop
     vector<Country*> bordering_countries = {}; // needs to be updated in the game loop
@@ -480,17 +480,20 @@ Country* input_another_country(vector<vector<Tile>> *map, Country *player) {
 
 int main() {
 
-    // ...
+    // create country: cobody
 
-    Country nobody = {
+    vector<Country*> countries;
+
+    Country* nobody = new Country{
         .name = "Nobody",
         .color = COL_RESET,
         .civs_base = 0,
         .mils_base = 0,
         .civ_production = CIV_PRODUCTION_CIV,
         .equipment = -1,
-        .at_war_with = {},
     };
+
+    countries.push_back(nobody);
 
     // load map
 
@@ -500,7 +503,7 @@ int main() {
         vector<Tile> row;
         for(int x=0; x<MAP_SIZE_X; ++x){
             Tile tile = {
-                .owner = &nobody,
+                .owner = nobody,
                 .borders = {},
                 .civs = 0,
                 .mils = 0,
@@ -565,137 +568,124 @@ int main() {
 
     // load countries
 
-    vector<Country> countries;
-
     countries.push_back(
-        {
+        new Country{
             .name = "Russia",
             .color = COL_INT(124),
             .civs_base = 45,
             .mils_base = 32,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Germany",
             .color = COL_YELLOW_DARK,
             .civs_base = 34,
             .mils_base = 28,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Poland",
             .color = COL_INT(13),
             .civs_base = 17,
             .mils_base = 9,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Turkey",
             .color = COL_INT(144),
             .civs_base = 11,
             .mils_base = 4,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Grece",
             .color = COL_INT(39),
             .civs_base = 7,
             .mils_base = 2,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Bulgaria",
             .color = COL_INT(118),
             .civs_base = 11,
             .mils_base = 3,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Romania",
             .color = COL_INT(184),
             .civs_base = 11,
             .mils_base = 7,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Yugoslavia",
             .color = COL_INT(27),
             .civs_base = 14,
             .mils_base = 3,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Hungary",
             .color = COL_INT(9),
             .civs_base = 10,
             .mils_base = 6,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Czechoslovakia",
             .color = COL_INT(38),
             .civs_base = 16,
             .mils_base = 9,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
     countries.push_back(
-        {
+        new Country{
             .name = "Austria",
             .color = COL_INT(145),
             .civs_base = 10,
             .mils_base = 3,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
-            .at_war_with = {&nobody},
         }
     );
 
@@ -703,51 +693,52 @@ int main() {
 
     {
         // russia
-        map[MAP_SIZE_Y * 0.2][MAP_SIZE_X * 0.9].owner = &countries[0];
-        map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.8].owner = &countries[0];
-        map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.85].owner = &countries[0];
-        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.9].owner = &countries[0];
+        map[MAP_SIZE_Y * 0.2][MAP_SIZE_X * 0.9].owner  = countries[1];
+        map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.8].owner  = countries[1];
+        map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.85].owner = countries[1];
+        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.9].owner  = countries[1];
 
         // germany
-        map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.55].owner = &countries[1];
+        map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.55].owner = countries[2];
 
         // poland
-        map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.7].owner = &countries[2];
-        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.75].owner = &countries[2];
+        map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.7].owner  = countries[3];
+        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.75].owner = countries[3];
 
         // turkey
-        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.82].owner = &countries[3];
-        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.83].owner = &countries[3];
-        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.84].owner = &countries[3];
+        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.82].owner = countries[4];
+        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.83].owner = countries[4];
+        map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.84].owner = countries[4];
 
         // grece
-        map[MAP_SIZE_Y * 0.85][MAP_SIZE_X * 0.7].owner = &countries[4];
+        map[MAP_SIZE_Y * 0.85][MAP_SIZE_X * 0.7].owner = countries[5];
 
         // bulgaria
-        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.80].owner = &countries[5];
-        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.81].owner = &countries[5];
-        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.82].owner = &countries[5];
+        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.80].owner = countries[6];
+        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.81].owner = countries[6];
+        map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.82].owner = countries[6];
 
         // romania
-        map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.82].owner = &countries[6];
+        map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.82].owner = countries[7];
 
         // yugoslavia
-        map[MAP_SIZE_Y * 0.7][MAP_SIZE_X * 0.65].owner = &countries[7];
-        map[MAP_SIZE_Y * 0.65][MAP_SIZE_X * 0.6].owner = &countries[7];
+        map[MAP_SIZE_Y * 0.7][MAP_SIZE_X * 0.65].owner = countries[8];
+        map[MAP_SIZE_Y * 0.65][MAP_SIZE_X * 0.6].owner = countries[8];
 
         // hungary
-        map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.7].owner = &countries[8];
+        map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.7].owner = countries[9];
 
         // cze
-        map[MAP_SIZE_Y * 0.55][MAP_SIZE_X * 0.65].owner = &countries[9];
+        map[MAP_SIZE_Y * 0.55][MAP_SIZE_X * 0.65].owner = countries[10];
 
         // austria
-        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.55].owner = &countries[10];
+        map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.55].owner = countries[11];
     }
 
     // player-related
 
-    Country* player = &countries[0];
+    // TODO choose from a menu rather than hardcoding this
+    Country* player = countries[1];
 
     int gui_additional_turns_to_pass = 0;
 
@@ -757,9 +748,9 @@ int main() {
 
         // update number of factories based on land
 
-        for(Country& country : countries){
-            country.civs = country.civs_base;
-            country.mils = country.mils_base;
+        for(Country* country : countries){
+            country->civs = country->civs_base;
+            country->mils = country->mils_base;
         }
 
         for(int y=0; y<MAP_SIZE_Y; ++y){
@@ -772,42 +763,32 @@ int main() {
 
         // update number of tiles
 
-        for(Country& country : countries){
+        for(Country* country : countries){
 
-            country.tiles = 0;
+            country->tiles = 0;
 
             for(int y=0; y<MAP_SIZE_Y; ++y){
                 for(int x=0; x<MAP_SIZE_X; ++x){
                     Tile *tile = &map[y][x];
-                    if(tile->owner == &country){
-                        country.tiles += 1;
+                    if(tile->owner == country){
+                        country->tiles += 1;
                     }
                 }
             }
-        }
 
-        // TODO this fucking sucks
-        nobody.tiles = 0;
-        for(int y=0; y<MAP_SIZE_Y; ++y){
-            for(int x=0; x<MAP_SIZE_X; ++x){
-                Tile *tile = &map[y][x];
-                if(tile->owner == &nobody){
-                    nobody.tiles += 1;
-                }
-            }
         }
 
         // update borders
 
-        for(Country& country : countries){
-            country.bordering_countries = {};
+        for(Country* country : countries){
+            country->bordering_countries = {};
 
-            vector<Tile*> tiles = country_get_tiles(&country, &map);
+            vector<Tile*> tiles = country_get_tiles(country, &map);
             for(Tile* tile : tiles){
                 for(Tile* border_tile : tile->borders){
                     Country* bordering_country = border_tile->owner;
-                    if(bordering_country != &country){
-                        vec_push_back_nodup(country.bordering_countries, bordering_country);
+                    if(bordering_country != country){
+                        vec_push_back_nodup(country->bordering_countries, bordering_country);
                     }
                 }
             }
@@ -815,16 +796,16 @@ int main() {
 
         // process civs
 
-        for(Country& country : countries){
+        for(Country* country : countries){
 
-            float production = GAME_CIV_PRODUCE(country.civs);
+            float production = GAME_CIV_PRODUCE(country->civs);
 
-            auto [failure, tile] = country_get_random_tile_based_on_density(&country, &map);
+            auto [failure, tile] = country_get_random_tile_based_on_density(country, &map);
             if(failure){
                 continue;
             }
 
-            switch(country.civ_production){
+            switch(country->civ_production){
                 case CIV_PRODUCTION_CIV: {
                     tile->civs += production;
                 } break;
@@ -837,27 +818,27 @@ int main() {
 
         // process mils
 
-        for(Country& country : countries){
-            country.equipment += GAME_MIL_PRODUCE(country.mils);
+        for(Country* country : countries){
+            country->equipment += GAME_MIL_PRODUCE(country->mils);
         }
 
         // process wars
 
-        for(Country& country : countries){
+        for(Country* country : countries){
 
-            if(country.equipment <= 0){
+            if(country->equipment <= 0){
                 // you can't fight if you don't have any equipment
                 continue;
             }
 
-            for(Country* country_at_war : country.at_war_with){
+            for(Country* country_at_war : country->at_war_with){
 
                 vector<Tile*> tiles_to_process;
 
                 for(int map_y=0; map_y<MAP_SIZE_Y; ++map_y){
                     for(int map_x=0; map_x<MAP_SIZE_X; ++map_x){
                         Tile *tile = &map[map_y][map_x];
-                        if(tile->owner == &country){
+                        if(tile->owner == country){
                             tiles_to_process.push_back(tile);
                         }
                     }
@@ -869,7 +850,7 @@ int main() {
 
                             // loose equipment
 
-                            country.equipment        -= GAME_ATK_EQUIPMENT_COST;
+                            country->equipment        -= GAME_ATK_EQUIPMENT_COST;
                             country_at_war->equipment -= GAME_DEF_EQUIPMENT_COST;
 
                             // damage land
@@ -888,7 +869,7 @@ int main() {
                             if(random_0_to_1() * deffender_multiplier < GAME_ATK_WIN_CHANCE){
                                 // battle has been won, transfer land
 
-                                border->owner = &country;
+                                border->owner = country;
 
                                 border->civs *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
                                 border->mils *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
@@ -903,8 +884,8 @@ int main() {
 
         // AI
 
-        for(Country& country : countries){
-            if(&country == player){
+        for(Country* country : countries){
+            if(country == player){
                 continue;
             }
 
@@ -918,18 +899,18 @@ int main() {
                 int total_enemy_tiles = 0;
 
                 // calc countries that we're attacking
-                for(Country* country_at_war : country.at_war_with){
+                for(Country* country_at_war : country->at_war_with){
                     total_enemy_factories += country_at_war->civs + country_at_war->mils;
                     total_enemy_equipment += country_at_war->equipment;
                     total_enemy_tiles += country_at_war->tiles;
                 }
 
                 // calc countries that are attacking us
-                for(Country& attacker : countries){
-                    if(vec_contains(attacker.at_war_with, &country)){
-                        total_enemy_factories += attacker.civs + attacker.mils;
-                        total_enemy_equipment += attacker.equipment;
-                        total_enemy_tiles += attacker.tiles;
+                for(Country* attacker : countries){
+                    if(vec_contains(attacker->at_war_with, country)){
+                        total_enemy_factories += attacker->civs + attacker->mils;
+                        total_enemy_equipment += attacker->equipment;
+                        total_enemy_tiles += attacker->tiles;
                     }
                 }
                 
@@ -938,31 +919,41 @@ int main() {
 
                 // decide what to build
                 if(
-                    total_enemy_factories >= country.civs + country.mils ||
-                    total_enemy_equipment >= country.equipment ||
-                    total_enemy_tiles >= country.tiles
+                    total_enemy_factories >= country->civs + country->mils ||
+                    total_enemy_equipment >= country->equipment ||
+                    total_enemy_tiles >= country->tiles
                 ){
-                    country.civ_production = CIV_PRODUCTION_MIL;
+                    country->civ_production = CIV_PRODUCTION_MIL;
                 }else{
-                    country.civ_production = CIV_PRODUCTION_CIV;
+                    country->civ_production = CIV_PRODUCTION_CIV;
                 }
             }
 
             // start war
 
             {
-                // TODO
+                // if we have much more equipment than them
+                for(Country* bordering_country : country->bordering_countries){
+                    if(bordering_country->equipment < country->equipment * 0.2){
+                        vec_push_back_nodup(country->at_war_with, bordering_country);
+                    }
+                }
             }
 
             // end war
 
             {
-                // end war if we no longer border the guy
-                for(Country* country_at_war : ranges::reverse_view(country.at_war_with)){
-                    if(!vec_contains(country.bordering_countries, country_at_war)){
-                        // cout << country.name << " is making piece with " << country_at_war->name << '\n';
-                        // input_enter();
-                        vec_remove_if_exist(country.at_war_with, country_at_war);
+                // if we no longer border the guy
+                for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
+                    if(!vec_contains(country->bordering_countries, country_at_war)){
+                        vec_remove_if_exist(country->at_war_with, country_at_war);
+                    }
+                }
+
+                // if we have much less equipment than them
+                for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
+                    if(country_at_war->equipment * 0.2 > country->equipment){
+                        vec_remove_if_exist(country->at_war_with, country_at_war);
                     }
                 }
             }
@@ -1020,21 +1011,21 @@ int main() {
             {
                 int iter = 0;
 
-                for(Country& country : countries){
+                for(Country* country : countries){
 
-                    if(country.tiles <= 0){
+                    if(country->tiles <= 0){
                         continue;
                     }
 
                     if(iter > 0){
-                        if(iter % 3 == 2){
+                        if(iter % 3 == 0){
                             printf("\n");
                         }else{
                             printf(" ");
                         }
                     }
 
-                    cout << country.color << country.name << COL_RESET << "<" << "tiles~" << country.tiles << " civs:" << country.civs << " mils:" << country.mils << " equipment:" << country.equipment << ">";
+                    cout << country->color << country->name << COL_RESET << "<" << "tiles~" << country->tiles << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
 
                     iter += 1;
                 }
