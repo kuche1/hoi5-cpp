@@ -151,6 +151,9 @@ typedef struct _Country {
 #define MAP_SIZE_Y 35
 #define MAP_SIZE_X 205
 
+#define MAP_LOOPS_Y false
+#define MAP_LOOPS_X false
+
 // typedef enum {
 //     TILE_TYPE_PLAIN,
 //     TILE_TYPE_URBAN,
@@ -490,58 +493,49 @@ int main() {
             
             Tile *tile = &map[y][x];
 
-            {
-                int new_y = y - 1;
-                int new_x = x;
-                if(new_y >= 0 && new_y < MAP_SIZE_Y){
-                    if(new_x < 0){
-                        new_x += MAP_SIZE_X;
-                    }else if(new_x >= MAP_SIZE_X){
-                        new_x -= MAP_SIZE_X;
-                    }
-                    tile->borders.push_back(&map[new_y][new_x]);
-                }
-            }
+            for(auto [new_y, new_x] : {make_tuple(y-1, x), make_tuple(y, x+1), make_tuple(y+1, x), make_tuple(y, x-1)}) {
 
-            {
-                int new_y = y;
-                int new_x = x + 1;
-                if(new_y >= 0 && new_y < MAP_SIZE_Y){
-                    if(new_x < 0){
-                        new_x += MAP_SIZE_X;
-                    }else if(new_x >= MAP_SIZE_X){
-                        new_x -= MAP_SIZE_X;
-                    }
-                    tile->borders.push_back(&map[new_y][new_x]);
-                }
-            }
+                // y
 
-            {
-                int new_y = y + 1;
-                int new_x = x;
-                if(new_y >= 0 && new_y < MAP_SIZE_Y){
-                    if(new_x < 0){
-                        new_x += MAP_SIZE_X;
-                    }else if(new_x >= MAP_SIZE_X){
-                        new_x -= MAP_SIZE_X;
+                if(new_y < 0){
+                    if(MAP_LOOPS_Y){
+                        new_y += MAP_SIZE_Y;
+                    }else{
+                        continue;
                     }
-                    tile->borders.push_back(&map[new_y][new_x]);
                 }
-            }
 
-            {
-                int new_y = y;
-                int new_x = x - 1;
-                if(new_y >= 0 && new_y < MAP_SIZE_Y){
-                    if(new_x < 0){
-                        new_x += MAP_SIZE_X;
-                    }else if(new_x >= MAP_SIZE_X){
-                        new_x -= MAP_SIZE_X;
+                if(new_y >= MAP_SIZE_Y){
+                    if(MAP_LOOPS_Y){
+                        new_y -= MAP_SIZE_Y;
+                    }else{
+                        continue;
                     }
-                    tile->borders.push_back(&map[new_y][new_x]);
                 }
-            }
 
+                // x
+
+                if(new_x < 0){
+                    if(MAP_LOOPS_X){
+                        new_x += MAP_SIZE_X;
+                    }else{
+                        continue;
+                    }
+                }
+
+                if(new_x >= MAP_SIZE_X){
+                    if(MAP_LOOPS_X){
+                        new_x -= MAP_SIZE_X;
+                    }else{
+                        continue;
+                    }
+                }
+
+                // connect borders
+
+                tile->borders.push_back(&map[new_y][new_x]);
+
+            }
         }
     }
 
