@@ -397,15 +397,7 @@ Country* input_country(vector<vector<Tile>> *map, Country* exclude = NULL) {
 }
 
 Country* input_another_country(vector<vector<Tile>> *map, Country *player) {
-    for(;;){
-        Country *country = input_country(map);
-
-        if(country == player){
-            continue;
-        }
-
-        return country;
-    }
+    return input_country(map, player);
 }
 
 ///////////
