@@ -268,6 +268,7 @@ void input_enter() {
 #define CSI_BEGIN {'\033', '['}
 #define CSI_BEGIN_LEN 2
 
+// TODO make it so that when you click a country you get it's name (we could use \r)
 // mode info on the input modes: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Extended-coordinates
 tuple<int, int> input_mouse_click() {
 
