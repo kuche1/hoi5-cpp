@@ -1049,7 +1049,9 @@ int main() {
             vector<string> cmds_quit = {"q", "quit", "quit-game"};
             vector<string> cmds_attack = {"a", "attack", "attack-country"};
             vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
-            vector<vector<string>> cmds_ALL = {cmds_pass, cmds_quit, cmds_attack};
+            vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
+            vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
+            vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_50, cmds_quit, cmds_attack, cmds_stop_attacking, cmds_construct_civs, cmds_construct_mils};
 
             if(vec_contains(cmds_pass, command)){
                 goto break_loop_command;
@@ -1078,6 +1080,14 @@ int main() {
                 Country *piece_target = input_country(&map);
 
                 vec_remove_if_exist(player->at_war_with, piece_target);
+
+            }else if(vec_contains(cmds_construct_civs, command)){
+
+                player->civ_production = CIV_PRODUCTION_CIV;
+
+            }else if(vec_contains(cmds_construct_mils, command)){
+
+                player->civ_production = CIV_PRODUCTION_MIL;
 
             }else if("test" == command){
 
