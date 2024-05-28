@@ -391,7 +391,7 @@ Country* input_country(vector<vector<Tile>> *map) {
     return ret;
 }
 
-Country* input_another_country(Country *player, vector<vector<Tile>> *map) {
+Country* input_another_country(vector<vector<Tile>> *map, Country *player) {
     for(;;){
         Country *country = input_country(map);
 
@@ -721,7 +721,7 @@ int main() {
             }else if(vec_contains(cmds_attack, command)){
 
                 printf("Click on the country that you want to attack and press enter\n");
-                Country *target = input_another_country(player, &map);
+                Country *target = input_another_country(&map, player);
 
                 vec_push_back_nodup(player->at_war_with, target);
             
