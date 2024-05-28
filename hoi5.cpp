@@ -173,8 +173,8 @@ struct _Country {
     CountryName name;
     Color color;
     // factories
-    float factories_civ;
-    float factories_mil;
+    float civs_base;
+    float mils_base;
     CivProduction civ_production; // what are the civs producing
     // equipment
     float equipment; // I plan on allowing for a defficit
@@ -436,8 +436,8 @@ int main() {
     Country nobody = {
         .name = "Nobody",
         .color = COL_RESET,
-        .factories_civ = 0,
-        .factories_mil = 0,
+        .civs_base = 0,
+        .mils_base = 0,
         .civ_production = CIV_PRODUCTION_CIV,
         .equipment = -1,
         .at_war_with = {},
@@ -454,8 +454,8 @@ int main() {
         {
             .name = "Russia",
             .color = COL_RED_DARK,
-            .factories_civ = 45,
-            .factories_mil = 32,
+            .civs_base = 45,
+            .mils_base = 32,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
@@ -463,8 +463,8 @@ int main() {
         {
             .name = "Germany",
             .color = COL_YELLOW_DARK,
-            .factories_civ = 34,
-            .factories_mil = 28,
+            .civs_base = 34,
+            .mils_base = 28,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
@@ -472,8 +472,8 @@ int main() {
         {
             .name = "Poland",
             .color = COL_MAGENTA_DARK,
-            .factories_civ = 17,
-            .factories_mil = 9,
+            .civs_base = 17,
+            .mils_base = 9,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
@@ -481,8 +481,8 @@ int main() {
         {
             .name = "Turkey",
             .color = COL_144,
-            .factories_civ = 11,
-            .factories_mil = 4,
+            .civs_base = 11,
+            .mils_base = 4,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
@@ -490,8 +490,8 @@ int main() {
         {
             .name = "Grece",
             .color = COL_39,
-            .factories_civ = 7,
-            .factories_mil = 2,
+            .civs_base = 7,
+            .mils_base = 2,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
@@ -499,8 +499,8 @@ int main() {
         {
             .name = "Bulgaria",
             .color = COL_118,
-            .factories_civ = 11,
-            .factories_mil = 3,
+            .civs_base = 11,
+            .mils_base = 3,
             .civ_production = CIV_PRODUCTION_CIV,
             .equipment = 1'000,
             .at_war_with = {&nobody},
@@ -614,15 +614,19 @@ int main() {
 
         FOREACH(country, countries, {
 
-            float production = GAME_CIV_PRODUCE(country->factories_civ);
+            // TODO
+            // float factories = country_count_civs(country);
+            // country->civs_base = factories;
+
+            float production = GAME_CIV_PRODUCE(country->civs_base);
 
             switch(country->civ_production){
                 case CIV_PRODUCTION_CIV: {
-                    country->factories_civ += production;
+                    country->civs_base += production;
                 } break;
 
                 case CIV_PRODUCTION_MIL: {
-                    country->factories_mil += production;
+                    country->mils_base += production;
                 } break;
             }
         })
@@ -630,7 +634,7 @@ int main() {
         // process mils
 
         FOREACH(country, countries, {
-            country->equipment += GAME_MIL_PRODUCE(country->factories_mil);
+            country->equipment += GAME_MIL_PRODUCE(country->mils_base);
         })
 
         // process wars
@@ -679,17 +683,17 @@ int main() {
 
                                 float percent_of_land_lost = 1.0 / looser_tiles; // only 1 piece of land was lost
 
-                                float civ_diff = country_at_war->factories_civ * percent_of_land_lost;
-                                float mil_diff = country_at_war->factories_mil * percent_of_land_lost;
+                                float civ_diff = country_at_war->civs_base * percent_of_land_lost;
+                                float mil_diff = country_at_war->mils_base * percent_of_land_lost;
 
-                                country_at_war->factories_civ -= civ_diff;
-                                country_at_war->factories_mil -= mil_diff;
+                                country_at_war->civs_base -= civ_diff;
+                                country_at_war->mils_base -= mil_diff;
 
                                 civ_diff *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
                                 mil_diff *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
 
-                                country->factories_civ += civ_diff;
-                                country->factories_mil += mil_diff;
+                                country->civs_base += civ_diff;
+                                country->mils_base += mil_diff;
 
                             }
 
@@ -725,7 +729,7 @@ int main() {
             printf("\n");
 
             FOREACH(country, countries, {
-                printf("idx:%lu country:%s%s%s civs:%f mils:%f equipment:%f\n", country_idx, country->color, country->name, COL_RESET, country->factories_civ, country->factories_mil, country->equipment);
+                printf("idx:%lu country:%s%s%s civs:%f mils:%f equipment:%f\n", country_idx, country->color, country->name, COL_RESET, country->civs_base, country->mils_base, country->equipment);
             })
 
             // process command
