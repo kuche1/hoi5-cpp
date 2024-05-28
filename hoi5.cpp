@@ -735,7 +735,7 @@ int main() {
                 Country *target = input_another_country(&map, player);
 
                 vec_push_back_nodup(player->at_war_with, target);
-            
+
             }else if(vec_contains(cmds_stop_attacking, command)){
 
                 printf("Click on the country that you want to stop attacking and press enter\n");
