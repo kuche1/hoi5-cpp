@@ -205,6 +205,8 @@ int country_count_tiles(Country *country, vector<vector<Tile>> *map) {
 
 #define GAME_DEF_NO_EQUIPMENT_PENALTY 0.7
 
+#define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.2 // during the fighting some of the factories are destroyed
+
 ///////////
 //////////////
 ///////////////// input processing
@@ -655,16 +657,17 @@ int main() {
 
                                 float percent_of_land_lost = 1.0 / looser_tiles; // only 1 piece of land was lost
 
-                                float civs_lost = country_at_war->factories_civ * percent_of_land_lost;
-                                float mils_lost = country_at_war->factories_mil * percent_of_land_lost;
+                                float civ_diff = country_at_war->factories_civ * percent_of_land_lost;
+                                float mil_diff = country_at_war->factories_mil * percent_of_land_lost;
 
-                                country_at_war->factories_civ -= civs_lost;
-                                country_at_war->factories_mil -= mils_lost;
+                                country_at_war->factories_civ -= civ_diff;
+                                country_at_war->factories_mil -= mil_diff;
 
-                                country->factories_civ += civs_lost;
-                                country->factories_mil += mils_lost;
+                                civ_diff *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
+                                mil_diff *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER;
 
-                                // TODO remove part of the factories
+                                country->factories_civ += civ_diff;
+                                country->factories_mil += mil_diff;
 
                             }
 
