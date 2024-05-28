@@ -195,7 +195,7 @@ struct _Country {
     // equipment
     float equipment; // I plan on allowing for a defficit
     // war
-    vector<struct _Country*> at_war_with;
+    vector<struct _Country *> at_war_with;
     // tiles
     int tiles = 0; // needs to be updated in the game loop
 };
@@ -882,6 +882,8 @@ int main() {
 
             // determine civ production
 
+            // if both we're attacking a given country
+            // AND they're attacking us, the numbers will double
             float total_enemy_factories = 0.0;
             float total_enemy_equipment = 0.0;
             int total_enemy_tiles = 0;
@@ -894,7 +896,16 @@ int main() {
             }
 
             // calc countries that are attacking us
+            for(Country& attacker : countries){
+                if(vec_contains(attacker.at_war_with, &country)){
+                    total_enemy_factories += attacker.civs + attacker.mils;
+                    total_enemy_equipment += attacker.equipment;
+                    total_enemy_tiles += attacker.tiles;
+                }
+            }
+            
             // TODO
+            // also take bordering nations into consideration
 
             // decide what to build
             if(
