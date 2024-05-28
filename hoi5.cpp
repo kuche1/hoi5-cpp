@@ -196,8 +196,9 @@ struct _Country {
     float equipment; // I plan on allowing for a defficit
     // war
     vector<struct _Country *> at_war_with;
-    // tiles
+    // map-related
     int tiles = 0; // needs to be updated in the game loop
+    vector<Country*> bordering_countries = {}; // needs to be updated in the game loop
 };
 
 vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {
@@ -785,6 +786,33 @@ int main() {
             }
         }
 
+        // TODO this fucking sucks
+        nobody.tiles = 0;
+        for(int y=0; y<MAP_SIZE_Y; ++y){
+            for(int x=0; x<MAP_SIZE_X; ++x){
+                Tile *tile = &map[y][x];
+                if(tile->owner == &nobody){
+                    nobody.tiles += 1;
+                }
+            }
+        }
+
+        // update borders
+
+        for(Country& country : countries){
+            country.bordering_countries = {};
+
+            vector<Tile*> tiles = country_get_tiles(&country, &map);
+            for(Tile* tile : tiles){
+                for(Tile* border_tile : tile->borders){
+                    Country* bordering_country = border_tile->owner;
+                    if(bordering_country != &country){
+                        vec_push_back_nodup(country.bordering_countries, bordering_country);
+                    }
+                }
+            }
+        }
+
         // process civs
 
         for(Country& country : countries){
@@ -917,6 +945,25 @@ int main() {
                     country.civ_production = CIV_PRODUCTION_MIL;
                 }else{
                     country.civ_production = CIV_PRODUCTION_CIV;
+                }
+            }
+
+            // start war
+
+            {
+                // TODO
+            }
+
+            // end war
+
+            {
+                // end war if we no longer border the guy
+                for(Country* country_at_war : ranges::reverse_view(country.at_war_with)){
+                    if(!vec_contains(country.bordering_countries, country_at_war)){
+                        cout << country.name << " is making piece with " << country_at_war->name << '\n';
+                        input_enter();
+                        vec_remove_if_exist(country.at_war_with, country_at_war);
+                    }
                 }
             }
         }
