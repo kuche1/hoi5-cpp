@@ -231,6 +231,32 @@ Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
     return vec_get_random_element(tiles);
 }
 
+// for example if your country is a circle: the chance of getting something in the center is higher
+Tile* country_get_random_tile_based_on_density(Country* country, vector<vector<Tile>>* map) {
+    vector<Tile*> tiles = country_get_tiles(country, map);
+
+    vector<Tile*> candidates;
+
+    for(Tile* tile : tiles){
+
+        int points = 1;
+
+        points += 4 - tile->borders.size(); // so that if we're near a corner it counts as a good thing
+
+        for(Tile* border_tile : tile->borders){
+            if(border_tile->owner == country){
+                points += 1;
+            }
+        }
+
+        for(int i=0; i<points; ++i){
+            candidates.push_back(tile);
+        }
+    }
+
+    return vec_get_random_element(candidates);
+}
+
 ///////////
 //////////////
 ///////////////// gameplay
@@ -639,6 +665,8 @@ int main() {
 
     for(;;){
 
+        // TOD0 remove any dead countries
+
         // update number of factories based on land
 
         FOREACH(country, countries, {
@@ -660,7 +688,7 @@ int main() {
 
             float production = GAME_CIV_PRODUCE(country->civs);
 
-            Tile* tile = country_get_random_tile(country, &map); // TODO make it so that the chence is higher if it's near the center of mass
+            Tile* tile = country_get_random_tile_based_on_density(country, &map);
 
             switch(country->civ_production){
                 case CIV_PRODUCTION_CIV: {
