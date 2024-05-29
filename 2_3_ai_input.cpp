@@ -55,7 +55,7 @@
         {
             // if we have much more equipment than them
             for(Country* bordering_country : country->bordering_countries){
-                if(bordering_country->equipment < country->equipment * 0.2){
+                if(bordering_country->equipment < country->equipment * AI_START_WAR_IF_NEIGHBOUR_HAS_LESS_EQUIPMENT_THRESHOLD){
                     vec_push_back_nodup(country->at_war_with, bordering_country);
                 }
             }

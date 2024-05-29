@@ -476,6 +476,14 @@ Country* input_another_country(vector<vector<Tile>> *map, Country *player) {
 
 ///////////
 //////////////
+///////////////// AI behaviour
+//////////////
+///////////
+
+#define AI_START_WAR_IF_NEIGHBOUR_HAS_LESS_EQUIPMENT_THRESHOLD 0.2
+
+///////////
+//////////////
 ///////////////// ...
 //////////////
 ///////////
