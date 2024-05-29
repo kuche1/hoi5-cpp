@@ -66,7 +66,7 @@
     }
 
     // country: update average unit strength
-    // TODO this also needs to take into account the defensive frontline width
+    // TODO this also needs to take into account the defensive frontline width; the should be 2 miltipliers - 1 for offensive border, and 1 for deffensive border
 
     for(Country* country : countries){
 
