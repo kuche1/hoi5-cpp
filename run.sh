@@ -11,6 +11,6 @@ FLAGS_STRICT='-Werror -Wextra -Wall -pedantic'
 
 clear
 
-g++ $FLAGS_STANDARD $FLAGS_CRASH_ON_FIRST_ERROR $FLAGS_STRICT -o hoi5 hoi5.cpp
+g++ $FLAGS_STANDARD $FLAGS_CRASH_ON_FIRST_ERROR $FLAGS_STRICT -o hoi5 0_hoi5.cpp
 
 ./hoi5
