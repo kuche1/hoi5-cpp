@@ -115,7 +115,7 @@ typedef char* Color;
 #define COL_INT(color_number) ((Color)"\033[38;5;" #color_number "m")
 
 #define EFFECT_INVERSE_ON  "\033[7m"
-#define EFFECT_INVERSE_OFF "\033[27m"
+#define EFFECT_INVERSE_OFF "\033[27m" // untested
 
 // mouse click
 
@@ -816,13 +816,14 @@ int main() {
             }
         }
 
-        // gui + input
+        // skip gui + input if told so
 
-        // pass turns if told so
         if(gui_additional_turns_to_pass > 0){
             gui_additional_turns_to_pass -= 1;
             goto break_loop_command;
         }
+
+        // gui + input
 
         for(;;){
 
