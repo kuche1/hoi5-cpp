@@ -57,6 +57,7 @@
                         border->mils *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
 
                         // determine battle result
+                        // TODO take the unit strength values into account, in a way that doesn't suck
 
                         float deffender_multiplier = 1.0;
 

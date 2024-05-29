@@ -67,7 +67,6 @@
     }
 
     // country: update unit strengths
-    // TODO there should be 2 miltipliers - 1 for offensive border, and 1 for deffensive border
 
     for(Country* country : countries){
         int total_borders = country->offensive_borders + country->deffensive_borders;
