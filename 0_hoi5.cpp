@@ -120,11 +120,13 @@ typedef char* Color;
 // mouse click
 
 void terminal_mouse_click_log_enable() {
+    printf("\033[?9h"); // the line on the bottom doesnt work without this one
     printf("\033[?1006h");
 }
 
 void terminal_mouse_click_log_disable() {
     printf("\033[?1006l");
+    printf("\033[?9l");
 }
 
 // echo
