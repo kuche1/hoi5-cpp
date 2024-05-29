@@ -272,7 +272,7 @@ pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country, vec
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0002)
+#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0003)
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 20.0)
 

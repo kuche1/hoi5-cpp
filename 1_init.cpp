@@ -1,5 +1,5 @@
 
-// create country: cobody
+// create country: nobody
 
 vector<Country*> countries;
 // TOD0 one memory leak for each country, too bad I dont give a shit haha
@@ -211,48 +211,77 @@ countries.push_back(
 
 // put countries onto map
 
-{
-    // russia
-    map[MAP_SIZE_Y * 0.2][MAP_SIZE_X * 0.9].owner  = countries[1];
-    map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.8].owner  = countries[1];
-    map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.85].owner = countries[1];
-    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.9].owner  = countries[1];
 
-    // germany
-    map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.55].owner = countries[2];
+// { // historical placement
 
-    // poland
-    map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.7].owner  = countries[3];
-    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.75].owner = countries[3];
+//     // russia
+//     map[MAP_SIZE_Y * 0.2][MAP_SIZE_X * 0.9].owner  = countries[1];
+//     map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.8].owner  = countries[1];
+//     map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.85].owner = countries[1];
+//     map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.9].owner  = countries[1];
 
-    // turkey
-    map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.82].owner = countries[4];
-    map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.83].owner = countries[4];
-    map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.84].owner = countries[4];
+//     // germany
+//     map[MAP_SIZE_Y * 0.3][MAP_SIZE_X * 0.55].owner = countries[2];
 
-    // grece
-    map[MAP_SIZE_Y * 0.85][MAP_SIZE_X * 0.7].owner = countries[5];
+//     // poland
+//     map[MAP_SIZE_Y * 0.4][MAP_SIZE_X * 0.7].owner  = countries[3];
+//     map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.75].owner = countries[3];
 
-    // bulgaria
-    map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.80].owner = countries[6];
-    map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.81].owner = countries[6];
-    map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.82].owner = countries[6];
+//     // turkey
+//     map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.82].owner = countries[4];
+//     map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.83].owner = countries[4];
+//     map[MAP_SIZE_Y * 0.82][MAP_SIZE_X * 0.84].owner = countries[4];
 
-    // romania
-    map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.82].owner = countries[7];
+//     // grece
+//     map[MAP_SIZE_Y * 0.85][MAP_SIZE_X * 0.7].owner = countries[5];
 
-    // yugoslavia
-    map[MAP_SIZE_Y * 0.7][MAP_SIZE_X * 0.65].owner = countries[8];
-    map[MAP_SIZE_Y * 0.65][MAP_SIZE_X * 0.6].owner = countries[8];
+//     // bulgaria
+//     map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.80].owner = countries[6];
+//     map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.81].owner = countries[6];
+//     map[MAP_SIZE_Y * 0.77][MAP_SIZE_X * 0.82].owner = countries[6];
 
-    // hungary
-    map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.7].owner = countries[9];
+//     // romania
+//     map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.82].owner = countries[7];
 
-    // cze
-    map[MAP_SIZE_Y * 0.55][MAP_SIZE_X * 0.65].owner = countries[10];
+//     // yugoslavia
+//     map[MAP_SIZE_Y * 0.7][MAP_SIZE_X * 0.65].owner = countries[8];
+//     map[MAP_SIZE_Y * 0.65][MAP_SIZE_X * 0.6].owner = countries[8];
 
-    // austria
-    map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.55].owner = countries[11];
+//     // hungary
+//     map[MAP_SIZE_Y * 0.57][MAP_SIZE_X * 0.7].owner = countries[9];
+
+//     // cze
+//     map[MAP_SIZE_Y * 0.55][MAP_SIZE_X * 0.65].owner = countries[10];
+
+//     // austria
+//     map[MAP_SIZE_Y * 0.5][MAP_SIZE_X * 0.55].owner = countries[11];
+// }
+
+{ // random placement
+
+    cout << "Placing countries onto map...\n";
+    // putting a message here since if the map is too small we're going to get a freeze
+
+    for(Country* country : countries){
+        if(country == nobody){
+            continue;
+        }
+
+        // TODO add size property to all countries so that this loops a couple of times for the big ones
+        // ofc, we could make it so that only the first point is random, and the other ones are put around it
+
+        int pos_y = random_int(0, MAP_SIZE_Y-1);
+        int pos_x = random_int(0, MAP_SIZE_X-1);
+
+        if(map[pos_y][pos_x].owner != nobody){
+            continue;
+        }
+
+        map[pos_y][pos_x].owner = country;
+    }
+
+    cout << "Countries placed onto map!\n";
+
 }
 
 // player-related
