@@ -165,6 +165,14 @@
                 printf("num:%d\n", num);
             }
 
+        }else if("test-a0" == command){
+
+            vec_push_back_nodup(player->at_war_with, countries[0]);
+
+        }else if("test-s0" == command){
+
+            vec_remove_if_exist(player->at_war_with, countries[0]);
+
         }else{
 
             cout << '\n';
