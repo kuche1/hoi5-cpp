@@ -166,7 +166,7 @@ void terminal_line_buffering_disable() {
 #define MAP_TILE_VALUE_MODIFIER 250.0 // increases visibility for humans
 
 // insentivise players to attack `nobody` by providing some resources for all tiles
-#define MAP_TILE_INITIAL_CIVS 0.003
+#define MAP_TILE_INITIAL_CIVS 0.006
 // we could do the same for the mils, the problem is - this would increase `nobody`'s equipment, so the AI
 // would be discouraged from attacking
 
@@ -211,6 +211,10 @@ struct _Country {
     int tiles = 0; // needs to be updated in the game loop
     vector<Country*> bordering_countries = {}; // needs to be updated in the game loop
 };
+
+void country_print(Country* country){
+    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
+}
 
 vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {
     vector<Tile*> owned_tiles;
@@ -290,6 +294,7 @@ pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country, vec
 ///////////
 
 void input_enter() {
+    cout << "PRESS ENTER\n";
     string trash;
     getline(cin, trash);
 }
