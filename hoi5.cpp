@@ -153,7 +153,7 @@ void terminal_line_buffering_disable() {
 //////////////
 ///////////
 
-#define MAP_SIZE_Y 30
+#define MAP_SIZE_Y 35
 #define MAP_SIZE_X 205
 
 #define MAP_LOOPS_Y false
@@ -921,7 +921,9 @@ int main() {
             vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
             vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
             vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
-            vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_50, cmds_quit, cmds_attack, cmds_stop_attacking, cmds_construct_civs, cmds_construct_mils};
+
+            vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_50, cmds_pass_200, cmds_quit, cmds_attack, cmds_stop_attacking,
+                cmds_construct_civs, cmds_construct_mils};
 
             if(vec_contains(cmds_pass, command)){
                 goto break_loop_command;
@@ -1162,7 +1164,14 @@ int main() {
                     }
                 }
 
-                // TODO take into account daily production and current equipment
+                // if we have less equipment that what we were to produce in a handful of turns, stop attacking
+                // since if we got attacked ourselves we would be defenseless
+                float production_for_short_amount_of_time = GAME_MIL_PRODUCE(country->mils) * 10;
+                if(production_for_short_amount_of_time >= country->equipment){
+                    for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
+                        vec_remove_if_exist(country->at_war_with, country_at_war);
+                    }
+                }
             }
         }
 
