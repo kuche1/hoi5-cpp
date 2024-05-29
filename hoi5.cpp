@@ -114,6 +114,9 @@ typedef char* Color;
 
 #define COL_INT(color_number) ((Color)"\033[38;5;" #color_number "m")
 
+#define EFFECT_INVERSE_ON  "\033[7m"
+#define EFFECT_INVERSE_OFF "\033[27m"
+
 // mouse click
 
 void terminal_mouse_click_log_enable() {
@@ -158,19 +161,14 @@ void terminal_line_buffering_disable() {
 
 #define MAP_TILE_VALUE_MODIFIER 250.0
 
-// typedef enum {
-//     TILE_TYPE_PLAIN,
-//     TILE_TYPE_URBAN,
-//     TILE_TYPE_FOREST,
-// } TileType;
-
 typedef struct _Tile {
     Country* owner;
-    // TileType type;
     vector<struct _Tile*> borders;
     // number of factories
     float civs;
     float mils;
+    // to be updated in the game loop
+    bool is_war_border = false;
 } Tile;
 
 ///////////
@@ -783,7 +781,7 @@ int main() {
 
         }
 
-        // update borders
+        // update country borders
 
         for(Country* country : countries){
             country->bordering_countries = {};
@@ -799,7 +797,26 @@ int main() {
             }
         }
 
-        // graphics + input
+        // update tiles
+
+        for(int y=0; y<MAP_SIZE_Y; ++y){
+            for(int x=0; x<MAP_SIZE_X; ++x){
+                Tile* tile = &map[y][x];
+
+                tile->is_war_border = false;
+
+                for(Country* country_at_war : tile->owner->at_war_with){
+                    for(Tile* tile_border : tile->borders){
+                        if(country_at_war == tile_border->owner){
+                            tile->is_war_border = true;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        // gui + input
 
         // pass turns if told so
         if(gui_additional_turns_to_pass > 0){
@@ -836,7 +853,21 @@ int main() {
                         }
                     }
 
-                    printf("%s%c%s", tile.owner->color, char_factories, COL_RESET);
+                    cout << tile.owner->color;
+
+                    if(tile.is_war_border){
+                        cout << EFFECT_INVERSE_ON;
+                    }
+
+                    cout << char_factories;
+
+                    // no need, the reset will take care of this
+                    // if(tile.is_war_border){
+                    //     cout << EFFECT_INVERSE_ON;
+                    // }
+
+                    cout << COL_RESET;
+
                 }
                 printf("\n");
             }
