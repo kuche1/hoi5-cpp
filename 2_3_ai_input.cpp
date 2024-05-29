@@ -10,6 +10,9 @@
             continue;
         }
 
+        // TOD0 we must synchronise the stop-war and build-mils actions
+        // (altho in this case it might not be necessary)
+
         // determine civ production
 
         {
@@ -37,6 +40,7 @@
             
             // TODO
             // also take bordering nations into consideration
+            // for example: if a country on our border has much less civs and much more mils than us
 
             // decide what to build
             if(
@@ -48,6 +52,8 @@
             }else{
                 country->civ_production = CIV_PRODUCTION_CIV;
             }
+
+            // TODO perhaps we should add some modifiers here
         }
 
         // start war
@@ -73,19 +79,20 @@
 
             // if we have much less equipment than them
             for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
-                if(country_at_war->equipment * 0.2 > country->equipment){
+                if(country_at_war->equipment * AI_STOP_WAR_IF_WE_HAVE_LESS_EQUIPMENT_THRESHOLD > country->equipment){
                     vec_remove_if_exist(country->at_war_with, country_at_war);
                 }
             }
 
             // if we have less equipment that what we were to produce in a handful of turns, stop attacking
             // since if we got attacked ourselves we would be defenseless
-            float production_for_short_amount_of_time = GAME_MIL_PRODUCE(country->mils) * 10;
+            float production_for_short_amount_of_time = GAME_MIL_PRODUCE(country->mils) * AI_STOP_WAR_IF_PRODUCTION_FOR_A_COUPLE_OF_DAYS_EXCEEDS_EQUIPMENT;
             if(production_for_short_amount_of_time >= country->equipment){
                 for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
                     vec_remove_if_exist(country->at_war_with, country_at_war);
                 }
             }
+
         }
     }
 
