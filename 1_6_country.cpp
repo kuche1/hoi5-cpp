@@ -27,13 +27,13 @@ struct _Country {
     float equipment = GAME_STARTING_EQUIPMENT;
     // war
     vector<struct _Country *> at_war_with = {};
-    // map-related
-    int tiles = 0; // needs to be updated in the game loop
+    // map-related: need to be updated in the game loop
+    vector<Tile*> tiles = {};
     vector<Country*> bordering_countries = {}; // needs to be updated in the game loop
 };
 
 void country_print(Country* country){
-    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
+    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
 }
 
 vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {

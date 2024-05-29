@@ -78,7 +78,7 @@
 
             for(Country* country : countries){
 
-                if(country->tiles <= 0){
+                if(country->tiles.size() <= 0){
                     continue;
                 }
 

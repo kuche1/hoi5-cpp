@@ -81,7 +81,7 @@
             for(Country* country_at_war : country->at_war_with){
                 total_enemy_factories += country_at_war->civs + country_at_war->mils;
                 total_enemy_equipment += country_at_war->equipment;
-                total_enemy_tiles += country_at_war->tiles;
+                total_enemy_tiles += country_at_war->tiles.size();
             }
 
             // calc countries that are attacking us
@@ -89,7 +89,7 @@
                 if(vec_contains(attacker->at_war_with, country)){
                     total_enemy_factories += attacker->civs + attacker->mils;
                     total_enemy_equipment += attacker->equipment;
-                    total_enemy_tiles += attacker->tiles;
+                    total_enemy_tiles += attacker->tiles.size();
                 }
             }
             
@@ -101,7 +101,7 @@
             if(
                 total_enemy_factories >= country->civs + country->mils ||
                 total_enemy_equipment >= country->equipment ||
-                total_enemy_tiles >= country->tiles
+                total_enemy_tiles >= static_cast<int>( country->tiles.size() )
             ){
                 country->civ_production = CIV_PRODUCTION_MIL;
             }else{

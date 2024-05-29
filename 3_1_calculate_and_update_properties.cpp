@@ -1,5 +1,18 @@
 {
 
+    // country: update owned tiles
+    // TODO also update all code that needs to know a country-s tiles
+
+    for(Country* country : countries){
+        country->tiles = {};
+    }
+
+    for(auto& map_row : map){
+        for(auto& tile : map_row){
+            tile.owner->tiles.push_back(&tile);
+        }
+    }
+
     // update number of factories
 
     for(Country* country : countries){
@@ -19,23 +32,6 @@
         country->factories = country->civs + country->mils;
     }
 
-    // update number of tiles
-
-    for(Country* country : countries){
-
-        country->tiles = 0;
-
-        for(int y=0; y<MAP_SIZE_Y; ++y){
-            for(int x=0; x<MAP_SIZE_X; ++x){
-                Tile *tile = &map[y][x];
-                if(tile->owner == country){
-                    country->tiles += 1;
-                }
-            }
-        }
-
-    }
-
     // update country borders
 
     for(Country* country : countries){
@@ -52,7 +48,7 @@
         }
     }
 
-    // update tiles
+    // update war borders
 
     for(int y=0; y<MAP_SIZE_Y; ++y){
         for(int x=0; x<MAP_SIZE_X; ++x){
@@ -70,5 +66,14 @@
 
         }
     }
+
+    // // TODO
+    // // country: update average unit strength
+
+    // for(Country* country : countries){
+    //     country->average_unit_strength = 0.0;
+
+
+    // }
 
 }
