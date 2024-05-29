@@ -1,4 +1,9 @@
 
+// TODO
+//
+// use a buffer of some sort and flush it only when the full map has been drawn (perhaps disabling flush on \n would be sufficient)
+// https://www.quora.com/When-programming-in-C-is-it-more-efficient-to-use-cout-or-printf
+
 {
 
     // skip gui + input if told so
