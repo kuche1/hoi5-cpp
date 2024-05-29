@@ -9,7 +9,7 @@
 
         float production = GAME_CIV_PRODUCE(country->civs);
 
-        auto [failure, tile] = country_get_random_tile_based_on_density(country, &map);
+        auto [failure, tile] = country_get_random_tile_based_on_density(country);
         if(failure){
             continue;
         }

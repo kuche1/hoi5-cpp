@@ -37,8 +37,7 @@
     for(Country* country : countries){
         country->bordering_countries = {};
 
-        vector<Tile*> tiles = country_get_tiles(country, &map);
-        for(Tile* tile : tiles){
+        for(Tile* tile : country->tiles){
             for(Tile* border_tile : tile->borders){
                 Country* bordering_country = border_tile->owner;
                 if(bordering_country != country){

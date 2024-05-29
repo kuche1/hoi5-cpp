@@ -36,29 +36,13 @@ void country_print(Country* country){
     cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
 }
 
-vector<Tile*> country_get_tiles(Country *country, vector<vector<Tile>> *map) {
-    vector<Tile*> owned_tiles;
-
-    for(int y=0; y<MAP_SIZE_Y; ++y){
-        for(int x=0; x<MAP_SIZE_X; ++x){
-            Tile *tile = &((*map)[y][x]);
-            if(tile->owner == country){
-                owned_tiles.push_back(tile);
-            }
-        }
-    }
-
-    return owned_tiles;
-}
-
-Tile* country_get_random_tile(Country *country, vector<vector<Tile>> *map) {
-    vector<Tile*> tiles = country_get_tiles(country, map);
-    return vec_get_random_element(tiles);
+Tile* country_get_random_tile(Country *country) {
+    return vec_get_random_element(country->tiles);
 }
 
 // for example if your country is a circle: the chance of getting something in the center is higher
-pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country, vector<vector<Tile>>* map) {
-    vector<Tile*> tiles = country_get_tiles(country, map);
+pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country) {
+    vector<Tile*> tiles = country->tiles;
 
     if(tiles.size() <= 0){
         return make_pair(true, nullptr);
