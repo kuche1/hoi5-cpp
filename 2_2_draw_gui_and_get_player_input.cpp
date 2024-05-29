@@ -63,9 +63,15 @@
             printf("\n");
         }
 
-        // draw "hud"
+        // draw player country
 
-        printf("\n");
+        cout << '\n';
+        country_print(player);
+        cout << '\n';
+
+        // draw list of countries
+
+        cout << '\n';
 
         {
             int iter = 0;

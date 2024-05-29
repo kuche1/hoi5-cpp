@@ -287,6 +287,18 @@ countries.push_back(
 // player-related
 
 // TODO choose from a menu rather than hardcoding this
-Country* player = countries[1];
+
+// Country* player = countries[1]; // russia
+
+Country* player = nobody;
+
+cout << "Selecting country for player...\n";
+
+while(player == nobody){
+    // if there are no countries we'll get a freeze here
+    player = vec_get_random_element(countries);
+}
+
+cout << "Country for player selected!\n";
 
 int gui_additional_turns_to_pass = 0;

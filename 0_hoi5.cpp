@@ -285,9 +285,9 @@ pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country, vec
 
 #define GAME_DEF_NO_EQUIPMENT_MULTIPLIER 0.6
 
-#define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.15 // during the land transfer some of the factories are destroyed
+#define GAME_PERCENT_FACTORIES_DESTROYED_ON_LAND_TRANSFER 0.09 // during the land transfer some of the factories are destroyed
 
-#define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK 0.08 // when a tile is being attacked, some of the factories also get damaged
+#define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK 0.04 // when a tile is being attacked, some of the factories also get damaged
 
 ///////////
 //////////////
