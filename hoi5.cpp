@@ -799,6 +799,170 @@ int main() {
             }
         }
 
+        // graphics + input
+
+        // pass turns if told so
+        if(gui_additional_turns_to_pass > 0){
+            gui_additional_turns_to_pass -= 1;
+            goto break_loop_command;
+        }
+
+        for(;;){
+
+            // clear display
+
+            printf("%s", DISP_CLEAR);
+
+            // draw map
+
+            // TOD0 we could perhaps optimise the rendering by not changing the color twice for every tile
+            for(auto map_row : map){
+                for(auto tile : map_row){
+
+                    float float_factories = (tile.civs + tile.mils) * MAP_TILE_VALUE_MODIFIER;
+
+                    int int_factories = static_cast<int>( floor(float_factories) );
+
+                    char char_factories = '?';
+
+                    if(int_factories <= 9){
+                        char_factories = '0' + int_factories;
+                    }else{
+                        int_factories -= 10;
+                        if(int_factories <= 25){
+                            char_factories = 'A' + int_factories;
+                        }else{
+                            char_factories = '+';
+                        }
+                    }
+
+                    printf("%s%c%s", tile.owner->color, char_factories, COL_RESET);
+                }
+                printf("\n");
+            }
+
+            // draw "hud"
+
+            printf("\n");
+
+            {
+                int iter = 0;
+
+                for(Country* country : countries){
+
+                    if(country->tiles <= 0){
+                        continue;
+                    }
+
+                    if(iter > 0){
+                        if(iter % 3 == 0){
+                            printf("\n");
+                        }else{
+                            printf(" ");
+                        }
+                    }
+
+                    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
+
+                    iter += 1;
+                }
+
+            }
+
+            printf("\n");
+
+            // process command
+
+            printf("\n");
+
+            cout << "Enter command: ";
+
+            string command;
+            getline(cin, command);
+
+            vector<string> cmds_pass = {"", "pass", "next-turn"};
+            vector<string> cmds_pass_10 = {"p10", "pass10", "pass-10-turns"};
+            vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
+            vector<string> cmds_pass_200 = {"p200", "pass200", "pass-200-turns"};
+            vector<string> cmds_quit = {"q", "quit", "quit-game"};
+            vector<string> cmds_attack = {"a", "attack", "attack-country"};
+            vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
+            vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
+            vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
+            vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_50, cmds_quit, cmds_attack, cmds_stop_attacking, cmds_construct_civs, cmds_construct_mils};
+
+            if(vec_contains(cmds_pass, command)){
+                goto break_loop_command;
+            
+            }else if(vec_contains(cmds_pass_10, command)){
+                gui_additional_turns_to_pass = 10 - 1;
+                goto break_loop_command;
+
+            }else if(vec_contains(cmds_pass_50, command)){
+                gui_additional_turns_to_pass = 50 - 1;
+                goto break_loop_command;
+
+            }else if(vec_contains(cmds_pass_200, command)){
+                gui_additional_turns_to_pass = 200 - 1;
+                goto break_loop_command;
+
+            }else if(vec_contains(cmds_quit, command)){
+                goto break_loop_game;
+
+            }else if(vec_contains(cmds_attack, command)){
+
+                printf("Click on the country that you want to attack\n");
+                Country *target = input_another_country(&map, player);
+
+                vec_push_back_nodup(player->at_war_with, target);
+
+            }else if(vec_contains(cmds_stop_attacking, command)){
+
+                printf("Click on the country that you want to stop attacking\n");
+                Country *piece_target = input_country(&map);
+
+                vec_remove_if_exist(player->at_war_with, piece_target);
+
+            }else if(vec_contains(cmds_construct_civs, command)){
+
+                player->civ_production = CIV_PRODUCTION_CIV;
+
+            }else if(vec_contains(cmds_construct_mils, command)){
+
+                player->civ_production = CIV_PRODUCTION_MIL;
+
+            }else if("test" == command){
+
+                for(;;){
+                    // auto [mouse_y, mouse_x] = input_mouse_click();
+                    // printf("y:%d x:%d\n", mouse_y, mouse_x);
+
+                    int num = random_int(0, 10);
+                    printf("num:%d\n", num);
+                }
+
+            }else{
+
+                cout << '\n';
+
+                cout << "Unknown command `" << command << "`\n";
+
+                cout << "List of commands:" << '\n';
+
+                for(auto cmds : cmds_ALL){
+                    for(auto cmd : cmds){
+                        cout << "<" << cmd << "> ";
+                    }
+                    cout << '\n';
+                }
+
+                cout << "\nPRESS ENTER\n";
+                input_enter();
+            }
+
+        }
+        break_loop_command:
+
         // process civs
 
         for(Country* country : countries){
@@ -969,168 +1133,6 @@ int main() {
                 // TODO take into account daily production and current equipment
             }
         }
-
-        // graphics
-
-        {
-            // pass turns if told so
-
-            if(gui_additional_turns_to_pass > 0){
-                gui_additional_turns_to_pass -= 1;
-                continue;
-            }
-        }
-
-        for(;;){
-
-            // clear display
-
-            printf("%s", DISP_CLEAR);
-
-            // draw map
-
-            // TOD0 we could perhaps optimise the rendering by not changing the color twice for every tile
-            for(auto map_row : map){
-                for(auto tile : map_row){
-
-                    float float_factories = (tile.civs + tile.mils) * MAP_TILE_VALUE_MODIFIER;
-
-                    int int_factories = static_cast<int>( floor(float_factories) );
-
-                    char char_factories = '?';
-
-                    if(int_factories <= 9){
-                        char_factories = '0' + int_factories;
-                    }else{
-                        int_factories -= 10;
-                        if(int_factories <= 25){
-                            char_factories = 'A' + int_factories;
-                        }else{
-                            char_factories = '+';
-                        }
-                    }
-
-                    printf("%s%c%s", tile.owner->color, char_factories, COL_RESET);
-                }
-                printf("\n");
-            }
-
-            // draw "hud"
-
-            printf("\n");
-
-            {
-                int iter = 0;
-
-                for(Country* country : countries){
-
-                    if(country->tiles <= 0){
-                        continue;
-                    }
-
-                    if(iter > 0){
-                        if(iter % 3 == 0){
-                            printf("\n");
-                        }else{
-                            printf(" ");
-                        }
-                    }
-
-                    cout << country->color << country->name << COL_RESET << "<" << "tiles~" << country->tiles << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
-
-                    iter += 1;
-                }
-
-            }
-
-            printf("\n");
-
-            // process command
-
-            printf("\n");
-
-            cout << "Enter command: ";
-
-            string command;
-            getline(cin, command);
-
-            vector<string> cmds_pass = {"", "pass", "next-turn"};
-            vector<string> cmds_pass_10 = {"p10", "pass10", "pass-10-turns"};
-            vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
-            vector<string> cmds_quit = {"q", "quit", "quit-game"};
-            vector<string> cmds_attack = {"a", "attack", "attack-country"};
-            vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
-            vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
-            vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
-            vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_50, cmds_quit, cmds_attack, cmds_stop_attacking, cmds_construct_civs, cmds_construct_mils};
-
-            if(vec_contains(cmds_pass, command)){
-                goto break_loop_command;
-            
-            }else if(vec_contains(cmds_pass_10, command)){
-                gui_additional_turns_to_pass = 10 - 1;
-                goto break_loop_command;
-
-            }else if(vec_contains(cmds_pass_50, command)){
-                gui_additional_turns_to_pass = 50 - 1;
-                goto break_loop_command;
-
-            }else if(vec_contains(cmds_quit, command)){
-                goto break_loop_game;
-
-            }else if(vec_contains(cmds_attack, command)){
-
-                printf("Click on the country that you want to attack\n");
-                Country *target = input_another_country(&map, player);
-
-                vec_push_back_nodup(player->at_war_with, target);
-
-            }else if(vec_contains(cmds_stop_attacking, command)){
-
-                printf("Click on the country that you want to stop attacking\n");
-                Country *piece_target = input_country(&map);
-
-                vec_remove_if_exist(player->at_war_with, piece_target);
-
-            }else if(vec_contains(cmds_construct_civs, command)){
-
-                player->civ_production = CIV_PRODUCTION_CIV;
-
-            }else if(vec_contains(cmds_construct_mils, command)){
-
-                player->civ_production = CIV_PRODUCTION_MIL;
-
-            }else if("test" == command){
-
-                for(;;){
-                    // auto [mouse_y, mouse_x] = input_mouse_click();
-                    // printf("y:%d x:%d\n", mouse_y, mouse_x);
-
-                    int num = random_int(0, 10);
-                    printf("num:%d\n", num);
-                }
-
-            }else{
-
-                cout << '\n';
-
-                cout << "Unknown command `" << command << "`\n";
-
-                cout << "List of commands:" << '\n';
-
-                for(auto cmds : cmds_ALL){
-                    for(auto cmd : cmds){
-                        cout << "<" << cmd << "> ";
-                    }
-                    cout << '\n';
-                }
-
-                cout << "\nPRESS ENTER\n";
-                input_enter();
-            }
-
-        }
-        break_loop_command:
 
     }
     break_loop_game:
