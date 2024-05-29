@@ -159,14 +159,19 @@ void terminal_line_buffering_disable() {
 #define MAP_LOOPS_Y false
 #define MAP_LOOPS_X false
 
-#define MAP_TILE_VALUE_MODIFIER 250.0
+#define MAP_TILE_VALUE_MODIFIER 250.0 // increases visibility for humans
+
+// insentivise players to attack `nobody` by providing some resources for all tiles
+#define MAP_TILE_INITIAL_CIVS 0.003
+// we could do the same for the mils, the problem is - this would increase `nobody`'s equipment, so the AI
+// would be discouraged from attacking
 
 typedef struct _Tile {
     Country* owner;
     vector<struct _Tile*> borders;
     // number of factories
-    float civs;
-    float mils;
+    float civs = MAP_TILE_INITIAL_CIVS;
+    float mils = 0;
     // to be updated in the game loop
     bool is_war_border = false;
 } Tile;
