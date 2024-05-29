@@ -23,6 +23,15 @@ typedef char* Color;
 #define EFFECT_STRIKETROUGH_ON  "\033[9m"
 #define EFFECT_STRIKETROUGH_OFF "\033[29m" // untested
 
+#define EFFECT_BOLD_ON        "\033[1m"
+#define EFFECT_BOLD_FAINT_OFF "\033[22m" // untested // this turns off both the "bold" and "faint" effects
+
+#define EFFECT_ITALIC_ON  "\033[3m"
+#define EFFECT_ITALIC_OFF "\033[23m" // untested
+
+#define EFFECT_BLINK_ON  "\033[5m"
+#define EFFECT_BLINK_OFF "\033[25m" // untested
+
 // mouse click
 
 void terminal_mouse_click_log_enable() {

@@ -32,6 +32,13 @@
     }
 
     // country: update "borders countries" property
+    // tile: update "border" property
+
+    for(auto& map_row : map){
+        for(auto& tile : map_row){
+            tile.is_border = false;
+        }
+    }
 
     for(Country* country : countries){
         country->bordering_countries = {};
@@ -41,6 +48,7 @@
                 Country* bordering_country = border_tile->owner;
                 if(bordering_country != country){
                     vec_push_back_nodup(country->bordering_countries, bordering_country);
+                    tile->is_border = true;
                 }
             }
         }

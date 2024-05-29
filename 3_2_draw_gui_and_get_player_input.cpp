@@ -46,6 +46,11 @@
 
                 cout << tile.owner->color;
 
+                if(tile.is_border){
+                    cout << EFFECT_BOLD_ON;
+                    cout << EFFECT_ITALIC_ON;
+                }
+
                 if(tile.is_offensive_border){
                     cout << EFFECT_INVERSE_ON;
                 }
@@ -56,15 +61,7 @@
 
                 cout << char_factories;
 
-                // no need, the reset will take care of these
-
-                // if(tile.is_deffensive_border){
-                //     cout << EFFECT_STRIKETROUGH_OFF;
-                // }
-
-                // if(tile.is_offensive_border){
-                //     cout << EFFECT_INVERSE_ON;
-                // }
+                // no need to turn off any of the effects, the reset will take care of that
 
                 cout << COL_RESET;
 
