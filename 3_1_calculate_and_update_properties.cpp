@@ -67,7 +67,7 @@
     }
 
     // country: update unit strengths
-    // TODO the should be 2 miltipliers - 1 for offensive border, and 1 for deffensive border
+    // TODO there should be 2 miltipliers - 1 for offensive border, and 1 for deffensive border
 
     for(Country* country : countries){
         country->offensive_unit_strength = country->equipment / country->offensive_borders;
