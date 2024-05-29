@@ -56,7 +56,9 @@
             for(Country* country_at_war : tile.owner->at_war_with){
                 for(Tile* tile_border : tile.borders){
                     if(country_at_war == tile_border->owner){
-                        tile.is_war_border = true;
+                        tile.is_war_border = true; // TODO is_offensive_border
+                        tile.owner->offensive_borders += 1;
+                        country_at_war->deffensive_borders += 1;
                     }
                 }
             }
@@ -64,20 +66,12 @@
         }
     }
 
-    // country: update average unit strength
-    // TODO this also needs to take into account the defensive frontline width; the should be 2 miltipliers - 1 for offensive border, and 1 for deffensive border
+    // country: update unit strengths
+    // TODO the should be 2 miltipliers - 1 for offensive border, and 1 for deffensive border
 
     for(Country* country : countries){
-
-        int frontline_width = 0;
-
-        for(Tile* tile : country->tiles){
-            if(tile->is_war_border){
-                frontline_width += 1;
-            }
-        }
-
-        country->average_unit_strength = country->equipment / static_cast<int>(frontline_width);
+        country->offensive_unit_strength = country->equipment / country->offensive_borders;
+        country->deffensive_unit_strength = country->equipment / country->deffensive_borders;
     }
 
 }

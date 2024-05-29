@@ -27,16 +27,18 @@ struct _Country {
     float equipment = GAME_STARTING_EQUIPMENT;
     // war
     vector<struct _Country *> at_war_with = {};
-    float average_unit_strength = 0.0; // needs to be updated in the game loop
     // map-related: need to be updated in the game loop
     vector<Tile*> tiles = {};
     vector<Country*> bordering_countries = {};
-    int offensive_borders = 0;
-    int deffensive_borders = 0;
+    int offensive_borders = 0; // how many of our tiles are being attacked
+    int deffensive_borders = 0; // how many tiles are we attacking
+    // units: need to be updated in game loop
+    float deffensive_unit_strength = 0.0;
+    float offensive_unit_strength = 0.0;
 };
 
 void country_print(Country* country){
-    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << " AUS:" << country->average_unit_strength << ">";
+    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << " OFB:" << country->offensive_borders << " DFB:" << country->deffensive_borders << " OUS:" << country->offensive_unit_strength << " DUS:" << country->deffensive_unit_strength << ">";
 }
 
 Tile* country_get_random_tile(Country *country) {
