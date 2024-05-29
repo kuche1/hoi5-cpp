@@ -159,6 +159,8 @@ void terminal_line_buffering_disable() {
 #define MAP_LOOPS_Y false
 #define MAP_LOOPS_X false
 
+#define MAP_TILE_BORDERS_MAX_LEN 4 // you can have 4 borders max (an assertion)
+
 #define MAP_TILE_VALUE_MODIFIER 250.0 // increases visibility for humans
 
 // insentivise players to attack `nobody` by providing some resources for all tiles
@@ -242,7 +244,7 @@ pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country, vec
 
         int points = 1;
 
-        points += 4 - tile->borders.size(); // so that if we're near a corner it counts as a good thing
+        points += MAP_TILE_BORDERS_MAX_LEN - tile->borders.size(); // so that if we're near a corner it counts as a good thing
 
         for(Tile* border_tile : tile->borders){
             if(border_tile->owner == country){

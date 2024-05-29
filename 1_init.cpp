@@ -81,6 +81,8 @@ for(int y=0; y<MAP_SIZE_Y; ++y){
             tile->borders.push_back(&map[new_y][new_x]);
 
         }
+
+        assert(tile->borders.size() <= MAP_TILE_BORDERS_MAX_LEN);
     }
 }
 
