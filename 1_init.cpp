@@ -7,7 +7,7 @@ vector<Country*> countries;
 Country* nobody = new Country{
     .name = "Nobody",
     .color = COL_RESET,
-    .civs_base = 100, // insentivise other players to attack `nobody` (this CAN be exploited if someone keeps a piece of `nobody` alive in their territory/in the corner, so it might be best to reduce those civs by a percentage every turn)
+    .civs_base = 100, // TODO insentivise other players to attack `nobody` (this CAN be exploited if someone keeps a piece of `nobody` alive in their territory/in the corner, so it might be best to reduce those civs by a percentage every turn)
     .mils_base = 0,
     .civ_production = CIV_PRODUCTION_CIV,
     .equipment = -1,
