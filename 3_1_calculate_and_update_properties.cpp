@@ -12,7 +12,7 @@
         }
     }
 
-    // update number of factories
+    // country: update number of factories
 
     for(Country* country : countries){
         country->civs = country->civs_base;
@@ -31,7 +31,7 @@
         country->factories = country->civs + country->mils;
     }
 
-    // update country borders
+    // country: update "borders countries" property
 
     for(Country* country : countries){
         country->bordering_countries = {};
