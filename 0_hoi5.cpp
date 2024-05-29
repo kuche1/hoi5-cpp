@@ -157,9 +157,9 @@ void terminal_line_buffering_disable() {
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0003)
+#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0004)
 
-#define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 20.0)
+#define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 23.0)
 
 #define GAME_ATK_WIN_CHANCE 0.15 // what is the change (0.0 to 1.0) that a terriroty would be gained upon attack
 
@@ -172,7 +172,7 @@ void terminal_line_buffering_disable() {
 
 #define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK 0.04 // when a tile is being attacked, some of the factories also get damaged
 
-#define GAME_STARTING_EQUIPMENT (20'000)
+#define GAME_STARTING_EQUIPMENT (25'000)
 
 ///////////
 //////////////
