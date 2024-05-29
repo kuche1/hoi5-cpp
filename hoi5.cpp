@@ -1055,8 +1055,8 @@ int main() {
             getline(cin, command);
 
             vector<string> cmds_pass = {"", "pass", "next-turn"};
-            vector<string> cmds_pass_10 = {"pass10", "pass-10-turns"};
-            vector<string> cmds_pass_50 = {"pass50", "pass-50-turns"};
+            vector<string> cmds_pass_10 = {"p10", "pass10", "pass-10-turns"};
+            vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
             vector<string> cmds_quit = {"q", "quit", "quit-game"};
             vector<string> cmds_attack = {"a", "attack", "attack-country"};
             vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
