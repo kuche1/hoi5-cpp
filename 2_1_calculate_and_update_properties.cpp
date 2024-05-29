@@ -1,6 +1,6 @@
 {
 
-    // update number of factories based on land
+    // update number of factories
 
     for(Country* country : countries){
         country->civs = country->civs_base;
@@ -13,6 +13,10 @@
             tile->owner->civs += tile->civs;
             tile->owner->mils += tile->mils;
         }
+    }
+
+    for(Country* country : countries){
+        country->factories = country->civs + country->mils;
     }
 
     // update number of tiles

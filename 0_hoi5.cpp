@@ -172,7 +172,7 @@ void terminal_line_buffering_disable() {
 
 #define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK 0.04 // when a tile is being attacked, some of the factories also get damaged
 
-#define GAME_STARTING_EQUIPMENT (10'000)
+#define GAME_STARTING_EQUIPMENT (20'000)
 
 ///////////
 //////////////
@@ -223,9 +223,10 @@ struct _Country {
     // factories: base
     float civs_base;
     float mils_base;
-    // factories: total
-    float civs = 0.0; // those need to be updated in the game loop
+    // factories: total: those need to be updated in the game loop
+    float civs = 0.0;
     float mils = 0.0;
+    float factories = 0.0;
     // civs: action
     CivProduction civ_production; // what are the civs producing
     // equipment

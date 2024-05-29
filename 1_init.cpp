@@ -181,7 +181,7 @@ countries.push_back(
 countries.push_back(
     new Country{
         .name = "Czechoslovakia",
-        .color = COL_INT(38),
+        .color = COL_INT(202),
         .civs_base = 16,
         .mils_base = 9,
         .civ_production = CIV_PRODUCTION_CIV,

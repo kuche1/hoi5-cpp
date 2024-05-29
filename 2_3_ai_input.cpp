@@ -27,6 +27,17 @@
                     vec_push_back_nodup(country->at_war_with, bordering_country);
                 }
             }
+
+            // if we're bordering someone with a lot of factories, but not a lot of equipment
+            for(Country* bordering_country : country->bordering_countries){
+
+                float his_ratio = bordering_country->equipment / bordering_country->factories;
+                float our_ratio = country->equipment / country->factories;
+
+                if(his_ratio < our_ratio){
+                    vec_push_back_nodup(country->at_war_with, bordering_country);
+                }
+            }
         }
 
         // end war
