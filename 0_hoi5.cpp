@@ -11,7 +11,7 @@
 
 // would be cool if we could use a framebuffer of some sort, to shooth out the refreshing
 
-#include "1_includes_structs_and_defines.cpp"
+#include "1_0_includes_structs_and_defines.cpp"
 
 int main() {
 
