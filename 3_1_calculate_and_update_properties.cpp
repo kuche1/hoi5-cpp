@@ -1,7 +1,6 @@
 {
 
     // country: update owned tiles
-    // TODO also update all code that needs to know a country-s tiles
 
     for(Country* country : countries){
         country->tiles = {};
