@@ -65,13 +65,20 @@
         }
     }
 
-    // // TODO
-    // // country: update average unit strength
+    // country: update average unit strength
+    // TODO this also needs to take into account the defensive frontline width
 
-    // for(Country* country : countries){
-    //     country->average_unit_strength = 0.0;
+    for(Country* country : countries){
 
+        int frontline_width = 0;
 
-    // }
+        for(Tile* tile : country->tiles){
+            if(tile->is_war_border){
+                frontline_width += 1;
+            }
+        }
+
+        country->average_unit_strength = country->equipment / static_cast<int>(frontline_width);
+    }
 
 }

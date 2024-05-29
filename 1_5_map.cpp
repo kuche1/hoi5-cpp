@@ -5,7 +5,7 @@
 //////////////
 ///////////
 
-#define MAP_SIZE_Y 35
+#define MAP_SIZE_Y 33
 #define MAP_SIZE_X 205
 
 #define MAP_LOOPS_Y false
