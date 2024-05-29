@@ -21,3 +21,7 @@
 #define GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK 0.04 // when a tile is being attacked, some of the factories also get damaged
 
 #define GAME_STARTING_EQUIPMENT (25'000)
+
+// I heard somewhere that in IRL if an army is to take some territory, the attacking forces need to be 3 times more than the deffending forces
+#define GAME_OFFENSIVE_STRENGTH_MULTIPLIER  0.5
+#define GAME_DEFFENSIVE_STRENGTH_MULTIPLIER 1.5

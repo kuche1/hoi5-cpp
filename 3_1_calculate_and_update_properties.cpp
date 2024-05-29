@@ -70,8 +70,11 @@
     // TODO there should be 2 miltipliers - 1 for offensive border, and 1 for deffensive border
 
     for(Country* country : countries){
-        country->offensive_unit_strength = country->equipment / country->offensive_borders;
-        country->deffensive_unit_strength = country->equipment / country->deffensive_borders;
+        int total_borders = country->offensive_borders + country->deffensive_borders;
+        float strength_per_tile = country->equipment / static_cast<float>(total_borders);
+
+        country->offensive_unit_strength  = strength_per_tile * GAME_OFFENSIVE_STRENGTH_MULTIPLIER;
+        country->deffensive_unit_strength = strength_per_tile * GAME_DEFFENSIVE_STRENGTH_MULTIPLIER;
     }
 
 }

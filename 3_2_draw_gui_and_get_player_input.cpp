@@ -83,7 +83,7 @@
                 }
 
                 if(iter > 0){
-                    if(iter % 2 == 0){
+                    if(iter % 3 == 0){
                         printf("\n");
                     }else{
                         printf(" ");
