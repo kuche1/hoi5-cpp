@@ -753,15 +753,12 @@ int main() {
 
         #include "2_draw_gui_and_get_player_input.cpp"
 
-        #include "3_process_automatic_actions.cpp"
+        #include "3_ai_input.cpp"
 
-        // TODO this really should be above or below player input
-        #include "4_ai_input.cpp"
+        #include "4_process_automatic_actions.cpp"
 
     }
     break_loop_game:
-
-    // ...
 
     return 0;
 }
