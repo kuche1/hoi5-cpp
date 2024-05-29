@@ -58,6 +58,7 @@
 
                         // determine battle result
                         // TODO take the unit strength values into account, in a way that doesn't suck
+                        // TODO perhaps it would be a good idea to delete as much equipment as it's actually used (so the unit strenght (or some avg unit strength without the multipliers)); we could also probably have MAX_EQUIPMENT_PER_UNIT or something like that
 
                         float deffender_multiplier = 1.0;
 
