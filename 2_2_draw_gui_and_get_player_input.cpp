@@ -84,7 +84,7 @@
                     }
                 }
 
-                cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment << ">";
+                country_print(country);
 
                 iter += 1;
             }
@@ -103,17 +103,22 @@
         getline(cin, command);
 
         vector<string> cmds_pass = {"", "pass", "next-turn"};
+
         vector<string> cmds_pass_10 = {"p10", "pass10", "pass-10-turns"};
         vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
         vector<string> cmds_pass_200 = {"p200", "pass200", "pass-200-turns"};
+
         vector<string> cmds_quit = {"q", "quit", "quit-game"};
+
         vector<string> cmds_attack = {"a", "attack", "attack-country"};
         vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
+        vector<string> cmds_info = {"i", "info", "show-country-information"};
+
         vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
         vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
 
         vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_50, cmds_pass_200, cmds_quit, cmds_attack, cmds_stop_attacking,
-            cmds_construct_civs, cmds_construct_mils};
+            cmds_info, cmds_construct_civs, cmds_construct_mils};
 
         if(vec_contains(cmds_pass, command)){
             goto break_loop_command;
@@ -146,6 +151,14 @@
             Country *piece_target = input_country(&map);
 
             vec_remove_if_exist(player->at_war_with, piece_target);
+
+        }else if(vec_contains(cmds_info, command)){
+
+            cout << "Click on the country that you want to show info for\n";
+            Country *target = input_country(&map);
+            country_print(target);
+            cout << '\n';
+            input_enter();
 
         }else if(vec_contains(cmds_construct_civs, command)){
 
@@ -188,7 +201,6 @@
                 cout << '\n';
             }
 
-            cout << "\nPRESS ENTER\n";
             input_enter();
         }
 
