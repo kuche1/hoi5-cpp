@@ -1,4 +1,9 @@
 
+// TODO
+//
+// make it so that if a country has a lot of factories and not a lot of equipment it will get attacked
+// (as to prevent it from becoming too powerful in the future)
+
 {
 
     // AI
