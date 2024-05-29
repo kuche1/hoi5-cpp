@@ -10,7 +10,7 @@
             continue;
         }
 
-        // TOD0 we must synchronise the stop-war and build-mils actions
+        // TOD0 we can synchronise the stop-war and build-mils actions
         // (altho in this case it might not be necessary)
 
         // determine civ production
