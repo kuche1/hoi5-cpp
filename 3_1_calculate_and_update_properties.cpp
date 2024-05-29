@@ -48,16 +48,15 @@
 
     // tiles: update "war border" property
 
-    for(int y=0; y<MAP_SIZE_Y; ++y){
-        for(int x=0; x<MAP_SIZE_X; ++x){
-            Tile* tile = &map[y][x];
+    for(auto& map_row : map){
+        for(auto& tile : map_row){
 
-            tile->is_war_border = false;
+            tile.is_war_border = false;
 
-            for(Country* country_at_war : tile->owner->at_war_with){
-                for(Tile* tile_border : tile->borders){
+            for(Country* country_at_war : tile.owner->at_war_with){
+                for(Tile* tile_border : tile.borders){
                     if(country_at_war == tile_border->owner){
-                        tile->is_war_border = true;
+                        tile.is_war_border = true;
                     }
                 }
             }

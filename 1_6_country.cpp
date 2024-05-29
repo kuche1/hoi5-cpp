@@ -30,7 +30,9 @@ struct _Country {
     float average_unit_strength = 0.0; // needs to be updated in the game loop
     // map-related: need to be updated in the game loop
     vector<Tile*> tiles = {};
-    vector<Country*> bordering_countries = {}; // needs to be updated in the game loop
+    vector<Country*> bordering_countries = {};
+    int offensive_borders = 0;
+    int deffensive_borders = 0;
 };
 
 void country_print(Country* country){
