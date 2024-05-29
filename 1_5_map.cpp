@@ -27,5 +27,6 @@ typedef struct _Tile {
     float civs = MAP_TILE_INITIAL_CIVS;
     float mils = 0;
     // to be updated in the game loop
-    bool is_war_border = false;
+    bool is_offensive_border = false;
+    bool is_deffensive_border = false;
 } Tile;

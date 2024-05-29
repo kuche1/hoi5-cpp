@@ -46,14 +46,23 @@
 
                 cout << tile.owner->color;
 
-                if(tile.is_war_border){
+                if(tile.is_offensive_border){
                     cout << EFFECT_INVERSE_ON;
+                }
+
+                if(tile.is_deffensive_border){
+                    cout << EFFECT_STRIKETROUGH_ON;
                 }
 
                 cout << char_factories;
 
-                // no need, the reset will take care of this
-                // if(tile.is_war_border){
+                // no need, the reset will take care of these
+
+                // if(tile.is_deffensive_border){
+                //     cout << EFFECT_STRIKETROUGH_OFF;
+                // }
+
+                // if(tile.is_offensive_border){
                 //     cout << EFFECT_INVERSE_ON;
                 // }
 

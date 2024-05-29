@@ -50,15 +50,23 @@
 
     for(auto& map_row : map){
         for(auto& tile : map_row){
+            tile.is_offensive_border = false;
+            tile.is_deffensive_border = false;
+        }
+    }
 
-            tile.is_war_border = false;
+    for(auto& map_row : map){
+        for(auto& tile : map_row){
 
             for(Country* country_at_war : tile.owner->at_war_with){
                 for(Tile* tile_border : tile.borders){
                     if(country_at_war == tile_border->owner){
-                        tile.is_war_border = true; // TODO is_offensive_border
+
+                        tile.is_offensive_border = true;
                         tile.owner->offensive_borders += 1;
-                        country_at_war->deffensive_borders += 1;
+
+                        tile_border->is_deffensive_border = true;
+                        tile_border->owner->deffensive_borders += 1;
                     }
                 }
             }

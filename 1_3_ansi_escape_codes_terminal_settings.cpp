@@ -20,6 +20,9 @@ typedef char* Color;
 #define EFFECT_INVERSE_ON  "\033[7m"
 #define EFFECT_INVERSE_OFF "\033[27m" // untested
 
+#define EFFECT_STRIKETROUGH_ON  "\033[9m"
+#define EFFECT_STRIKETROUGH_OFF "\033[29m" // untested
+
 // mouse click
 
 void terminal_mouse_click_log_enable() {
