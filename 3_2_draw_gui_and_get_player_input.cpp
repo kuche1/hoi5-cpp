@@ -24,8 +24,8 @@
         // draw map
 
         // TOD0 we could perhaps optimise the rendering by not changing the color twice for every tile
-        for(auto map_row : map){
-            for(auto tile : map_row){
+        for(auto& map_row : map){
+            for(auto& tile : map_row){
 
                 float float_factories = (tile.civs + tile.mils) * MAP_TILE_VALUE_MODIFIER;
 
