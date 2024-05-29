@@ -95,7 +95,6 @@ countries.push_back(
         .civs_base = 45,
         .mils_base = 32,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -106,7 +105,6 @@ countries.push_back(
         .civs_base = 34,
         .mils_base = 28,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -117,7 +115,6 @@ countries.push_back(
         .civs_base = 17,
         .mils_base = 9,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -128,7 +125,6 @@ countries.push_back(
         .civs_base = 11,
         .mils_base = 4,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -139,7 +135,6 @@ countries.push_back(
         .civs_base = 7,
         .mils_base = 2,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -150,7 +145,6 @@ countries.push_back(
         .civs_base = 11,
         .mils_base = 3,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -161,7 +155,6 @@ countries.push_back(
         .civs_base = 11,
         .mils_base = 7,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -172,7 +165,6 @@ countries.push_back(
         .civs_base = 14,
         .mils_base = 3,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -183,7 +175,6 @@ countries.push_back(
         .civs_base = 10,
         .mils_base = 6,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -194,7 +185,6 @@ countries.push_back(
         .civs_base = 16,
         .mils_base = 9,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
@@ -205,7 +195,6 @@ countries.push_back(
         .civs_base = 10,
         .mils_base = 3,
         .civ_production = CIV_PRODUCTION_CIV,
-        .equipment = 1'000,
     }
 );
 
