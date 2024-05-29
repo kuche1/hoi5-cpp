@@ -36,7 +36,7 @@
     for(Country* country : countries){
 
         if(country->equipment <= 0){
-            // you can't fight if you don't have any equipment
+            // you can't attack if you don't have any equipment
             continue;
         }
 
