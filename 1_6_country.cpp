@@ -32,9 +32,11 @@ struct _Country {
     vector<Country*> bordering_countries = {};
     int offensive_borders = 0; // how many of our tiles are being attacked
     int deffensive_borders = 0; // how many tiles are we attacking
+    int borders_with_other_countries = 0; // how many tiles are bordering other countries
     // units: need to be updated in game loop
     float deffensive_unit_strength = 0.0;
     float offensive_unit_strength = 0.0;
+    float average_unit_strength = 0.0; // cosmetic, do not use for any actual logic
 };
 
 void country_print(Country* country, bool do_not_finish = false){

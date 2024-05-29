@@ -33,6 +33,7 @@
 
     // country: update "borders countries" property
     // tile: update "border" property
+    // country: update "borders with other countries" property
 
     for(auto& map_row : map){
         for(auto& tile : map_row){
@@ -42,6 +43,7 @@
 
     for(Country* country : countries){
         country->bordering_countries = {};
+        country->borders_with_other_countries = 0;
 
         for(Tile* tile : country->tiles){
             for(Tile* border_tile : tile->borders){
@@ -49,6 +51,7 @@
                 if(bordering_country != country){
                     vec_push_back_nodup(country->bordering_countries, bordering_country);
                     tile->is_border = true;
+                    country->borders_with_other_countries += 1;
                 }
             }
         }
@@ -85,11 +88,13 @@
     // country: update unit strengths
 
     for(Country* country : countries){
-        int total_borders = country->offensive_borders + country->deffensive_borders;
-        float strength_per_tile = country->equipment / static_cast<float>(total_borders);
+        int total_active_borders = country->offensive_borders + country->deffensive_borders;
+        float strength_per_active_tile = country->equipment / static_cast<float>(total_active_borders);
 
-        country->offensive_unit_strength  = strength_per_tile * GAME_OFFENSIVE_STRENGTH_MULTIPLIER;
-        country->deffensive_unit_strength = strength_per_tile * GAME_DEFFENSIVE_STRENGTH_MULTIPLIER;
+        country->offensive_unit_strength  = strength_per_active_tile * GAME_OFFENSIVE_STRENGTH_MULTIPLIER;
+        country->deffensive_unit_strength = strength_per_active_tile * GAME_DEFFENSIVE_STRENGTH_MULTIPLIER;
+
+        country->average_unit_strength = country->equipment / static_cast<float>(country->borders_with_other_countries);
     }
 
 }

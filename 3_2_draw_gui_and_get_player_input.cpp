@@ -27,23 +27,6 @@
         for(auto& map_row : map){
             for(auto& tile : map_row){
 
-                float float_factories = (tile.civs + tile.mils) * MAP_TILE_VALUE_MODIFIER;
-
-                int int_factories = static_cast<int>( floor(float_factories) );
-
-                char char_factories = '?';
-
-                if(int_factories <= 9){
-                    char_factories = '0' + int_factories;
-                }else{
-                    int_factories -= 10;
-                    if(int_factories <= 25){
-                        char_factories = 'A' + int_factories;
-                    }else{
-                        char_factories = '+';
-                    }
-                }
-
                 cout << tile.owner->color;
 
                 if(tile.is_border){
@@ -59,7 +42,34 @@
                     cout << EFFECT_STRIKETROUGH_ON;
                 }
 
-                cout << char_factories;
+                // put either number of factories OR army strength
+
+                float float_tile = 0.0;
+
+                if(tile.is_border){
+                    float_tile = tile.owner->average_unit_strength * GUI_ARMY_STRENGTH_MODIFIER;
+                }else{
+                    float_tile = (tile.civs + tile.mils) * GUI_TILE_VALUE_MODIFIER;
+                }
+
+                int int_tile = static_cast<int>(floor(float_tile)); // or we could round?
+
+                char char_tile = '?';
+
+                if(int_tile < 0){
+                    char_tile = '.';
+                }else if(int_tile <= 9){
+                    char_tile = '0' + int_tile;
+                }else{
+                    int_tile -= 10;
+                    if(int_tile <= 25){
+                        char_tile = 'A' + int_tile;
+                    }else{
+                        char_tile = '+';
+                    }
+                }
+
+                cout << char_tile;
 
                 // no need to turn off any of the effects, the reset will take care of that
 
