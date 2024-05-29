@@ -36,7 +36,7 @@ struct _Country {
     // units: need to be updated in game loop
     float deffensive_unit_strength = 0.0;
     float offensive_unit_strength = 0.0;
-    float average_unit_strength = 0.0; // cosmetic, do not use for any actual logic
+    float average_unit_strength = 0.0; // cosmetic, do not use to determine battle outcome, mey be used for AI tho
 };
 
 void country_print(Country* country, bool do_not_finish = false){
