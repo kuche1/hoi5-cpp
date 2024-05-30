@@ -74,11 +74,14 @@
 
                         // damage land
 
-                        border->civs *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
-                        border->mils *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
+                        float destroyed_civs = border->civs * (1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK);
+                        float destroyed_mils = border->mils * (1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK);
+
+                        border->civs -= destroyed_civs;
+                        border->mils -= destroyed_mils;
+                        // TODO also use these values as a buff to the defender
 
                         // determine battle result
-                        // TODO make it so that if there are any buildings they reduce the attacker's power
 
                         float deffender_multiplier = 1.0;
 
