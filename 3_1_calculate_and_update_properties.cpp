@@ -115,6 +115,7 @@
     }
 
     // country: end war if no longer sharing a border
+    // country: delete if no tiles left
 
     for(Country* country : countries){
         for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
@@ -123,8 +124,6 @@
             }
         }
     }
-
-    // country: delete if no tiles left
 
     for(Country* country : ranges::reverse_view(countries)){
         if(country->tiles.size() <= 0){
