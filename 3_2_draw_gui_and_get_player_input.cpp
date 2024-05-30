@@ -124,7 +124,7 @@
             for(Country* country : countries){
 
                 if(iter > 0){
-                    if(iter % 3 == 0){
+                    if(iter % GUI_HUD_COUNTRIES_PER_ROW == 0){
                         printf("\n");
                     }else{
                         printf(" ");

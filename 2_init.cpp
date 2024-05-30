@@ -94,7 +94,6 @@ countries.push_back(
         .color = COL_INT(124),
         .civs_base = 45,
         .mils_base = 32,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -104,7 +103,6 @@ countries.push_back(
         .color = COL_INT(23),
         .civs_base = 34,
         .mils_base = 28,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -114,7 +112,6 @@ countries.push_back(
         .color = COL_INT(13),
         .civs_base = 17,
         .mils_base = 9,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -124,7 +121,6 @@ countries.push_back(
         .color = COL_INT(144),
         .civs_base = 11,
         .mils_base = 4,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -134,7 +130,6 @@ countries.push_back(
         .color = COL_INT(39),
         .civs_base = 7,
         .mils_base = 2,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -144,7 +139,6 @@ countries.push_back(
         .color = COL_INT(118),
         .civs_base = 11,
         .mils_base = 3,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -154,7 +148,6 @@ countries.push_back(
         .color = COL_INT(184),
         .civs_base = 11,
         .mils_base = 7,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -164,7 +157,6 @@ countries.push_back(
         .color = COL_INT(27),
         .civs_base = 14,
         .mils_base = 3,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -174,7 +166,6 @@ countries.push_back(
         .color = COL_INT(9),
         .civs_base = 10,
         .mils_base = 6,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -184,7 +175,6 @@ countries.push_back(
         .color = COL_INT(202),
         .civs_base = 16,
         .mils_base = 9,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
 
@@ -194,9 +184,73 @@ countries.push_back(
         .color = COL_INT(145),
         .civs_base = 10,
         .mils_base = 3,
-        .civ_production = CIV_PRODUCTION_CIV,
     }
 );
+
+countries.push_back(
+    new Country{
+        .name = "Switzerland",
+        .color = COL_INT(196),
+        .civs_base = 8,
+        .mils_base = 4,
+    }
+);
+
+countries.push_back(
+    new Country{
+        .name = "Italy",
+        .color = COL_INT(77),
+        .civs_base = 21,
+        .mils_base = 20,
+    }
+);
+
+countries.push_back(
+    new Country{
+        .name = "France",
+        .color = COL_INT(75),
+        .civs_base = 33,
+        .mils_base = 8,
+    }
+);
+
+countries.push_back(
+    new Country{
+        .name = "UK",
+        .color = COL_INT(125),
+        .civs_base = 30,
+        .mils_base = 14,
+    }
+);
+
+countries.push_back(
+    new Country{
+        .name = "Spain",
+        .color = COL_INT(185),
+        .civs_base = 16,
+        .mils_base = 7,
+    }
+);
+
+countries.push_back(
+    new Country{
+        .name = "Portugal",
+        .color = COL_INT(36),
+        .civs_base = 11,
+        .mils_base = 2,
+    }
+);
+
+countries.push_back(
+    new Country{
+        .name = "Denmark",
+        .color = COL_INT(94),
+        .civs_base = 8,
+        .mils_base = 2,
+    }
+);
+
+// TODO make sure that there are no name/color duplicates
 
 // put countries onto map
 

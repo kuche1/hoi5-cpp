@@ -18,7 +18,7 @@ struct _Country {
     float civs_base;
     float mils_base;
     // civs: action
-    CivProduction civ_production; // what are the civs producing
+    CivProduction civ_production = CIV_PRODUCTION_MIL; // what are the civs producing
     // equipment
     float equipment = GAME_STARTING_EQUIPMENT;
     // war: attacking

@@ -33,4 +33,4 @@
 
 #define GAME_PLACE_BASE_FACTORY_RATE 0.004 // how many of your base factories are you going to loose and put on your land per turn
 
-#define GAME_DEFFENDER_BOOST_PER_FACTORY_DESTROYED 1.0 // if an attacker destroys 1 factory, the deffender's deffence will increase by [define value] of itself
+#define GAME_DEFFENDER_BOOST_PER_FACTORY_DESTROYED 1.5 // if an attacker destroys 1 factory, the deffender's deffence will increase by [define value] of itself
