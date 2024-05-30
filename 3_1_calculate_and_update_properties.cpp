@@ -79,9 +79,13 @@
     // tile: update "secondary border" property
 
     for(Country* country : countries){
+
+        country->secondary_borders = {};
+
         for(Tile* tile : country->tiles){
             tile->is_secondary_border = false;
         }
+
     }
 
     for(Country* country : countries){
@@ -95,6 +99,39 @@
                     continue;
                 }
                 secondary_border_tile->is_secondary_border = true;
+                country->secondary_borders.push_back(secondary_border_tile);
+            }
+
+        }
+    }
+
+    // tile: update "trenary border" property
+
+    for(Country* country : countries){
+
+        country->trenary_borders = {};
+
+        for(Tile* tile : country->tiles){
+            tile->is_trenary_border = false;
+        }
+
+    }
+
+    for(Country* country : countries){
+        for(Tile* secondary_border_tile : country->secondary_borders){
+
+            for(Tile* trenary_border_tile : secondary_border_tile->borders){
+                if(trenary_border_tile->owner != country){
+                    assert(false);
+                }
+                if(trenary_border_tile->is_border){
+                    continue;
+                }
+                if(trenary_border_tile->is_secondary_border){
+                    continue;
+                }
+                trenary_border_tile->is_trenary_border = true;
+                country->trenary_borders.push_back(trenary_border_tile);
             }
 
         }
@@ -145,10 +182,9 @@
             strength_per_active_tile = GAME_MAX_UNIT_BASE_STRENGTH;
         }
 
+        country->base_unit_strength       = strength_per_active_tile;
         country->offensive_unit_strength  = strength_per_active_tile * GAME_OFFENSIVE_STRENGTH_MULTIPLIER;
         country->deffensive_unit_strength = strength_per_active_tile * GAME_DEFFENSIVE_STRENGTH_MULTIPLIER;
-
-        country->average_unit_strength = country->equipment / static_cast<float>(country->borders_with_other_countries);
     }
 
     // country: end war if no longer sharing a border

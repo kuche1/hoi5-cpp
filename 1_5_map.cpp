@@ -24,11 +24,14 @@ typedef struct _Tile {
     // number of factories
     float civs = MAP_TILE_INITIAL_CIVS;
     float mils = 0;
-    // to be updated in the game loop
+
+    // everything below this line needs to be updated in the game loop
+
     bool is_offensive_border = false; // if it's a border that we're attacking from
     bool is_deffensive_border = false; // if it's a border that we're deffending from
     bool is_border = false; // if it is bordering another country
     bool is_secondary_border = false; // is it bordering a border
+    bool is_trenary_border = false;
     // bool is_trenary_border = false; // is it bordering a secondary border
     // float equipment = 0; // the owner can put some of it's equipment on a tile
 } Tile;

@@ -31,10 +31,10 @@
 
                 if(tile.is_border){
                     cout << EFFECT_BOLD_ON;
-                    cout << EFFECT_ITALIC_ON;
                 }
 
                 if(tile.is_secondary_border){
+                    cout << EFFECT_ITALIC_ON;
                     cout << EFFECT_UNDERLINE_ON;
                 }
 
@@ -52,6 +52,9 @@
 
                 if(tile.is_border){
 
+                    // TODO make ti so that instead of this, we're displaying how much
+                    // power we would have if we were to also add this country to the war
+
                     for(Tile* bordering_tile : tile.borders){
                         for(auto [bordering_country, bordering_country_border] : tile.owner->bordering_countries_and_borders){
                             if(bordering_country == bordering_tile->owner){
@@ -67,6 +70,10 @@
                     label_break_loop_determine_border_value:
                     float_tile *= GUI_ARMY_STRENGTH_MODIFIER;
 
+                }else if(tile.is_secondary_border){
+
+                    float_tile = tile.owner->base_unit_strength * static_cast<float>(GUI_MAP_PROPERLY_REPRESENTABLE_VALUES) / GAME_MAX_UNIT_BASE_STRENGTH;
+
                 }else{
 
                     float_tile = (tile.civs + tile.mils) * GUI_TILE_VALUE_MODIFIER;
@@ -78,9 +85,8 @@
                 char char_tile = '?';
 
                 if(int_tile < 0){
-                    char_tile = '0';
+                    char_tile = '-';
                 }else{
-                    int_tile += 1;
                     if(int_tile <= 9){
                         char_tile = '0' + int_tile;
                     }else{

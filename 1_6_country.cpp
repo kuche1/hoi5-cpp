@@ -17,28 +17,35 @@ struct _Country {
     // factories: base
     float civs_base;
     float mils_base;
-    // factories: total: those need to be updated in the game loop
-    float civs = 0.0;
-    float mils = 0.0;
-    float factories = 0.0;
     // civs: action
     CivProduction civ_production; // what are the civs producing
     // equipment
     float equipment = GAME_STARTING_EQUIPMENT;
     // war
     vector<struct _Country *> at_war_with = {};
-    // map-related: need to be updated in the game loop
+
+    // everything below this line needs to be updated in the game loop
+
+    // factories: total
+    float civs = 0.0;
+    float mils = 0.0;
+    float factories = 0.0;
+    // owned territory
     vector<Tile*> tiles = {};
+    // borders
     vector<Tile*> borders = {};
+    vector<Tile*> secondary_borders = {};
+    vector<Tile*> trenary_borders = {};
     vector<Country*> bordering_countries = {};
     vector<tuple<Country*, int>> bordering_countries_and_borders = {};
+    int borders_with_other_countries = 0; // how many tiles are bordering other countries
+    // war-time borders
     int offensive_borders = 0; // how many of our tiles are being attacked
     int deffensive_borders = 0; // how many tiles are we attacking
-    int borders_with_other_countries = 0; // how many tiles are bordering other countries
-    // units: need to be updated in game loop
+    // units
+    float base_unit_strength = 0.0;
     float deffensive_unit_strength = 0.0;
     float offensive_unit_strength = 0.0;
-    float average_unit_strength = 0.0; // cosmetic, do not use to determine battle outcome, mey be used for AI tho
 };
 
 void country_print(Country* country, bool do_not_finish = false){
@@ -60,6 +67,7 @@ Tile* country_get_random_tile(Country *country) {
 }
 
 // for example if your country is a circle: the chance of getting something in the center is higher
+// TODO we could actually use the newly intrudoced secondary and trenary borders
 pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country) {
     vector<Tile*> tiles = country->tiles;
 
