@@ -74,6 +74,34 @@
         country->bordering_countries_and_borders = vec_zip(bordering_countries, bordering_country_borders);
     }
 
+    // tile: update "secondary border" property
+
+    for(Country* country : countries){
+        for(Tile* tile : country->tiles){
+            tile->is_secondary_border = false;
+        }
+    }
+
+    for(Country* country : countries){
+        for(Tile* tile : country->tiles){
+
+            if(!tile->is_border){
+                continue;
+            }
+
+            for(Tile* secondary_border : tile->borders){
+                if(secondary_border->owner != country){
+                    continue;
+                }
+                if(secondary_border->is_border){
+                    continue;
+                }
+                secondary_border->is_secondary_border = true;
+            }
+
+        }
+    }
+
     // tiles: update "offensive/defensive border" property
 
     for(auto& map_row : map){

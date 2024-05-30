@@ -32,6 +32,9 @@ typedef char* Color;
 #define EFFECT_BLINK_ON  "\033[5m"
 #define EFFECT_BLINK_OFF "\033[25m" // untested
 
+#define EFFECT_UNDERLINE_ON  "\033[4m"
+#define EFFECT_UNDERLINE_OFF "\033[24m" // untested
+
 // mouse click
 
 void terminal_mouse_click_log_enable() {

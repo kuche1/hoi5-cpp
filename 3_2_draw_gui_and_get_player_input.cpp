@@ -34,6 +34,10 @@
                     cout << EFFECT_ITALIC_ON;
                 }
 
+                if(tile.is_secondary_border){
+                    cout << EFFECT_UNDERLINE_ON;
+                }
+
                 if(tile.is_offensive_border){
                     cout << EFFECT_INVERSE_ON;
                 }
