@@ -21,11 +21,13 @@ struct _Country {
     CivProduction civ_production; // what are the civs producing
     // equipment
     float equipment = GAME_STARTING_EQUIPMENT;
-    // war
-    vector<struct _Country *> at_war_with = {};
+    // war: attacking
+    vector<struct _Country *> attacking = {};
 
     // everything below this line needs to be updated in the game loop
 
+    // war: being attacked
+    vector<struct _Country *> being_attacked = {};
     // factories: total
     float civs = 0.0;
     float mils = 0.0;

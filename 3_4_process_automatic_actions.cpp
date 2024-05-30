@@ -61,7 +61,7 @@
             continue;
         }
 
-        for(Country* country_at_war : country->at_war_with){
+        for(Country* country_at_war : country->attacking){
 
             for(Tile* tile : country->tiles){
                 for(Tile* border : tile->borders){

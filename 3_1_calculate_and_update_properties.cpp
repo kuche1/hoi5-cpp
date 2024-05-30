@@ -150,7 +150,7 @@
     for(auto& map_row : map){
         for(auto& tile : map_row){
 
-            for(Country* country_at_war : tile.owner->at_war_with){
+            for(Country* country_at_war : tile.owner->attacking){
                 for(Tile* tile_border : tile.borders){
                     if(country_at_war == tile_border->owner){
 
@@ -192,9 +192,9 @@
     // country: delete if no tiles left
 
     for(Country* country : countries){
-        for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
+        for(Country* country_at_war : ranges::reverse_view(country->attacking)){
             if(!map_contains(country->bordering_countries__border_length, country_at_war)){
-                vec_remove_if_exist(country->at_war_with, country_at_war);
+                vec_remove_if_exist(country->attacking, country_at_war);
             }
         }
     }
@@ -209,5 +209,17 @@
     // country, tile: take equipment from non-border tiles, and put it to the border tiles
     // TODO implement, also we need to create a tile_change_owner that returns the equipment back to it's controller, aosl
     //  we could make it so that if a country is defeated you get it's stockpile
+
+    // country: update "being attacked by" property
+
+    for(Country* country : countries){
+        country->being_attacked = {};
+    }
+
+    for(Country* country_attacking : countries){
+        for(Country* country_defending : country_attacking->attacking){
+            vec_push_back_nodup(country_defending->being_attacked, country_attacking);
+        }
+    }
 
 }

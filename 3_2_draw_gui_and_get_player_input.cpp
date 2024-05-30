@@ -194,13 +194,13 @@
 
             printf("Click on the country that you want to attack\n");
             Country *target = input_another_country(&map, player);
-            vec_push_back_nodup(player->at_war_with, target);
+            vec_push_back_nodup(player->attacking, target);
 
         }else if(vec_contains(cmds_stop_attacking, command)){
 
             printf("Click on the country that you want to stop attacking\n");
             Country *piece_target = input_country(&map);
-            vec_remove_if_exist(player->at_war_with, piece_target);
+            vec_remove_if_exist(player->attacking, piece_target);
 
         }else if(vec_contains(cmds_info, command)){
 
@@ -230,11 +230,11 @@
 
         }else if("test-a0" == command){
 
-            vec_push_back_nodup(player->at_war_with, countries[0]);
+            vec_push_back_nodup(player->attacking, countries[0]);
 
         }else if("test-s0" == command){
 
-            vec_remove_if_exist(player->at_war_with, countries[0]);
+            vec_remove_if_exist(player->attacking, countries[0]);
 
         }else if("test-eq" == command) {
 
