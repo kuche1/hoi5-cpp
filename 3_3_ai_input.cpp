@@ -43,12 +43,6 @@
         // end war
 
         {
-            // if we no longer border the guy
-            for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
-                if(!vec_contains(country->bordering_countries, country_at_war)){
-                    vec_remove_if_exist(country->at_war_with, country_at_war);
-                }
-            }
 
             // if we have much less equipment than them
             for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
