@@ -9,9 +9,9 @@
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 23.0)
 
-#define GAME_ATK_WIN_CHANCE 0.15 // what is the base change (0.0 to 1.0) that a terriroty would be gained upon attack
+#define GAME_ATK_WIN_CHANCE 0.11 // what is the base change (0.0 to 1.0) that a terriroty would be gained upon attack
 
-#define GAME_ATK_EQUIPMENT_COST 16.0 // how much equipment a single attack costs
+#define GAME_ATK_EQUIPMENT_COST 12.0 // how much equipment a single attack costs
 #define GAME_DEF_EQUIPMENT_COST (GAME_ATK_EQUIPMENT_COST * 0.15) // how much equipment does it cost to deffend an attack
 
 #define GAME_DEF_NO_EQUIPMENT_MULTIPLIER 0.6
@@ -27,3 +27,5 @@
 #define GAME_DEFFENSIVE_STRENGTH_MULTIPLIER 1.5
 
 #define GAME_DEF_MULTIPLIER_IF_MORE_STRENGTH 1.2
+
+#define GAME_MAX_UNIT_BASE_STRENGTH 1.8

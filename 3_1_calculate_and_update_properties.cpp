@@ -105,8 +105,19 @@
     // country: update unit strengths
 
     for(Country* country : countries){
+
         int total_active_borders = country->offensive_borders + country->deffensive_borders;
+        if(total_active_borders <= 0){
+            // without this it always looks as if we're on max strength
+            // it would be much better if we acted as if we're guarding all out borders instead
+            total_active_borders = static_cast<float>(country->borders_with_other_countries);
+        }
+
         float strength_per_active_tile = country->equipment / static_cast<float>(total_active_borders);
+
+        if(strength_per_active_tile > GAME_MAX_UNIT_BASE_STRENGTH){
+            strength_per_active_tile = GAME_MAX_UNIT_BASE_STRENGTH;
+        }
 
         country->offensive_unit_strength  = strength_per_active_tile * GAME_OFFENSIVE_STRENGTH_MULTIPLIER;
         country->deffensive_unit_strength = strength_per_active_tile * GAME_DEFFENSIVE_STRENGTH_MULTIPLIER;

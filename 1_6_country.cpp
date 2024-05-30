@@ -42,6 +42,7 @@ struct _Country {
 
 void country_print(Country* country, bool do_not_finish = false){
     cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment;
+    cout << " OFB:" << country->offensive_borders << " DFB:" << country->deffensive_borders << " OUS:" << country->offensive_unit_strength << " DUS:" << country->deffensive_unit_strength; // debug
 
     if(!do_not_finish){
         cout << ">";
