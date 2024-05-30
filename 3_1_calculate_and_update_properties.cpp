@@ -43,6 +43,7 @@
     }
 
     for(Country* country : countries){
+        country->borders = {};
         country->bordering_countries = {};
         country->bordering_countries_and_borders = {};
         country->borders_with_other_countries = 0;
@@ -54,9 +55,10 @@
             for(Tile* border_tile : tile->borders){
                 Country* bordering_country = border_tile->owner;
                 if(bordering_country != country){
-                    // vec_push_back_nodup(country->bordering_countries, bordering_country);
+
                     tile->is_border = true;
                     country->borders_with_other_countries += 1;
+                    country->borders.push_back(tile);
 
                     if(vec_contains(bordering_countries, bordering_country)){
                         int bordering_country_idx = vec_get_index(bordering_countries, bordering_country);
@@ -83,20 +85,16 @@
     }
 
     for(Country* country : countries){
-        for(Tile* tile : country->tiles){
+        for(Tile* border_tile : country->borders){
 
-            if(!tile->is_border){
-                continue;
-            }
-
-            for(Tile* secondary_border : tile->borders){
-                if(secondary_border->owner != country){
+            for(Tile* secondary_border_tile : border_tile->borders){
+                if(secondary_border_tile->owner != country){
                     continue;
                 }
-                if(secondary_border->is_border){
+                if(secondary_border_tile->is_border){
                     continue;
                 }
-                secondary_border->is_secondary_border = true;
+                secondary_border_tile->is_secondary_border = true;
             }
 
         }
