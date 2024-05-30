@@ -1,7 +1,7 @@
 
 {
 
-    // process civs
+    // construct with civs
 
     for(Country* country : countries){
 
@@ -25,11 +25,15 @@
         }
     }
 
-    // process mils
+    // produce equipment
 
     for(Country* country : countries){
         country->equipment += GAME_MIL_PRODUCE(country->mils);
     }
+
+    // transfer some of base civs/mils onto land
+
+    // TODO
 
     // process wars
 
@@ -67,7 +71,13 @@
                         }
 
                         if(country_at_war->deffensive_unit_strength > country->offensive_unit_strength){
-                            deffender_multiplier = GAME_DEF_MULTIPLIER_IF_MORE_STRENGTH;
+                            deffender_multiplier *= GAME_DEF_MULTIPLIER_IF_MORE_STRENGTH;
+                        }
+
+                        float offender_multiplier = 1.0;
+
+                        if(country->offensive_unit_strength > country_at_war->deffensive_unit_strength){
+                            offender_multiplier *= GAME_ATK_MULTIPLIER_IF_MORE_STRENGTH;
                         }
 
                         if(random_0_to_1() * deffender_multiplier < GAME_ATK_WIN_CHANCE){

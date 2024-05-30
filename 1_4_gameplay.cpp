@@ -23,6 +23,7 @@
 #define GAME_STARTING_EQUIPMENT (25'000)
 
 #define GAME_DEF_MULTIPLIER_IF_MORE_STRENGTH 1.2
+#define GAME_ATK_MULTIPLIER_IF_MORE_STRENGTH 1.2
 
 // I heard somewhere that in IRL if an army is to take some territory, the attacking forces need to be 3 times more than the deffending forces
 #define GAME_OFFENSIVE_STRENGTH_MULTIPLIER  0.5

@@ -48,8 +48,7 @@ struct _Country {
 };
 
 void country_print(Country* country, bool do_not_finish = false){
-    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils << " equipment:" << country->equipment;
-    // cout << " OFB:" << country->offensive_borders << " DFB:" << country->deffensive_borders << " OUS:" << country->offensive_unit_strength << " DUS:" << country->deffensive_unit_strength; // debug
+    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils;
 
     if(!do_not_finish){
         cout << ">";
@@ -58,7 +57,7 @@ void country_print(Country* country, bool do_not_finish = false){
 
 void country_print_long(Country* country){
     country_print(country, true);
-    cout << " offensive-boarders:" << country->offensive_borders << " deffensive-boarders:" << country->deffensive_borders << " offensive-strength:" << country->offensive_unit_strength << " deffensive-strength:" << country->deffensive_unit_strength << ">";
+    cout << " equipment:" << country->equipment << " offensive-borders:" << country->offensive_borders << " deffensive-borders:" << country->deffensive_borders << " offensive-strength:" << country->offensive_unit_strength << " deffensive-strength:" << country->deffensive_unit_strength << ">";
 }
 
 Tile* country_get_random_tile(Country *country) {
