@@ -5,7 +5,7 @@
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0005)
+#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.001)
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 23.0)
 
