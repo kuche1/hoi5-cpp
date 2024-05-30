@@ -126,7 +126,7 @@
         vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
         vector<string> cmds_pass_200 = {"p200", "pass200", "pass-200-turns"};
 
-        vector<string> cmds_quit = {"q", "quit", "quit-game"};
+        vector<string> cmds_quit = {"qu", "quit", "quit-game"};
 
         vector<string> cmds_attack = {"a", "attack", "attack-country"};
         vector<string> cmds_stop_attacking = {"s", "stop-attack", "stop-attacking-country"};
@@ -204,7 +204,7 @@
 
         }else if("test-eq" == command) {
 
-            player->equipment += 100'000;
+            player->equipment += 1'000'000;
 
         }else{
 

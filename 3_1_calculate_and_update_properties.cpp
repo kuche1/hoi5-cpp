@@ -44,21 +44,37 @@
 
     for(Country* country : countries){
         country->bordering_countries = {};
+        country->bordering_countries_and_borders = {};
         country->borders_with_other_countries = 0;
+
+        vector<Country*> bordering_countries = {};
+        vector<int> bordering_country_borders = {};
 
         for(Tile* tile : country->tiles){
             for(Tile* border_tile : tile->borders){
                 Country* bordering_country = border_tile->owner;
                 if(bordering_country != country){
-                    vec_push_back_nodup(country->bordering_countries, bordering_country);
+                    // vec_push_back_nodup(country->bordering_countries, bordering_country);
                     tile->is_border = true;
                     country->borders_with_other_countries += 1;
+
+                    if(vec_contains(bordering_countries, bordering_country)){
+                        int bordering_country_idx = vec_get_index(bordering_countries, bordering_country);
+                        bordering_country_borders[bordering_country_idx] += 1;
+                    }else{
+                        bordering_countries.push_back(bordering_country);
+                        bordering_country_borders.push_back(1);
+                    }
+
                 }
             }
         }
+
+        country->bordering_countries = bordering_countries;
+        country->bordering_countries_and_borders = vec_zip(bordering_countries, bordering_country_borders);
     }
 
-    // tiles: update "war border" property
+    // tiles: update "offensive/defensive border" property
 
     for(auto& map_row : map){
         for(auto& tile : map_row){
@@ -102,8 +118,8 @@
 
     for(Country* country : countries){
         for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
-            if(!vec_contains(country->bordering_countries, country)){
-                vec_remove_if_exist(country->bordering_countries, country_at_war);
+            if(!vec_contains(country->bordering_countries, country_at_war)){
+                vec_remove_if_exist(country->at_war_with, country_at_war);
             }
         }
     }

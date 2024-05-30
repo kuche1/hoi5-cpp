@@ -56,6 +56,42 @@ void vec_remove_if_exist(vector<T>& vec, const T& element) {
 }
 
 template<typename T>
+int vec_get_index(vector<T>& vec, const T& element) 
+{ 
+    auto it = find(vec.begin(), vec.end(), element); 
+  
+    // If element was found 
+    if (it != vec.end()) {
+        // calculating the index 
+        int index = it - vec.begin(); 
+        return index;
+    } 
+    else { 
+        // If the element is not 
+        // present in the vector 
+        assert(false);
+    }
+}
+
+template<typename T0, typename T1>
+vector<tuple<T0, T1>> vec_zip(vector<T0>& vec0, vector<T1>& vec1) {
+
+    assert(vec0.size() == vec1.size());
+    int length = vec0.size();
+
+    vector<tuple<T0, T1>> result = {};
+
+    for(int i=0; i<length; ++i){
+        T0 elem0 = vec0[i];
+        T1 elem1 = vec1[i];
+        tuple<T0, T1> combined = make_tuple(elem0, elem1);
+        result.push_back(combined);
+    }
+
+    return result;
+}
+
+template<typename T>
 T vec_get_random_element(vector<T>& vec) {
     int length = vec.size();
     assert(length > 0);

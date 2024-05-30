@@ -30,6 +30,7 @@ struct _Country {
     // map-related: need to be updated in the game loop
     vector<Tile*> tiles = {};
     vector<Country*> bordering_countries = {};
+    vector<tuple<Country*, int>> bordering_countries_and_borders = {};
     int offensive_borders = 0; // how many of our tiles are being attacked
     int deffensive_borders = 0; // how many tiles are we attacking
     int borders_with_other_countries = 0; // how many tiles are bordering other countries
