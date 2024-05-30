@@ -10,10 +10,46 @@
 // the question that countries should be asking is "is it worth loosing my equipment in order to get this territory"
 //
 // in fact, if a country takes too much of the world all other countries MUST UNITE and ciece to fight
+// if we can get them attacking synchrynously that would be awesome
+//
+// the building logic is fucked, AI is building civs when should abviously build mils (not a bug)
 
 {
 
     // AI
+
+    // determine if extreme conditions are met
+    // TODO this MUST NOT be here
+    // TODO if we can expand this to top2 or top3 or topN and have the AI auto calc the alliances that would be awesome
+
+    Country* gangbang_target = NULL;
+
+    {
+
+        Country* most_powerful_mf = countries[0];
+
+        for(Country* country : countries){
+            if(country->factories > most_powerful_mf->factories){
+                most_powerful_mf = country;
+            }
+        }
+
+        float powerful_mf_power = 0.0;
+        float rest_of_world_power = 0.0;
+
+        for(Country* country : countries){
+            if(country == most_powerful_mf){
+                powerful_mf_power += country->factories;
+            }else{
+                rest_of_world_power += country->factories;
+            }
+        }
+
+        if(powerful_mf_power * AI_ENGAGE_GANGBANG_AT_RATIO >= rest_of_world_power){
+            gangbang_target = most_powerful_mf;
+        }
+
+    }
 
     for(Country* country : countries){
 
@@ -70,6 +106,15 @@
         // end war
 
         {
+
+            // stop attacking everyone but the gangbang target
+            if(gangbang_target != NULL){
+                for(Country* country_that_we_are_attacking : ranges::reverse_view(country->attacking)){
+                    if(country_that_we_are_attacking != gangbang_target){
+                        vec_remove(country->attacking, country_that_we_are_attacking);
+                    }
+                }
+            }
 
             // if we have much less equipment than any of our neighbours
             for(auto [neighbour, _border_length] : country->bordering_countries__border_length){
