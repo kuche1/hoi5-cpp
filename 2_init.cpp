@@ -101,7 +101,7 @@ countries.push_back(
 countries.push_back(
     new Country{
         .name = "Germany",
-        .color = COL_YELLOW_DARK,
+        .color = COL_INT(23),
         .civs_base = 34,
         .mils_base = 28,
         .civ_production = CIV_PRODUCTION_CIV,

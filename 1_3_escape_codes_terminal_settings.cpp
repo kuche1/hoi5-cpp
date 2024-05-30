@@ -13,8 +13,6 @@ typedef char* Color;
 
 #define COL_RESET ((Color)"\033[0m")
 
-#define COL_YELLOW_DARK ((Color)"\033[33m")
-
 #define COL_INT(color_number) ((Color)"\033[38;5;" #color_number "m")
 
 #define EFFECT_INVERSE_ON  "\033[7m"

@@ -65,7 +65,6 @@
                     }
 
                     assert(false);
-                    // float_tile = tile.owner->average_unit_strength * GUI_ARMY_STRENGTH_MODIFIER;
 
                     label_break_loop_determine_border_value:
                     float_tile *= GUI_ARMY_STRENGTH_MODIFIER;

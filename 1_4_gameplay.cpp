@@ -7,7 +7,7 @@
 
 #define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.001)
 
-#define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 23.0)
+#define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 21.0)
 
 #define GAME_ATK_WIN_CHANCE 0.11 // what is the base change (0.0 to 1.0) that a terriroty would be gained upon attack
 
