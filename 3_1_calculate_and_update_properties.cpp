@@ -132,4 +132,8 @@
         }
     }
 
+    // country, tile: take equipment from non-border tiles, and put it to the border tiles
+    // TODO implement, also we need to create a tile_change_owner that returns the equipment back to it's controller, aosl
+    //  we could make it so that if a country is defeated you get it's stockpile
+
 }

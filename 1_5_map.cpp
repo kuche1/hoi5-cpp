@@ -28,4 +28,5 @@ typedef struct _Tile {
     bool is_border = false; // if it is bordering another country
     bool is_offensive_border = false; // if it's a border that we're attacking from
     bool is_deffensive_border = false; // if it's a border that we're deffending from
+    // float equipment = 0; // the owner can put some of it's equipment on a tile
 } Tile;
