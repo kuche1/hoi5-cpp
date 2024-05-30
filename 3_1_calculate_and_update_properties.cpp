@@ -106,6 +106,7 @@
     }
 
     // tile: update "trenary border" property
+    // TODO I feel like this is too inefficient, and it would be better to use "distance from border" field or something like that
 
     for(Country* country : countries){
 
