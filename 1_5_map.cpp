@@ -8,7 +8,7 @@
 #define MAP_SIZE_Y 33
 #define MAP_SIZE_X 205
 
-#define MAP_LOOPS_Y true
+#define MAP_LOOPS_Y false
 #define MAP_LOOPS_X true
 
 #define MAP_TILE_BORDERS_MAX_LEN 4 // you can have 4 borders max (an assertion)
