@@ -78,6 +78,7 @@
                         border->mils *= 1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
 
                         // determine battle result
+                        // TODO make it so that if there are any buildings they reduce the attacker's power
 
                         float deffender_multiplier = 1.0;
 
@@ -95,7 +96,7 @@
                             offender_multiplier *= GAME_ATK_MULTIPLIER_IF_MORE_STRENGTH;
                         }
 
-                        if(random_0_to_1() * deffender_multiplier < GAME_ATK_WIN_CHANCE){
+                        if(random_0_to_1() * deffender_multiplier < GAME_ATK_WIN_CHANCE * offender_multiplier){
                             // battle has been won, transfer land
 
                             border->owner = country;
