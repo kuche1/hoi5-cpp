@@ -5,8 +5,6 @@
 //
 // make it so that if the defender just sits there there is some kind of bonus, for example: if the defender has more equipment than you they get a deffensive bonus?
 //
-// if tile is "border" show army strength, otherwise show factory count; would be super cool if we could do it on country-per-country basis OR reflect the actual offensive/deffensive strength during war
-//
 // implement visibility, ie only see you country and up to N border of border tiles; also make the rendering and clicking based not on the actual map, but on the tile data in the country struct (this will actually be quite painfull without adding a X and Y properties of the tile struct); also make the rendering the very last thing in the main loop again (if we want to sychronise the clicks with the map rather than the data in the country struct)
 //
 // improve rendering performance by using buffering of some sort

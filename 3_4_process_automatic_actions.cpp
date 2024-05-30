@@ -66,6 +66,10 @@
                             deffender_multiplier *= GAME_DEF_NO_EQUIPMENT_MULTIPLIER;
                         }
 
+                        if(country_at_war->deffensive_unit_strength > country->offensive_unit_strength){
+                            deffender_multiplier = GAME_DEF_MULTIPLIER_IF_MORE_STRENGTH;
+                        }
+
                         if(random_0_to_1() * deffender_multiplier < GAME_ATK_WIN_CHANCE){
                             // battle has been won, transfer land
 

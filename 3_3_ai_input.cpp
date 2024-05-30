@@ -38,6 +38,8 @@
                     vec_push_back_nodup(country->at_war_with, bordering_country);
                 }
             }
+
+            // TODO ako nqkoi ve4e te natqga nedei da po4va6 novi voini
         }
 
         // end war
@@ -57,6 +59,19 @@
             if(production_for_short_amount_of_time >= country->equipment){
                 for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
                     vec_remove_if_exist(country->at_war_with, country_at_war);
+                }
+            }
+
+            // if someone is attacking both you and your enemy (who you are in a war with), end the war
+            for(Country* country_attacking_us : countries){
+                if(!vec_contains(country_attacking_us->at_war_with, country)){
+                    continue;
+                }
+
+                for(Country* enemy : ranges::reverse_view(country->at_war_with)){
+                    if(vec_contains(country_attacking_us->at_war_with, enemy)){
+                        vec_remove(country->at_war_with, enemy);
+                    }
                 }
             }
 

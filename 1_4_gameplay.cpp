@@ -5,7 +5,7 @@
 //////////////
 ///////////
 
-#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0004)
+#define GAME_CIV_PRODUCE(number_of_civs) (floor(number_of_civs) * 0.0005)
 
 #define GAME_MIL_PRODUCE(number_of_mils) (floor(number_of_mils) * 23.0)
 
@@ -25,3 +25,5 @@
 // I heard somewhere that in IRL if an army is to take some territory, the attacking forces need to be 3 times more than the deffending forces
 #define GAME_OFFENSIVE_STRENGTH_MULTIPLIER  0.5
 #define GAME_DEFFENSIVE_STRENGTH_MULTIPLIER 1.5
+
+#define GAME_DEF_MULTIPLIER_IF_MORE_STRENGTH 1.2

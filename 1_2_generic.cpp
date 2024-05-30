@@ -48,10 +48,17 @@ void vec_push_back_nodup(vector<T>& vec, const T& element) {
 }
 
 template<typename T>
+void vec_remove(vector<T>& vec, const T& element) {
+    assert(vec_contains(vec, element));
+
+    auto it = find(vec.begin(), vec.end(), element);
+    vec.erase(it);
+}
+
+template<typename T>
 void vec_remove_if_exist(vector<T>& vec, const T& element) {
     if(vec_contains(vec, element)){
-        auto it = find(vec.begin(), vec.end(), element);
-        vec.erase(it);
+        vec_remove(vec, element);
     }
 }
 
