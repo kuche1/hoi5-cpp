@@ -79,7 +79,9 @@
 
                         border->civs -= destroyed_civs;
                         border->mils -= destroyed_mils;
-                        // TODO also use these values as a buff to the defender
+
+                        float total_destroyed_factories = destroyed_civs + destroyed_mils;
+                        // used in the battle calculation
 
                         // determine battle result
 
@@ -93,7 +95,9 @@
                             deffender_multiplier *= GAME_DEF_MULTIPLIER_IF_MORE_STRENGTH;
                         }
 
-                        float offender_multiplier = 1.0;
+                        deffender_multiplier += deffender_multiplier * (GAME_DEFFENDER_BOOST_PER_FACTORY_DESTROYED * total_destroyed_factories);
+
+                        float offender_multiplier = 1.0; // TODO debuff if army is not full strength
 
                         if(country->offensive_unit_strength > country_at_war->deffensive_unit_strength){
                             offender_multiplier *= GAME_ATK_MULTIPLIER_IF_MORE_STRENGTH;
