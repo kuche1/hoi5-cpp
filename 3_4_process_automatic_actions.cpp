@@ -9,10 +9,11 @@
 
         float production = GAME_CIV_PRODUCE(country->civs);
 
-        auto [failure, tile] = country_get_random_tile_based_on_density(country);
-        if(failure){
-            continue;
-        }
+        // auto [failure, tile] = country_get_random_tile_based_on_density(country);
+        // if(failure){
+        //     continue;
+        // }
+        Tile* tile = country_get_random_tile_based_on_density(country);
 
         switch(country->civ_production){
             case CIV_PRODUCTION_CIV: {
@@ -25,7 +26,7 @@
         }
     }
 
-    // produce equipment
+    // produce equipment with mils
 
     for(Country* country : countries){
         country->equipment += GAME_MIL_PRODUCE(country->mils);
@@ -33,7 +34,23 @@
 
     // transfer some of base civs/mils onto land
 
-    // TODO
+    for(Country* country : countries){
+
+        if(country->civs_base > 0){
+            float factories = country->civs_base * GAME_PLACE_BASE_FACTORY_RATE;
+            country->civs_base -= factories;
+            Tile* tile = country_get_random_tile_based_on_density(country);
+            tile->civs += factories;
+        }
+
+        if(country->mils_base > 0){
+            float factories = country->mils_base * GAME_PLACE_BASE_FACTORY_RATE;
+            country->mils_base -= factories;
+            Tile* tile = country_get_random_tile_based_on_density(country);
+            tile->mils += factories;
+        }
+
+    }
 
     // process wars
 

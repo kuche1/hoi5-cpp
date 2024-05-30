@@ -48,7 +48,10 @@ struct _Country {
 };
 
 void country_print(Country* country, bool do_not_finish = false){
-    cout << country->color << country->name << COL_RESET << "<" << "tiles:" << country->tiles.size() << " civs:" << country->civs << " mils:" << country->mils;
+    cout << country->color << country->name << COL_RESET;
+    cout << "<";
+    cout << "tiles:" << country->tiles.size();
+    cout << " civs:" << country->civs << " mils:" << country->mils;
 
     if(!do_not_finish){
         cout << ">";
@@ -57,7 +60,11 @@ void country_print(Country* country, bool do_not_finish = false){
 
 void country_print_long(Country* country){
     country_print(country, true);
-    cout << " equipment:" << country->equipment << " offensive-borders:" << country->offensive_borders << " deffensive-borders:" << country->deffensive_borders << " offensive-strength:" << country->offensive_unit_strength << " deffensive-strength:" << country->deffensive_unit_strength << ">";
+    cout << " civs-base:" << country->civs_base << " mils-base:" << country->mils_base;
+    cout << " equipment:" << country->equipment;
+    cout << " offensive-borders:" << country->offensive_borders << " deffensive-borders:" << country->deffensive_borders;
+    cout << " offensive-strength:" << country->offensive_unit_strength << " deffensive-strength:" << country->deffensive_unit_strength;
+    cout << ">";
 }
 
 Tile* country_get_random_tile(Country *country) {
@@ -66,16 +73,16 @@ Tile* country_get_random_tile(Country *country) {
 
 // for example if your country is a circle: the chance of getting something in the center is higher
 // TODO we could actually use the newly intrudoced secondary and trenary borders
-pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country) {
-    vector<Tile*> tiles = country->tiles;
+//pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country) {
+Tile* country_get_random_tile_based_on_density(Country* country) {
 
-    if(tiles.size() <= 0){
-        return make_pair(true, nullptr);
-    }
+    // if(country->tiles.size() <= 0){
+    //     return make_pair(true, nullptr);
+    // }
 
     vector<Tile*> candidates;
 
-    for(Tile* tile : tiles){
+    for(Tile* tile : country->tiles){
 
         int points = 1;
 
@@ -92,5 +99,6 @@ pair<bool, Tile*> country_get_random_tile_based_on_density(Country* country) {
         }
     }
 
-    return make_pair(false, vec_get_random_element(candidates));
+    // return make_pair(false, vec_get_random_element(candidates));
+    return vec_get_random_element(candidates);
 }

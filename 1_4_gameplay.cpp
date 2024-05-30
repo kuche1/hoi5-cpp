@@ -30,3 +30,5 @@
 #define GAME_DEFFENSIVE_STRENGTH_MULTIPLIER 1.5
 
 #define GAME_MAX_UNIT_BASE_STRENGTH 1.8
+
+#define GAME_PLACE_BASE_FACTORY_RATE 0.002 // how many of your base factories are you going to loose and put on your land per turn
