@@ -155,6 +155,7 @@
         vector<string> cmds_pass_20 = {"p20", "pass20", "pass-20-turns"};
         vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
         vector<string> cmds_pass_200 = {"p200", "pass200", "pass-200-turns"};
+        vector<string> cmds_pass_500 = {"p500", "pass500", "pass-500-turns"};
 
         vector<string> cmds_quit = {"qu", "quit", "quit-game"};
 
@@ -165,7 +166,7 @@
         vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
         vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
 
-        vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_20, cmds_pass_50, cmds_pass_200, cmds_quit, cmds_attack, cmds_stop_attacking,
+        vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_20, cmds_pass_50, cmds_pass_200, cmds_pass_500, cmds_quit, cmds_attack, cmds_stop_attacking,
             cmds_info, cmds_construct_civs, cmds_construct_mils};
 
         if(vec_contains(cmds_pass, command)){
@@ -185,6 +186,10 @@
 
         }else if(vec_contains(cmds_pass_200, command)){
             gui_additional_turns_to_pass = 200 - 1;
+            goto break_loop_command;
+
+        }else if(vec_contains(cmds_pass_500, command)){
+            gui_additional_turns_to_pass = 500 - 1;
             goto break_loop_command;
 
         }else if(vec_contains(cmds_quit, command)){

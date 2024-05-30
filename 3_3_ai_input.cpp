@@ -1,10 +1,15 @@
 
 // TODO
 //
-// make it so that if a country has a lot of factories and not a lot of equipment it will get attacked
-// (as to prevent it from becoming too powerful in the future)
+// make it so that if a country has a lot of factories and not a lot of equipment it ABSOLUTELY
+// GETS GANG BANGED (as to prevent it from becoming too powerful in the future)
 //
-// make it so that wars last longer
+// make it so that if there are a couple of big countries they fight it out and do not bother the small
+// ones too much
+//
+// the question that countries should be asking is "is it worth loosing my equipment in order to get this territory"
+//
+// in fact, if a country takes too much of the world all other countries MUST UNITE and ciece to fight
 
 {
 
@@ -20,10 +25,12 @@
         // start war
 
         {
-            // don't start any new wars if we are being attacked
-            if(country->being_attacked.size() > 0){
-                goto label_dont_start_any_new_wars;
-            }
+            // this actually turned out to be a bad idea since there are situations where the only way of
+            //  winning is to attack back
+            // // don't start any new wars if we are being attacked
+            // if(country->being_attacked.size() > 0){
+            //     goto label_dont_start_any_new_wars;
+            // }
 
             // there is a change that the AI is going to skip on starting any new wars if it doesn't have enough strength
             if(country->base_unit_strength < GAME_MAX_UNIT_BASE_STRENGTH){
