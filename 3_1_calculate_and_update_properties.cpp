@@ -97,4 +97,14 @@
         country->average_unit_strength = country->equipment / static_cast<float>(country->borders_with_other_countries);
     }
 
+    // country: end war if no longer sharing a border
+
+    for(Country* country : countries){
+        for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
+            if(!vec_contains(country->bordering_countries, country)){
+                vec_remove_if_exist(country->bordering_countries, country_at_war);
+            }
+        }
+    }
+
 }

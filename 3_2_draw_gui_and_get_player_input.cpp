@@ -206,6 +206,10 @@
 
             vec_remove_if_exist(player->at_war_with, countries[0]);
 
+        }else if("test-eq" == command) {
+
+            player->equipment += 100'000;
+
         }else{
 
             cout << '\n';
