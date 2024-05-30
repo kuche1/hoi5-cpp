@@ -47,9 +47,26 @@
                 float float_tile = 0.0;
 
                 if(tile.is_border){
-                    float_tile = tile.owner->average_unit_strength * GUI_ARMY_STRENGTH_MODIFIER;
+
+                    for(Tile* bordering_tile : tile.borders){
+                        for(auto [bordering_country, bordering_country_border] : tile.owner->bordering_countries_and_borders){
+                            if(bordering_country == bordering_tile->owner){
+                                float_tile = tile.owner->equipment / bordering_country_border;
+                                goto label_break_loop_determine_border_value;
+                            }
+                        }
+                    }
+
+                    assert(false);
+                    // float_tile = tile.owner->average_unit_strength * GUI_ARMY_STRENGTH_MODIFIER;
+
+                    label_break_loop_determine_border_value:
+                    float_tile *= GUI_ARMY_STRENGTH_MODIFIER;
+
                 }else{
+
                     float_tile = (tile.civs + tile.mils) * GUI_TILE_VALUE_MODIFIER;
+
                 }
 
                 int int_tile = static_cast<int>(floor(float_tile)); // or we could round?
@@ -57,15 +74,18 @@
                 char char_tile = '?';
 
                 if(int_tile < 0){
-                    char_tile = '.';
-                }else if(int_tile <= 9){
-                    char_tile = '0' + int_tile;
+                    char_tile = '0';
                 }else{
-                    int_tile -= 10;
-                    if(int_tile <= 25){
-                        char_tile = 'A' + int_tile;
+                    int_tile += 1;
+                    if(int_tile <= 9){
+                        char_tile = '0' + int_tile;
                     }else{
-                        char_tile = '+';
+                        int_tile -= 10;
+                        if(int_tile <= 25){
+                            char_tile = 'A' + int_tile;
+                        }else{
+                            char_tile = '+';
+                        }
                     }
                 }
 
@@ -123,6 +143,7 @@
         vector<string> cmds_pass = {"", "pass", "next-turn"};
 
         vector<string> cmds_pass_10 = {"p10", "pass10", "pass-10-turns"};
+        vector<string> cmds_pass_20 = {"p20", "pass20", "pass-20-turns"};
         vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
         vector<string> cmds_pass_200 = {"p200", "pass200", "pass-200-turns"};
 
@@ -135,7 +156,7 @@
         vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
         vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
 
-        vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_50, cmds_pass_200, cmds_quit, cmds_attack, cmds_stop_attacking,
+        vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_20, cmds_pass_50, cmds_pass_200, cmds_quit, cmds_attack, cmds_stop_attacking,
             cmds_info, cmds_construct_civs, cmds_construct_mils};
 
         if(vec_contains(cmds_pass, command)){
@@ -143,6 +164,10 @@
         
         }else if(vec_contains(cmds_pass_10, command)){
             gui_additional_turns_to_pass = 10 - 1;
+            goto break_loop_command;
+
+        }else if(vec_contains(cmds_pass_20, command)){
+            gui_additional_turns_to_pass = 20 - 1;
             goto break_loop_command;
 
         }else if(vec_contains(cmds_pass_50, command)){
