@@ -94,10 +94,6 @@
 
             for(Country* country : countries){
 
-                if(country->tiles.size() <= 0){
-                    continue;
-                }
-
                 if(iter > 0){
                     if(iter % 3 == 0){
                         printf("\n");

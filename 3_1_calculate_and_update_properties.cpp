@@ -107,4 +107,13 @@
         }
     }
 
+    // country: delete if no tiles left
+
+    for(Country* country : ranges::reverse_view(countries)){
+        if(country->tiles.size() <= 0){
+            vec_remove_if_exist(countries, country);
+            // TOD0 we're memory leaking here since no one is referencing the country anymore, however this allows us to not care about rendering `player` if he is dead
+        }
+    }
+
 }
