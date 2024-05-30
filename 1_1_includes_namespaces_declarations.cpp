@@ -8,6 +8,7 @@
 #include <random>
 #include <cassert>
 #include <ranges>
+#include <map>
 
 using namespace std;
 

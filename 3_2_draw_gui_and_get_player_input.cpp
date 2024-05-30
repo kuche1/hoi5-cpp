@@ -56,7 +56,7 @@
                     // power we would have if we were to also add this country to the war
 
                     for(Tile* bordering_tile : tile.borders){
-                        for(auto [bordering_country, bordering_country_border] : tile.owner->bordering_countries_and_borders){
+                        for(auto [bordering_country, bordering_country_border] : tile.owner->bordering_countries__border_length){
                             if(bordering_country == bordering_tile->owner){
                                 float_tile = tile.owner->equipment / bordering_country_border;
                                 goto label_break_loop_determine_border_value;

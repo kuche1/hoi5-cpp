@@ -24,14 +24,14 @@
 
         {
             // if we have much more equipment than them
-            for(Country* bordering_country : country->bordering_countries){
+            for(auto [bordering_country, _border_length] : country->bordering_countries__border_length){
                 if(bordering_country->equipment < country->equipment * AI_START_WAR_IF_NEIGHBOUR_HAS_LESS_EQUIPMENT_THRESHOLD){
                     vec_push_back_nodup(country->at_war_with, bordering_country);
                 }
             }
 
             // if we're bordering someone with a lot of factories, but not a lot of equipment
-            for(Country* bordering_country : country->bordering_countries){
+            for(auto [bordering_country, _border_length] : country->bordering_countries__border_length){
 
                 float his_ratio = bordering_country->equipment / bordering_country->factories;
                 float our_ratio = country->equipment / country->factories;

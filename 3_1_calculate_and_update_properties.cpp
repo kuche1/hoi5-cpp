@@ -44,8 +44,7 @@
 
     for(Country* country : countries){
         country->borders = {};
-        country->bordering_countries = {};
-        country->bordering_countries_and_borders = {};
+        country->bordering_countries__border_length = {};
         country->borders_with_other_countries = 0;
 
         vector<Country*> bordering_countries = {};
@@ -72,8 +71,9 @@
             }
         }
 
-        country->bordering_countries = bordering_countries;
-        country->bordering_countries_and_borders = vec_zip(bordering_countries, bordering_country_borders);
+        for(auto [bordering_country, border_length] : vec_zip(bordering_countries, bordering_country_borders)){
+            country->bordering_countries__border_length[bordering_country] = border_length;
+        }
     }
 
     // tile: update "secondary border" property
@@ -192,7 +192,7 @@
 
     for(Country* country : countries){
         for(Country* country_at_war : ranges::reverse_view(country->at_war_with)){
-            if(!vec_contains(country->bordering_countries, country_at_war)){
+            if(!map_contains(country->bordering_countries__border_length, country_at_war)){
                 vec_remove_if_exist(country->at_war_with, country_at_war);
             }
         }

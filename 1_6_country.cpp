@@ -36,8 +36,7 @@ struct _Country {
     vector<Tile*> borders = {};
     vector<Tile*> secondary_borders = {};
     vector<Tile*> trenary_borders = {};
-    vector<Country*> bordering_countries = {};
-    vector<tuple<Country*, int>> bordering_countries_and_borders = {};
+    map<Country*, int> bordering_countries__border_length = {};
     int borders_with_other_countries = 0; // how many tiles are bordering other countries
     // war-time borders
     int offensive_borders = 0; // how many of our tiles are being attacked

@@ -8,6 +8,8 @@
 #define LENOF(comptime_arr) \
     (sizeof(comptime_arr) / sizeof(*comptime_arr))
 
+///// random
+
 float random_0_to_1() {
     // Seed the random number generator
     random_device rd;
@@ -34,6 +36,8 @@ int random_int(int from, int to) {
 
     return random_number;
 }
+
+///// vector
 
 template<typename T>
 bool vec_contains(const vector<T>& vec, const T& element) {
@@ -105,6 +109,18 @@ T vec_get_random_element(vector<T>& vec) {
     int index = random_int(0, length - 1);
     return vec[index];
 }
+
+///// map
+
+template<typename T_key, typename T_value>
+bool map_contains(map<T_key, T_value> map, T_key key){
+    if (map.find(key) != map.end()) {
+        return true;
+    }
+    return false;
+}
+
+///// terminal
 
 void term(char *command) {
     int ret_code = system(command);
