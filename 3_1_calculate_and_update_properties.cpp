@@ -1,4 +1,5 @@
 {
+    label_calculate_and_update_properties:
 
     // country: update owned tiles
 

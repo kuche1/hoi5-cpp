@@ -222,7 +222,13 @@
             }
 
             input_enter();
+
+            continue;
         }
+
+        goto label_calculate_and_update_properties;
+        // for example: declaring a war would change some of the tiles' properties
+        // so in order to have that updated on the go, we'll just recalc everything
 
     }
     break_loop_command:
