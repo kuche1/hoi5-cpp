@@ -74,8 +74,8 @@
 
                         // damage land
 
-                        float destroyed_civs = border->civs * (1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK);
-                        float destroyed_mils = border->mils * (1.0 - GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK);
+                        float destroyed_civs = border->civs * GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
+                        float destroyed_mils = border->mils * GAME_PERCENT_FACTORIES_DESTROYED_ON_ATTACK;
 
                         border->civs -= destroyed_civs;
                         border->mils -= destroyed_mils;
