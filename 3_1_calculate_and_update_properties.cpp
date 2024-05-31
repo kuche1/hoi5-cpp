@@ -140,6 +140,11 @@
 
     // tiles: update "offensive/defensive border" property
 
+    for(Country* country : countries){
+        country->offensive_borders = 0;
+        country->deffensive_borders = 0;
+    }
+
     for(auto& map_row : map){
         for(auto& tile : map_row){
             tile.is_offensive_border = false;
