@@ -150,12 +150,7 @@
         getline(cin, command);
 
         vector<string> cmds_pass = {"", "pass", "next-turn"};
-
-        vector<string> cmds_pass_10 = {"p10", "pass10", "pass-10-turns"};
-        vector<string> cmds_pass_20 = {"p20", "pass20", "pass-20-turns"};
-        vector<string> cmds_pass_50 = {"p50", "pass50", "pass-50-turns"};
-        vector<string> cmds_pass_200 = {"p200", "pass200", "pass-200-turns"};
-        vector<string> cmds_pass_500 = {"p500", "pass500", "pass-500-turns"};
+        vector<string> cmds_pass_many = {"pm", "pass-many", "pass-many-turns"};
 
         vector<string> cmds_quit = {"qu", "quit", "quit-game"};
 
@@ -166,30 +161,29 @@
         vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
         vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
 
-        vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_10, cmds_pass_20, cmds_pass_50, cmds_pass_200, cmds_pass_500, cmds_quit, cmds_attack, cmds_stop_attacking,
+        vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_many, cmds_quit, cmds_attack, cmds_stop_attacking,
             cmds_info, cmds_construct_civs, cmds_construct_mils};
 
         if(vec_contains(cmds_pass, command)){
             goto break_loop_command;
         
-        }else if(vec_contains(cmds_pass_10, command)){
-            gui_additional_turns_to_pass = 10 - 1;
-            goto break_loop_command;
+        }else if(vec_contains(cmds_pass_many, command)){
 
-        }else if(vec_contains(cmds_pass_20, command)){
-            gui_additional_turns_to_pass = 20 - 1;
-            goto break_loop_command;
+            cout << "Enter number of turns to pass: ";
+            string str_turns;
+            getline(cin, str_turns);
 
-        }else if(vec_contains(cmds_pass_50, command)){
-            gui_additional_turns_to_pass = 50 - 1;
-            goto break_loop_command;
+            int int_turns = atoi(str_turns.c_str());
 
-        }else if(vec_contains(cmds_pass_200, command)){
-            gui_additional_turns_to_pass = 200 - 1;
-            goto break_loop_command;
+            int_turns -= 1;
+            if(int_turns < 0){
+                int_turns = 0;
+            }
 
-        }else if(vec_contains(cmds_pass_500, command)){
-            gui_additional_turns_to_pass = 500 - 1;
+            // cout << "turns:" << int_turns << '\n';
+            // input_enter();
+
+            gui_additional_turns_to_pass = int_turns;
             goto break_loop_command;
 
         }else if(vec_contains(cmds_quit, command)){
