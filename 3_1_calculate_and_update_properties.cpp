@@ -138,9 +138,10 @@
         }
     }
 
-    // tiles: update "offensive/defensive border" property
+    // tiles: update "offensive/defensive/active border" property
 
     for(Country* country : countries){
+        country->active_borders = 0;
         country->offensive_borders = 0;
         country->deffensive_borders = 0;
     }
@@ -171,21 +172,20 @@
         }
     }
 
+    for(Country* country : countries){
+        country->active_borders = country->offensive_borders + country->deffensive_borders;
+    }
+
     // country: update unit strengths
 
     for(Country* country : countries){
 
-        int total_active_borders = country->offensive_borders + country->deffensive_borders;
-        if(total_active_borders <= 0){
-            // without this it always looks as if we're on max strength
-            // it would be much better if we acted as if we're guarding all out borders instead
-            total_active_borders = static_cast<float>(country->borders_with_other_countries);
-        }
+        float strength_per_active_tile = country->equipment / static_cast<float>(country->active_borders);
 
-        float strength_per_active_tile = country->equipment / static_cast<float>(total_active_borders);
+        country->base_unit_strength_if_no_limit = strength_per_active_tile;
 
-        if(strength_per_active_tile > GAME_MAX_UNIT_BASE_STRENGTH){
-            strength_per_active_tile = GAME_MAX_UNIT_BASE_STRENGTH;
+        if(strength_per_active_tile > GAME_MAX_BASE_UNIT_STRENGTH){
+            strength_per_active_tile = GAME_MAX_BASE_UNIT_STRENGTH;
         }
 
         country->base_unit_strength       = strength_per_active_tile;

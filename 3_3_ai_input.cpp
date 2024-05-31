@@ -69,7 +69,7 @@
             // }
 
             // there is a change that the AI is going to skip on starting any new wars if it doesn't have enough strength
-            if(country->base_unit_strength < GAME_MAX_UNIT_BASE_STRENGTH){
+            if(country->base_unit_strength < GAME_MAX_BASE_UNIT_STRENGTH){
                 if(random_0_to_1() <= AI_DONT_START_WAR_CHANCE_IF_NOT_FULL_STRENGTH){
                     goto label_dont_start_any_new_wars;
                 }

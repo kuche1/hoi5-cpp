@@ -41,10 +41,12 @@ struct _Country {
     map<Country*, int> bordering_countries__border_length = {};
     int borders_with_other_countries = 0; // how many tiles are bordering other countries
     // war-time borders
+    int active_borders = 0; // how long is the border with all the countries we are attacking / are attacking us; max value for this is regular borders*2 (once for attacking, and once for being attacked)
     int offensive_borders = 0; // how many of our tiles are being attacked
     int deffensive_borders = 0; // how many tiles are we attacking
     // units
     float base_unit_strength = 0.0;
+    float base_unit_strength_if_no_limit = 0.0;
     float deffensive_unit_strength = 0.0;
     float offensive_unit_strength = 0.0;
 };
@@ -65,6 +67,7 @@ void country_print_long(Country* country){
     cout << " civs-base:" << country->civs_base << " mils-base:" << country->mils_base;
     cout << " equipment:" << country->equipment;
     cout << " offensive-borders:" << country->offensive_borders << " deffensive-borders:" << country->deffensive_borders;
+    cout << " strength:" << country->base_unit_strength_if_no_limit << "/" << GAME_MAX_BASE_UNIT_STRENGTH;
     cout << " offensive-strength:" << country->offensive_unit_strength << " deffensive-strength:" << country->deffensive_unit_strength;
     cout << ">";
 }

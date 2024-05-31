@@ -57,10 +57,23 @@
 
                     for(Tile* bordering_tile : tile.borders){
                         for(auto [bordering_country, bordering_country_border] : tile.owner->bordering_countries__border_length){
+
                             if(bordering_country == bordering_tile->owner){
-                                float_tile = tile.owner->equipment / bordering_country_border;
+
+                                float strength = tile.owner->equipment;
+                                int territory = tile.owner->active_borders;
+
+                                // you only get a hint if what is going to happen for the next event
+                                // and if nothing is already happening
+                                if(!vec_contains(tile.owner->attacking, bordering_country) && !vec_contains(tile.owner->being_attacked, bordering_country)){
+                                    territory += bordering_country_border;
+                                }
+
+                                float_tile = strength / static_cast<float>(territory);
+
                                 goto label_break_loop_determine_border_value;
                             }
+
                         }
                     }
 
@@ -71,7 +84,7 @@
 
                 }else if(tile.is_secondary_border){
 
-                    float_tile = tile.owner->base_unit_strength * static_cast<float>(GUI_MAP_PROPERLY_REPRESENTABLE_VALUES) / GAME_MAX_UNIT_BASE_STRENGTH;
+                    float_tile = tile.owner->base_unit_strength * static_cast<float>(GUI_MAP_PROPERLY_REPRESENTABLE_VALUES) / GAME_MAX_BASE_UNIT_STRENGTH;
 
                 }else{
 
@@ -93,7 +106,7 @@
                         if(int_tile <= 25){
                             char_tile = 'A' + int_tile;
                         }else{
-                            char_tile = '+';
+                            char_tile = '*';
                         }
                     }
                 }
