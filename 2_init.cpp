@@ -345,3 +345,5 @@ while(player == nobody){
 cout << "Country for player selected!\n";
 
 int gui_additional_turns_to_pass = 0;
+
+Country* gui_marked_country = nullptr;

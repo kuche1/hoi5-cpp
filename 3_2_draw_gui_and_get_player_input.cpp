@@ -46,6 +46,10 @@
                     cout << EFFECT_STRIKETROUGH_ON;
                 }
 
+                if(tile.owner == gui_marked_country){
+                    cout << EFFECT_BLINK_ON;
+                }
+
                 // put either number of factories OR army strength
 
                 float float_tile = 0.0;
@@ -174,8 +178,10 @@
         vector<string> cmds_construct_civs = {"cc", "construct-civs", "focus-construction-on-civillian-factories"};
         vector<string> cmds_construct_mils = {"cm", "construct-mils", "focus-construction-on-military-factories"};
 
+        vector<string> cmds_mark = {"m", "mark", "mark-country", "visually-mark-or-unmark-a-country"};
+
         vector<vector<string>> cmds_ALL = {cmds_pass, cmds_pass_many, cmds_quit, cmds_attack, cmds_stop_attacking,
-            cmds_info, cmds_construct_civs, cmds_construct_mils};
+            cmds_info, cmds_construct_civs, cmds_construct_mils, cmds_mark};
 
         if(vec_contains(cmds_pass, command)){
             goto break_loop_command;
@@ -229,6 +235,17 @@
         }else if(vec_contains(cmds_construct_mils, command)){
 
             player->civ_production = CIV_PRODUCTION_MIL;
+
+        }else if(vec_contains(cmds_mark, command)){
+            // TODO this is worthless, if the user already knows where
+            // the country is on the screen, what help would this be?
+
+            Country* country = input_country(&map);
+            if(gui_marked_country == country){
+                gui_marked_country = nullptr;
+            }else{
+                gui_marked_country = country;
+            }
 
         }else if("test" == command){
 
