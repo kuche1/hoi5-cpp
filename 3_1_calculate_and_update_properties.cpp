@@ -180,7 +180,7 @@
 
     for(Country* country : countries){
 
-        float strength_per_active_tile = country->equipment / static_cast<float>(country->active_borders);
+        float strength_per_active_tile = country_calc_eventual_unit_strength_if_no_limit(country->equipment, country->active_borders);
 
         country->base_unit_strength_if_no_limit = strength_per_active_tile;
 

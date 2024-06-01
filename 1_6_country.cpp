@@ -107,3 +107,7 @@ Tile* country_get_random_tile_based_on_density(Country* country) {
     // return make_pair(false, vec_get_random_element(candidates));
     return vec_get_random_element(candidates);
 }
+
+float country_calc_eventual_unit_strength_if_no_limit(float equipment, int active_borders){
+    return equipment / static_cast<float>(active_borders);
+}
