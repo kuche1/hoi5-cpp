@@ -61,6 +61,11 @@
         // start war
 
         {
+            // kill this MF
+            if(gangbang_target != NULL){
+                vec_push_back_nodup(country->attacking, gangbang_target);
+            }
+
             // this actually turned out to be a bad idea since there are situations where the only way of
             //  winning is to attack back
             // // don't start any new wars if we are being attacked

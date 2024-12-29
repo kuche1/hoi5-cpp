@@ -88,7 +88,7 @@
 
                 }else{
 
-                    float_tile = (tile.civs + tile.mils) * GUI_TILE_VALUE_MODIFIER;
+                    float_tile = (tile.civs + tile.mils) * GUI_MAP_TILE_ECONOMY_MODIFIER;
 
                 }
 

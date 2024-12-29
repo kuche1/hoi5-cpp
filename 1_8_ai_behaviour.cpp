@@ -23,4 +23,4 @@
 
 ///// special behaviour
 
-#define AI_ENGAGE_GANGBANG_AT_RATIO 0.4 // if there is one MF that is too powerfull the whole world is going to unite against him
+#define AI_ENGAGE_GANGBANG_AT_RATIO 0.7 // if there is one MF that is too powerfull the whole world is going to unite against him
